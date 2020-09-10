@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "376214147539",
+    "firebase_url": "https://limknow-pilot.firebaseio.com",
+    "project_id": "limknow-pilot",
+    "storage_bucket": "limknow-pilot.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:376214147539:android:8309c2ac8660ca20d49f26",
+        "android_client_info": {
+          "package_name": "com.pukhuriandbeels.limknowpilot"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "376214147539-5q8p7ephpicj3t1dofsmqh3a9osfqnfl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pukhuriandbeels.limknowpilot",
+            "certificate_hash": "96440f17001db73afb34bf22ea41ba252416ea02"
+          }
+        },
+        {
+          "client_id": "***REMOVED***",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCf_aYNS_QEI_LhOuigF3q1rdEslfxuBBg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "***REMOVED***",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

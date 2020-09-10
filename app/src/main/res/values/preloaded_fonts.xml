@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="preloaded_fonts" translatable="false">
+        <item>@font/</item>
+        <item>@font/caveat</item>
+        <item>@font/give_you_glory</item>
+        <item>@font/paprika</item>
+        <item>@font/playfair_display_black</item>
+        <item>@font/sacramento</item>
+        <item>@font/the_girl_next_door</item>
+        <item>@font/waiting_for_the_sunrise</item>
+    </array>
+</resources>
