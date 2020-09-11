@@ -10,11 +10,11 @@
     <Button
         android:id="@+id/sign_in_button"
         style="@style/TextAppearance.MaterialComponents.Button"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="32dp"
+        android:layout_marginHorizontal="32dp"
         android:layout_marginBottom="160dp"
-        android:background="#251E1E"
+        android:background="@drawable/rounded_corners"
         android:paddingHorizontal="30dp"
         android:paddingVertical="20dp"
         android:text="Google Sign In"
@@ -24,7 +24,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/textView2" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/textView2"
@@ -43,9 +43,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="160dp"
+        android:layout_marginTop="152dp"
         android:fontFamily="@font/playfair_display_black"
-        android:text="Lim Know"
+        android:text="LimKnow"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         android:textColor="@color/design_default_color_on_secondary"
         android:textSize="60dp"

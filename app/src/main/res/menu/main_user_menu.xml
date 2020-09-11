@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/augmented_reality_game"
+            android:icon="@drawable/ic_baseline_augmented_reality_24"
+            android:title='Lake AR' />
+        <item
+            android:id="@+id/macrophytes"
+            android:icon="@drawable/ic_baseline_filter_macrophytes_24"
+            android:title='Aquatic Plants' />
+        <item
+            android:id="@+id/reporting"
+            android:icon="@drawable/ic_baseline_create_24"
+            android:title='Citizen Science' />
+        <item
+            android:id="@+id/profile"
+            android:icon="@drawable/ic_baseline_person_24"
+            android:title='Profile' />
+        <item
+            android:id="@+id/about"
+            android:icon="@drawable/ic_baseline_about_24"
+            android:title='About' />
+        <item
+            android:id="@+id/policy"
+            android:icon="@drawable/ic_baseline_policy_24"
+            android:title='Privacy Policy' />
+    </group>
+    <group android:checkableBehavior="single">
+        <item android:title="Profile">
+            <menu>
+                <item
+                    android:id="@+id/badges"
+                    android:icon="@drawable/ic_baseline_card_badge_24"
+                    android:title='Badges' />
+                <item
+                    android:id="@+id/edit_profile"
+                    android:icon="@drawable/ic_baseline_create_24"
+                    android:title='Edit Profile' />
+                <item
+                    android:id="@+id/sign_out"
+                    android:icon="@drawable/ic_baseline_person_24"
+                    android:title='Sign Out' />
+            </menu>
+        </item>
+    </group>
+    <group android:checkableBehavior="single">
+        <item android:title="Communicate">
+            <menu>
+                <item
+                    android:id="@+id/share"
+                    android:icon="@drawable/ic_baseline_share_24"
+                    android:title='Share' />
+                <item
+                    android:id="@+id/contact_us"
+                    android:icon="@drawable/ic_baseline_call_24"
+                    android:title='Contact' />
+            </menu>
+        </item>
+    </group>
+</menu>
