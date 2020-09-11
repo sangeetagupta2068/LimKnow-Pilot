@@ -14,10 +14,6 @@
             android:icon="@drawable/ic_baseline_create_24"
             android:title='Citizen Science' />
         <item
-            android:id="@+id/profile"
-            android:icon="@drawable/ic_baseline_person_24"
-            android:title='Profile' />
-        <item
             android:id="@+id/about"
             android:icon="@drawable/ic_baseline_about_24"
             android:title='About' />
@@ -26,9 +22,10 @@
             android:icon="@drawable/ic_baseline_policy_24"
             android:title='Privacy Policy' />
     </group>
-    <group android:checkableBehavior="single">
+
         <item android:title="Profile">
             <menu>
+                <group android:checkableBehavior="single">
                 <item
                     android:id="@+id/badges"
                     android:icon="@drawable/ic_baseline_card_badge_24"
@@ -41,12 +38,12 @@
                     android:id="@+id/sign_out"
                     android:icon="@drawable/ic_baseline_person_24"
                     android:title='Sign Out' />
+                </group>
             </menu>
         </item>
-    </group>
-    <group android:checkableBehavior="single">
         <item android:title="Communicate">
             <menu>
+                <group android:checkableBehavior="single">
                 <item
                     android:id="@+id/share"
                     android:icon="@drawable/ic_baseline_share_24"
@@ -55,7 +52,8 @@
                     android:id="@+id/contact_us"
                     android:icon="@drawable/ic_baseline_call_24"
                     android:title='Contact' />
+                </group>
             </menu>
         </item>
-    </group>
+
 </menu>
