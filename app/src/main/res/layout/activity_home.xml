@@ -28,11 +28,12 @@
             android:id="@+id/toolbar"
             android:layout_width="409dp"
             android:layout_height="wrap_content"
-            android:background="@color/colorPastel"
+            android:background="#00EAC8CB"
             android:minHeight="?attr/actionBarSize"
             android:theme="?attr/actionBarTheme"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:title='' />
 
         <TextView
             android:id="@+id/user_text_view"

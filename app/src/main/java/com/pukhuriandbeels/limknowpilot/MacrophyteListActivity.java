@@ -10,8 +10,14 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import com.google.android.material.navigation.NavigationView;
+import com.pukhuriandbeels.limknowpilot.adapter.MacrophyteAdapter;
+import com.pukhuriandbeels.limknowpilot.model.Macrophyte;
+
+import java.util.ArrayList;
 
 public class MacrophyteListActivity extends AppCompatActivity {
 
@@ -29,6 +35,7 @@ public class MacrophyteListActivity extends AppCompatActivity {
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout,toolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
@@ -59,6 +66,45 @@ public class MacrophyteListActivity extends AppCompatActivity {
             }
         });
         navigationView.setCheckedItem(R.id.macrophytes);
+
+        ArrayList<Macrophyte> macrophytes = new ArrayList<>();
+        macrophytes.add(new Macrophyte("Azolla pinnata",
+                "Free floationg",
+                "feathered mosquitofern",
+                "Used in constructed wetlands to remove nutrient load from wastewater." +
+                        "It is a high protein food source waterbirds,fish,insects,snails and cattle. " +
+                        "It has the nitrogen fixing cyanobacteria and can used as biofertilizer",
+                R.drawable.sample_macrophyte,
+                "https://commons.wikimedia.org/wiki/Category:Azolla_pinnata"));
+        macrophytes.add(new Macrophyte("Azolla pinnata",
+                "Free floationg",
+                "feathered mosquitofern",
+                "Used in constructed wetlands to remove nutrient load from wastewater." +
+                        "It is a high protein food source waterbirds,fish,insects,snails and cattle. " +
+                        "It has the nitrogen fixing cyanobacteria and can used as biofertilizer",
+                R.drawable.sample_macrophyte,
+                "https://commons.wikimedia.org/wiki/Category:Azolla_pinnata"));
+        macrophytes.add(new Macrophyte("Azolla pinnata",
+                "Free floationg",
+                "feathered mosquitofern",
+                "Used in constructed wetlands to remove nutrient load from wastewater." +
+                        "It is a high protein food source waterbirds,fish,insects,snails and cattle. " +
+                        "It has the nitrogen fixing cyanobacteria and can used as biofertilizer",
+                R.drawable.sample_macrophyte,
+                "https://commons.wikimedia.org/wiki/Category:Azolla_pinnata"));
+        macrophytes.add(new Macrophyte("Azolla pinnata",
+                "Free floationg",
+                "feathered mosquitofern",
+                "Used in constructed wetlands to remove nutrient load from wastewater." +
+                        "It is a high protein food source waterbirds,fish,insects,snails and cattle. " +
+                        "It has the nitrogen fixing cyanobacteria and can used as biofertilizer",
+                R.drawable.sample_macrophyte,
+                "https://commons.wikimedia.org/wiki/Category:Azolla_pinnata"));
+
+        MacrophyteAdapter macrophyteAdapter = new MacrophyteAdapter(this,macrophytes);
+        ListView listView = findViewById(R.id.macrophyte_list);
+        listView.setAdapter(macrophyteAdapter);
+        macrophyteAdapter.notifyDataSetChanged();
     }
 
     @Override

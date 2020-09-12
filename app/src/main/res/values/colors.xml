@@ -6,4 +6,5 @@
     <color name="colorGrey">#E6E4E4</color>
     <color name="colorBlack">#251E1E</color>
     <color name="colorPastel">#EAC8CB</color>
+    <color name="colorText">#DE000000</color>
 </resources>
