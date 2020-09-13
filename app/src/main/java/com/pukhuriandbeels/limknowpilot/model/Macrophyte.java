@@ -1,6 +1,8 @@
 package com.pukhuriandbeels.limknowpilot.model;
 
-public class Macrophyte {
+import java.io.Serializable;
+
+public class Macrophyte implements Serializable {
     private String macrophyteName;
     private String macrophyteType;
     private String commonName;

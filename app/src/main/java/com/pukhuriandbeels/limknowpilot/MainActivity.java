@@ -2,6 +2,7 @@ package com.pukhuriandbeels.limknowpilot;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -19,6 +20,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -51,6 +54,12 @@ public class MainActivity extends AppCompatActivity {
                 signIn();
             }
         });
+
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageReference = storage.getReference();
+        StorageReference sampleReference = storageReference.child("macrophytes/Alternanthera philoxeroides.jpg");
+        String path = sampleReference.getDownloadUrl().toString();
+        Log.i("IMAGE_REFERENCE",path);
     }
 
     private void createRequest() {

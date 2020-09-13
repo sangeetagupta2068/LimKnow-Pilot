@@ -10,10 +10,14 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.GoogleAuthCredential;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.pukhuriandbeels.limknowpilot.adapter.MacrophyteAdapter;
 import com.pukhuriandbeels.limknowpilot.model.Macrophyte;
 
@@ -67,7 +71,7 @@ public class MacrophyteListActivity extends AppCompatActivity {
         });
         navigationView.setCheckedItem(R.id.macrophytes);
 
-        ArrayList<Macrophyte> macrophytes = new ArrayList<>();
+        final ArrayList<Macrophyte> macrophytes = new ArrayList<>();
         macrophytes.add(new Macrophyte("Azolla pinnata",
                 "Free floationg",
                 "feathered mosquitofern",
@@ -93,7 +97,7 @@ public class MacrophyteListActivity extends AppCompatActivity {
                 R.drawable.sample_macrophyte,
                 "https://commons.wikimedia.org/wiki/Category:Azolla_pinnata"));
         macrophytes.add(new Macrophyte("Azolla pinnata",
-                "Free floationg",
+                "Free changing",
                 "feathered mosquitofern",
                 "Used in constructed wetlands to remove nutrient load from wastewater." +
                         "It is a high protein food source waterbirds,fish,insects,snails and cattle. " +
@@ -104,6 +108,15 @@ public class MacrophyteListActivity extends AppCompatActivity {
         MacrophyteAdapter macrophyteAdapter = new MacrophyteAdapter(this,macrophytes);
         ListView listView = findViewById(R.id.macrophyte_list);
         listView.setAdapter(macrophyteAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Macrophyte macrophyte = macrophytes.get(position);
+                Intent intent = new Intent(MacrophyteListActivity.this, MacrophyteItemActivity.class);
+                intent.putExtra("MACROPHYTE_ITEM",macrophyte);
+                startActivity(intent);
+            }
+        });
         macrophyteAdapter.notifyDataSetChanged();
     }
 
