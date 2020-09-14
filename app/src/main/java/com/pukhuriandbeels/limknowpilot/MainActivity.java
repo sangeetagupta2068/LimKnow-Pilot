@@ -1,6 +1,7 @@
 package com.pukhuriandbeels.limknowpilot;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,12 +15,16 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -55,11 +60,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference storageReference = storage.getReference();
-        StorageReference sampleReference = storageReference.child("macrophytes/Alternanthera philoxeroides.jpg");
-        String path = sampleReference.getDownloadUrl().toString();
-        Log.i("IMAGE_REFERENCE",path);
+//        FirebaseStorage storage = FirebaseStorage.getInstance();
+//        StorageReference storageReference = storage.getReference();
+//        StorageReference macrophyteStorageReference = storageReference.child("macrophytes");
+//        StorageReference sampleReference = macrophyteStorageReference.child("macrophytes/Nymphoides hydrophylla.jpg");
+//        sampleReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+//            @Override
+//            public void onSuccess(Uri uri) {
+//                Log.i("IMAGE_PATH",uri.toString());
+//            }
+//        });
+
     }
 
     private void createRequest() {

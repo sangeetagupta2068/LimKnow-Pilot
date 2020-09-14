@@ -9,15 +9,28 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.auth.GoogleAuthCredential;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.pukhuriandbeels.limknowpilot.adapter.MacrophyteAdapter;
 import com.pukhuriandbeels.limknowpilot.model.Macrophyte;
 
@@ -36,6 +49,7 @@ public class MacrophyteListActivity extends AppCompatActivity {
 
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.navigation_view);
+        setupFirebase();
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -79,7 +93,7 @@ public class MacrophyteListActivity extends AppCompatActivity {
                         "It is a high protein food source waterbirds,fish,insects,snails and cattle. " +
                         "It has the nitrogen fixing cyanobacteria and can used as biofertilizer",
                 R.drawable.sample_macrophyte,
-                "https://commons.wikimedia.org/wiki/Category:Azolla_pinnata"));
+                "https://commons.wikimedia.org/wiki/Category:Azolla_pinnata", true));
         macrophytes.add(new Macrophyte("Azolla pinnata",
                 "Free floationg",
                 "feathered mosquitofern",
@@ -87,23 +101,23 @@ public class MacrophyteListActivity extends AppCompatActivity {
                         "It is a high protein food source waterbirds,fish,insects,snails and cattle. " +
                         "It has the nitrogen fixing cyanobacteria and can used as biofertilizer",
                 R.drawable.sample_macrophyte,
-                "https://commons.wikimedia.org/wiki/Category:Azolla_pinnata"));
-        macrophytes.add(new Macrophyte("Azolla pinnata",
-                "Free floationg",
-                "feathered mosquitofern",
-                "Used in constructed wetlands to remove nutrient load from wastewater." +
-                        "It is a high protein food source waterbirds,fish,insects,snails and cattle. " +
-                        "It has the nitrogen fixing cyanobacteria and can used as biofertilizer",
-                R.drawable.sample_macrophyte,
-                "https://commons.wikimedia.org/wiki/Category:Azolla_pinnata"));
-        macrophytes.add(new Macrophyte("Azolla pinnata",
-                "Free changing",
-                "feathered mosquitofern",
-                "Used in constructed wetlands to remove nutrient load from wastewater." +
-                        "It is a high protein food source waterbirds,fish,insects,snails and cattle. " +
-                        "It has the nitrogen fixing cyanobacteria and can used as biofertilizer",
-                R.drawable.sample_macrophyte,
-                "https://commons.wikimedia.org/wiki/Category:Azolla_pinnata"));
+                "https://commons.wikimedia.org/wiki/Category:Azolla_pinnata", true));
+//        macrophytes.add(new Macrophyte("Azolla pinnata",
+//                "Free floationg",
+//                "feathered mosquitofern",
+//                "Used in constructed wetlands to remove nutrient load from wastewater." +
+//                        "It is a high protein food source waterbirds,fish,insects,snails and cattle. " +
+//                        "It has the nitrogen fixing cyanobacteria and can used as biofertilizer",
+//                R.drawable.sample_macrophyte,
+//                "https://commons.wikimedia.org/wiki/Category:Azolla_pinnata"));
+//        macrophytes.add(new Macrophyte("Azolla pinnata",
+//                "Free changing",
+//                "feathered mosquitofern",
+//                "Used in constructed wetlands to remove nutrient load from wastewater." +
+//                        "It is a high protein food source waterbirds,fish,insects,snails and cattle. " +
+//                        "It has the nitrogen fixing cyanobacteria and can used as biofertilizer",
+//                R.drawable.sample_macrophyte,
+//                "https://commons.wikimedia.org/wiki/Category:Azolla_pinnata"));
 
         MacrophyteAdapter macrophyteAdapter = new MacrophyteAdapter(this,macrophytes);
         ListView listView = findViewById(R.id.macrophyte_list);
@@ -118,6 +132,24 @@ public class MacrophyteListActivity extends AppCompatActivity {
             }
         });
         macrophyteAdapter.notifyDataSetChanged();
+    }
+
+    private void setupFirebase(){
+        FirebaseAuth.getInstance();
+
+        FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+        CollectionReference collectionReference = firebaseFirestore.collection("Macrophytes");
+        final DocumentReference documentReference = collectionReference.document(
+                "Macr29w7aKi6YqSdTilYbxm6");
+        documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if(documentSnapshot.exists()) {
+                    Log.i("FIREBASE_TEST_RECORD", documentSnapshot.getString("name"));
+                }
+            }
+        });
+
     }
 
     @Override
