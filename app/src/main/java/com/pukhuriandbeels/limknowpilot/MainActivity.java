@@ -22,9 +22,6 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -46,9 +43,6 @@ public class MainActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
 
-//        ActionBar actionBar = getSupportActionBar();
-//        actionBar.hide();
-
         signInButton = findViewById(R.id.sign_in_button);
         firebaseAuth = FirebaseAuth.getInstance();
 
@@ -60,16 +54,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-//        FirebaseStorage storage = FirebaseStorage.getInstance();
-//        StorageReference storageReference = storage.getReference();
-//        StorageReference macrophyteStorageReference = storageReference.child("macrophytes");
-//        StorageReference sampleReference = macrophyteStorageReference.child("macrophytes/Nymphoides hydrophylla.jpg");
-//        sampleReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-//            @Override
-//            public void onSuccess(Uri uri) {
-//                Log.i("IMAGE_PATH",uri.toString());
-//            }
-//        });
+        FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
+        StorageReference storageReference = firebaseStorage.getReference();
+        StorageReference macrophyteStorageReference = storageReference.child("macrophytes");
+        StorageReference sampleReference = macrophyteStorageReference.child("macrophytes/Nymphoides indica");
+        sampleReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Toast.makeText(getApplicationContext(),uri.toString(),Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 

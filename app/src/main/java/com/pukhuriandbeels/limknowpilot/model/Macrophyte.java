@@ -7,16 +7,16 @@ public class Macrophyte implements Serializable {
     private String macrophyteType;
     private String commonName;
     private String macrophyteDescription;
-    private int macrophyteImageUri;
+    private String macrophyteImageURL;
     private String macrophyteImageCredit;
     private boolean invasiveSpecies;
 
-    public Macrophyte(String macrophyteName, String macrophyteType, String commonName, String macrophyteDescription, int macrophyteImageUri, String macrophyteImageCredit, boolean invasiveSpecies) {
+    public Macrophyte(String macrophyteName, String macrophyteType, String commonName, String macrophyteDescription, String macrophyteImageURL, String macrophyteImageCredit, boolean invasiveSpecies) {
         this.macrophyteName = macrophyteName;
         this.macrophyteType = macrophyteType;
         this.commonName = commonName;
         this.macrophyteDescription = macrophyteDescription;
-        this.macrophyteImageUri = macrophyteImageUri;
+        this.macrophyteImageURL = macrophyteImageURL;
         this.macrophyteImageCredit = macrophyteImageCredit;
         this.invasiveSpecies = invasiveSpecies;
     }
@@ -56,12 +56,12 @@ public class Macrophyte implements Serializable {
         this.macrophyteDescription = macrophyteDescription;
     }
 
-    public int getMacrophyteImageUri() {
-        return macrophyteImageUri;
+    public String getMacrophyteImageURL() {
+        return macrophyteImageURL;
     }
 
-    public void setMacrophyteImageUri(int macrophyteImageUri) {
-        this.macrophyteImageUri = macrophyteImageUri;
+    public void setMacrophyteImageURL(String macrophyteImageURL) {
+        this.macrophyteImageURL = macrophyteImageURL;
     }
 
     public String getMacrophyteImageCredit() {

@@ -3,18 +3,22 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/augmented_reality_game"
+            android:fontFamily="@font/playfair_display"
             android:icon="@drawable/ic_baseline_augmented_reality_24"
             android:title='Lake AR' />
         <item
             android:id="@+id/macrophytes"
+            android:fontFamily="@font/playfair_display"
             android:icon="@drawable/ic_baseline_filter_macrophytes_24"
             android:title='Aquatic Plants' />
         <item
             android:id="@+id/reporting"
+            android:fontFamily="@font/playfair_display"
             android:icon="@drawable/ic_baseline_create_24"
             android:title='Citizen Science' />
         <item
             android:id="@+id/about"
+            android:fontFamily="@font/playfair_display"
             android:icon="@drawable/ic_baseline_about_24"
             android:title='About' />
         <item
@@ -23,25 +27,28 @@
             android:title='Privacy Policy' />
     </group>
 
-        <item android:title="Profile">
+        <item android:title="Profile" android:fontFamily="@font/playfair_display">
             <menu>
                 <group android:checkableBehavior="single">
                 <item
                     android:id="@+id/badges"
                     android:icon="@drawable/ic_baseline_card_badge_24"
+                    android:fontFamily="@font/playfair_display"
                     android:title='Badges' />
                 <item
                     android:id="@+id/edit_profile"
+                    android:fontFamily="@font/playfair_display"
                     android:icon="@drawable/ic_baseline_create_24"
                     android:title='Edit Profile' />
                 <item
                     android:id="@+id/sign_out"
+                    android:fontFamily="@font/playfair_display"
                     android:icon="@drawable/ic_baseline_person_24"
                     android:title='Sign Out' />
                 </group>
             </menu>
         </item>
-        <item android:title="Communicate">
+        <item android:title="Communicate" android:fontFamily="@font/playfair_display">
             <menu>
                 <group android:checkableBehavior="single">
                 <item
