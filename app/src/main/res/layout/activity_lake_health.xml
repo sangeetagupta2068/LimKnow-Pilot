@@ -4,6 +4,119 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPastel"
     tools:context=".LakeHealthActivity">
+    <LinearLayout
+        android:layout_width="414dp"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="32dp"
+        android:paddingTop="40dp"
+        android:paddingBottom="100dp"
+        android:layout_marginTop="132dp"
+        android:background="@drawable/macrophyte_item_background"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorBlack"
+            android:text="@string/lake_health_question_one"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:textColor="@color/colorBlack"
+            android:id="@+id/edit_text_lake_health_dead_fish"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:layout_marginTop="18dp"
+            android:layout_width="match_parent"
+            android:textColor="@color/colorBlack"
+            android:layout_height="wrap_content"
+            android:text="@string/lake_health_question_two"/>
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/radio_group_lake_health">
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/radio_1"
+                android:text="transparent(bottom visible)"/>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/radio_2"
+                android:text="blue lake water"/>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/radio_3"
+                android:text="green lake water"/>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/radio_4"
+                android:text="brown lake water"/>
+        </RadioGroup>
+        <EditText
+            android:layout_width="match_parent"
+            android:textColor="@color/colorBlack"
+            android:visibility="gone"
+            android:id="@+id/edit_text_lake_health_other"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorBlack"
+            android:layout_marginTop="18dp"
+            android:text="@string/lake_health_question_three"/>
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:text="solid waste dumping"
+            android:id="@+id/lake_health_checkbox_1"
+            android:textColor="@color/colorBlack"
+            android:layout_height="wrap_content"/>
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:textColor="@color/colorBlack"
+            android:id="@+id/lake_health_checkbox_2"
+            android:layout_height="wrap_content"
+            android:text="illegal encroachment"/>
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:textColor="@color/colorBlack"
+            android:id="@+id/lake_health_checkbox_3"
+            android:layout_height="wrap_content"
+            android:text="dirty water entering waterbody"/>
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:textColor="@color/colorBlack"
+            android:layout_height="wrap_content"
+            android:id="@+id/lake_health_checkbox_4"
+            android:text="dead animal"/>
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:textColor="@color/colorBlack"
+            android:id="@+id/lake_health_checkbox_5"
+            android:layout_height="wrap_content"
+            android:text="Other"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:textColor="@color/colorBlack"
+            android:id="@+id/edit_text_other_lake_health"
+            android:visibility="gone"
+            android:layout_height="wrap_content"/>
+        <Button
+            android:id="@+id/button_lake_health"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:elevation="10dp"
+            android:text="Submit"
+            app:rippleColor="@color/colorPastel" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

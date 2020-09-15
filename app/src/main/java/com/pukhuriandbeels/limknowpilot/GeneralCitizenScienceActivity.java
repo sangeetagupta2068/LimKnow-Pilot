@@ -73,16 +73,6 @@ public class GeneralCitizenScienceActivity extends AppCompatActivity {
         checkBoxes[6] = findViewById(R.id.checkbox_7);
 
         buttonGeneralCitizenScience = findViewById(R.id.button_general);
-
-        checkBoxes[6].setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked)
-                    editTextBeelRelation.setVisibility(View.VISIBLE);
-                else
-                    editTextBeelRelation.setVisibility(View.GONE);
-            }
-        });
     }
 
     @SuppressLint("MissingPermission")
@@ -118,6 +108,16 @@ public class GeneralCitizenScienceActivity extends AppCompatActivity {
     }
 
     private void setListeners() {
+        checkBoxes[6].setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked)
+                    editTextBeelRelation.setVisibility(View.VISIBLE);
+                else
+                    editTextBeelRelation.setVisibility(View.GONE);
+            }
+        });
+
         buttonGeneralCitizenScience.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -207,6 +207,12 @@ public class GeneralCitizenScienceActivity extends AppCompatActivity {
             @Override
             public void onSuccess(Void aVoid) {
                 Toast.makeText(getApplicationContext(), "Thank you for your response", Toast.LENGTH_LONG).show();
+                try {
+                    Thread.sleep(50);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                finish();
             }
         });
         collectionReference.document(id).set(documentData).addOnFailureListener(new OnFailureListener() {
