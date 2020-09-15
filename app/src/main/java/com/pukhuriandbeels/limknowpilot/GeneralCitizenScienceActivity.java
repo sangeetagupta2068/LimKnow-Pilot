@@ -54,6 +54,7 @@ public class GeneralCitizenScienceActivity extends AppCompatActivity {
         firebaseFirestoreSetup();
         initialize();
         setListeners();
+        getCurrentLocationSetup();
     }
 
     private void initialize() {
@@ -120,22 +121,20 @@ public class GeneralCitizenScienceActivity extends AppCompatActivity {
         buttonGeneralCitizenScience.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 getCurrentLocationSetup();
-                date = Calendar.getInstance().getTime();
 
+                date = Calendar.getInstance().getTime();
                 beelRelation = "";
                 potentialFees = editTextFees.getText().toString();
                 if (checkBoxes[6].isChecked()) {
-                    beelRelation = editTextBeelRelation.getText().toString();
+                    beelRelation = editTextBeelRelation.getText().toString() + ",";
                 }
 
                 for (int count = 0; count < 6; count++) {
                     if (checkBoxes[count].isChecked())
-                        beelRelation = beelRelation + " " + checkBoxes[count].getText().toString();
+                        beelRelation = beelRelation + checkBoxes[count].getText().toString() + ",";
                 }
                 potentialLake = editTextPotentialLakeName.getText().toString();
-
                 firebaseFirestoreTransaction();
             }
         });
@@ -198,6 +197,7 @@ public class GeneralCitizenScienceActivity extends AppCompatActivity {
         }
 
         if (!beelRelation.equals("")) {
+            beelRelation = beelRelation.substring(0,beelRelation.length()-1);
             documentData.put("beel_relation", beelRelation);
         }
 
