@@ -70,6 +70,8 @@ public class MacrophyteListActivity extends AppCompatActivity {
                     case R.id.augmented_reality_game:
                         break;
                     case R.id.reporting:
+                        Intent intent = new Intent(MacrophyteListActivity.this, GeneralCitizenScienceActivity.class);
+                        startActivity(intent);
                         break;
 
                     case R.id.badges:

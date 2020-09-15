@@ -19,7 +19,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-public class HomeActivity extends AppCompatActivity {
+public class CitizenScienceActivity extends AppCompatActivity {
 
     private TextView nameTextView;
     private Button button;
@@ -31,10 +31,9 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_citizen_science);
 
         nameTextView = findViewById(R.id.user_text_view);
-        button = findViewById(R.id.logout_button);
         nameTextView.setText("");
 
         drawerLayout = findViewById(R.id.drawer_layout);
@@ -46,6 +45,12 @@ public class HomeActivity extends AppCompatActivity {
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
+
+        GoogleSignInAccount signInAccount = GoogleSignIn.getLastSignedInAccount(this);
+        if (signInAccount != null) {
+            String user = signInAccount.getDisplayName() + signInAccount.getEmail();
+            nameTextView.setText(user);
+        }
 
         navigationView.bringToFront();
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -59,7 +64,7 @@ public class HomeActivity extends AppCompatActivity {
                         break;
 
                     case R.id.macrophytes:
-                        Intent intent = new Intent(HomeActivity.this, MacrophyteListActivity.class);
+                        Intent intent = new Intent(CitizenScienceActivity.this, MacrophyteListActivity.class);
                         startActivity(intent);
                         break;
                     case R.id.augmented_reality_game:
@@ -72,6 +77,9 @@ public class HomeActivity extends AppCompatActivity {
                     case R.id.edit_profile:
                         break;
                     case R.id.sign_out:
+                        FirebaseAuth.getInstance().signOut();
+                        Intent signOutIntent = new Intent(getApplicationContext(), MainActivity.class);
+                        startActivity(signOutIntent);
                         break;
 
                     case R.id.share:
@@ -84,21 +92,8 @@ public class HomeActivity extends AppCompatActivity {
                 return true;
             }
         });
-        navigationView.setCheckedItem(R.id.about);
+        navigationView.setCheckedItem(R.id.reporting);
 
-        GoogleSignInAccount signInAccount = GoogleSignIn.getLastSignedInAccount(this);
-        if (signInAccount != null) {
-            String user = signInAccount.getDisplayName() + signInAccount.getEmail();
-            nameTextView.setText(user);
-        }
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FirebaseAuth.getInstance().signOut();
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(intent);
-            }
-        });
     }
 
     @Override

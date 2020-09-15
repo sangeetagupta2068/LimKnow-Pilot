@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HomeActivity"
+    tools:context=".CitizenScienceActivity"
     android:id="@+id/drawer_layout"
     xmlns:tools="http://schemas.android.com/tools"
     android:fitsSystemWindows="true"
@@ -46,16 +46,19 @@
             app:layout_constraintTop_toBottomOf="@id/toolbar"
             app:layout_constraintVertical_bias="0.829" />
 
-        <Button
-            android:id="@+id/logout_button"
+        <androidx.cardview.widget.CardView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="192dp"
-            android:text="Button"
-            app:layout_constraintTop_toBottomOf="@id/user_text_view"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            app:layout_constraintStart_toStartOf="parent"
+            android:background="@color/colorPastel">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:text="Lake Health" />
+        </androidx.cardview.widget.CardView>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </androidx.drawerlayout.widget.DrawerLayout>

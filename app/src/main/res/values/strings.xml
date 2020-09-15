@@ -1,5 +1,41 @@
 <resources>
+    <array name="beel_relation">
+        <item>recreation</item>
+        <item>live in that area</item>
+        <item>fishing</item>
+        <item>bird watcher</item>
+        <item>tourist</item>
+        <item>wildlife enthusiast</item>
+        <item>others</item>
+    </array>
+    <array name="lake_health_water_colour">
+        <item>transparent(bottom visible)</item>
+        <item>Blue lake water</item>
+        <item>green lake water</item>
+        <item>brown lake water</item>
+    </array>
+    <array name="lake_health_problem">
+        <item>solid waste dumping</item>
+        <item>illegal encroachment</item>
+        <item>Dead animal</item>
+        <item>Dirty water entering waterbody</item>
+        <item>Other</item>
+    </array>
+
     <string name="app_name">LimKnow Pilot</string>
     <string name="navigation_drawer_open">Open Navigation Drawer</string>
     <string name="navigation_drawer_close">Close Navigation Drawer</string>
+    <string name="general_question_one">How much are you willing to pay as entry fees if Deepor beel was an eco-park?</string>
+
+    <string name="general_question_two">What is your relation to the beel?</string>
+
+    <string name="general_question_three"> Is there is a lake or wetland in Kamrup that you would love to see on this App ? Tell us more</string>
+    <string name="citizen_science_questionaire_guide">You can fill up as many entries you want around deepor beel . But please make sure each entry is from a single location.</string>
+    <string name="invasive_species_watch_question_one">Which species do you observe ? </string>
+
+    <string name="invasive_species_watch_question_two">Please click a picture of the plant ( Save the gps data from this picture for us)</string>
+    <string name="invasive_species_watch_question_three">How widespread is it ?</string>
+    <string name="lake_health_question_one">Do you see any dead fishes nearby?</string>
+    <string name="lake_health_question_two">What is the water colour?</string>
+    <string name="lake_health_question_three"> Is there any other problem you see ? </string>
 </resources>

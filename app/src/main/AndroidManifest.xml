@@ -8,17 +8,21 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".MacrophyteItemActivity" android:parentActivityName=".MacrophyteListActivity">
-        </activity>
-        <activity android:name=".MacrophyteListActivity">
-        </activity>
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
+        <activity android:name=".LakeHealthActivity"></activity>
+        <activity android:name=".GeneralCitizenScienceActivity" />
         <activity
-            android:name=".HomeActivity"
+            android:name=".MacrophyteItemActivity"
+            android:parentActivityName=".MacrophyteListActivity" />
+        <activity android:name=".MacrophyteListActivity" />
+        <activity
+            android:name=".CitizenScienceActivity"
             android:parentActivityName=".MainActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -28,6 +32,7 @@
             android:resource="@array/preloaded_fonts" />
     </application>
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
