@@ -2,16 +2,22 @@ package com.pukhuriandbeels.limknowpilot;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Looper;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.location.LocationCallback;
@@ -24,44 +30,65 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 
 public class LakeHealthActivity extends AppCompatActivity {
 
+    private static final int REQUEST_TAKE_PHOTO = 103;
     private RadioButton[] radioButtons;
     private RadioGroup radioGroup;
     private CheckBox[] checkBoxes;
-    private EditText editTextDeadFish, editTextLakeHealthProblem;
-    private Button buttonLakeHealth;
+    private EditText editTextDeadFish, editTextLakeHealthProblem, editTextDeadAnimalDescription;
+    private Button buttonLakeHealth, buttonUploadDeadAnimalImage;
+    private TextView textViewDeadAnimalLabel, textViewDeadAnimalUploadImage;
+
+    private ImageView imageViewSample;
+
     private String lakeWaterColor;
     private String deadFish;
     private String lakeHealthProblem;
     private String lakeName = "Deepor Beel";
+    private String deadAnimalDescription;
 
     private String userName, userEmailId;
     private double latitude, longitude;
 
     private FirebaseFirestore firebaseFirestore;
     private FirebaseAuth firebaseAuth;
+
+    private static final int CAMERA_REQUEST_CODE = 101;
+
     private Date date;
+    private StorageReference firebaseStorageReference;
+    private String currentPhotoPath;
+    private Uri imageUri;
+    private CollectionReference collectionReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lake_health);
         initialize();
+        firebaseFirestoreSetup();
         setListeners();
         getCurrentLocationSetup();
-        firebaseFirestoreSetup();
     }
 
     private void initialize() {
@@ -81,8 +108,21 @@ public class LakeHealthActivity extends AppCompatActivity {
 
         editTextDeadFish = findViewById(R.id.edit_text_lake_health_dead_fish);
         editTextLakeHealthProblem = findViewById(R.id.edit_text_other_lake_health);
+        editTextDeadAnimalDescription = findViewById(R.id.edit_text_dead_animal_text);
 
+        buttonUploadDeadAnimalImage = findViewById(R.id.button_dead_animal_upload);
         buttonLakeHealth = findViewById(R.id.button_lake_health);
+
+        textViewDeadAnimalLabel = findViewById(R.id.dead_animal_description_label);
+        textViewDeadAnimalUploadImage = findViewById(R.id.dead_animal_image_label);
+
+        imageViewSample = findViewById(R.id.sample_image_view);
+
+        textViewDeadAnimalLabel.setVisibility(View.GONE);
+        editTextDeadAnimalDescription.setVisibility(View.GONE);
+        textViewDeadAnimalUploadImage.setVisibility(View.GONE);
+        buttonUploadDeadAnimalImage.setVisibility(View.GONE);
+        imageViewSample.setVisibility(View.GONE);
     }
 
     private void setListeners() {
@@ -102,6 +142,25 @@ public class LakeHealthActivity extends AppCompatActivity {
                     editTextLakeHealthProblem.setVisibility(View.GONE);
             }
         });
+        checkBoxes[3].setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    textViewDeadAnimalLabel.setVisibility(View.VISIBLE);
+                    editTextDeadAnimalDescription.setVisibility(View.VISIBLE);
+                    textViewDeadAnimalUploadImage.setVisibility(View.VISIBLE);
+                    buttonUploadDeadAnimalImage.setVisibility(View.VISIBLE);
+                    imageViewSample.setVisibility(View.VISIBLE);
+
+                } else {
+                    textViewDeadAnimalLabel.setVisibility(View.GONE);
+                    editTextDeadAnimalDescription.setVisibility(View.GONE);
+                    textViewDeadAnimalUploadImage.setVisibility(View.GONE);
+                    buttonUploadDeadAnimalImage.setVisibility(View.GONE);
+                    imageViewSample.setVisibility(View.GONE);
+                }
+            }
+        });
         buttonLakeHealth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -109,22 +168,63 @@ public class LakeHealthActivity extends AppCompatActivity {
                 date = Calendar.getInstance().getTime();
                 deadFish = editTextDeadFish.getText().toString();
                 lakeHealthProblem = "";
-                if (checkBoxes[checkBoxes.length - 1].isChecked()) {
+                if (checkBoxes[4].isChecked()) {
                     lakeHealthProblem = editTextLakeHealthProblem.getText().toString() + ",";
+                }
+                if (checkBoxes[3].isChecked()) {
+                    deadAnimalDescription = editTextDeadAnimalDescription.getText().toString();
                 }
                 for (int count = 0; count < 4; count++) {
                     if (checkBoxes[count].isChecked()) {
                         lakeHealthProblem = lakeHealthProblem + checkBoxes[count].getText().toString() + ",";
                     }
                 }
+
+                File file = new File(currentPhotoPath);
+                imageUri = Uri.fromFile(file);
                 Toast.makeText(LakeHealthActivity.this,
                         lakeHealthProblem
                                 + " "
                                 + deadFish
                                 + " "
-                                + lakeWaterColor,
+                                + lakeWaterColor + currentPhotoPath + String.valueOf(imageUri),
                         Toast.LENGTH_SHORT).show();
-                firebaseFirestoreTransaction();
+
+                final StorageReference storageReference = firebaseStorageReference.child("Dead Animals").child(imageUri.getLastPathSegment());
+                storageReference.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                firebaseFirestoreTransaction(uri.toString());
+                                Toast.makeText(LakeHealthActivity.this, "Uploaded image url : " + uri.toString(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        Toast.makeText(LakeHealthActivity.this, "Uploaded", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                storageReference.putFile(imageUri).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        firebaseFirestoreTransaction(null);
+                        Toast.makeText(LakeHealthActivity.this, "Upload failed", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+
+            }
+
+        });
+        buttonUploadDeadAnimalImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                imageViewSample.setVisibility(View.VISIBLE);
+                if (ContextCompat.checkSelfPermission(LakeHealthActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(LakeHealthActivity.this, new String[]{Manifest.permission.CAMERA}, CAMERA_REQUEST_CODE);
+                } else {
+                    dispatchTakePictureIntent();
+                }
             }
         });
     }
@@ -186,7 +286,14 @@ public class LakeHealthActivity extends AppCompatActivity {
                                 },
                                 Looper.getMainLooper());
             } else {
-                Toast.makeText(getApplicationContext(), "Permission denied", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Location Permission denied", Toast.LENGTH_SHORT).show();
+            }
+        }
+        if (requestCode == CAMERA_REQUEST_CODE) {
+            if (grantResults.length <= 0 || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(getApplicationContext(), "Camera Permission denied", Toast.LENGTH_SHORT).show();
+            } else {
+                dispatchTakePictureIntent();
             }
         }
     }
@@ -194,14 +301,18 @@ public class LakeHealthActivity extends AppCompatActivity {
     private void firebaseFirestoreSetup() {
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseFirestore = FirebaseFirestore.getInstance();
+        firebaseStorageReference = FirebaseStorage.getInstance().getReference();
 
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
         userName = firebaseUser.getDisplayName();
         userEmailId = firebaseUser.getEmail();
+
+        collectionReference = firebaseFirestore.collection("Lake Health");
+
     }
 
-    private void firebaseFirestoreTransaction() {
-        Map<String, Object> documentData = new HashMap<>();
+    private void firebaseFirestoreTransaction(@Nullable Object value) {
+        final Map<String, Object> documentData = new HashMap<>();
         documentData.put("name", userName);
         documentData.put("email", userEmailId);
         documentData.put("latitude", latitude);
@@ -209,21 +320,24 @@ public class LakeHealthActivity extends AppCompatActivity {
         documentData.put("date", date);
         documentData.put("lake", lakeName);
 
+        String id = collectionReference.document().getId();
+
         if (!deadFish.equals("")) {
             documentData.put("dead_fish", deadFish);
         }
-
+        if (!deadAnimalDescription.equals("")) {
+            documentData.put("dead_animal_description", deadAnimalDescription);
+        }
+        if (value != null) {
+            documentData.put("image_url", value);
+        }
         if (!lakeWaterColor.equals("")) {
             documentData.put("lake_water_color", lakeWaterColor);
         }
-
         if (!lakeHealthProblem.equals("")) {
-            lakeHealthProblem = lakeHealthProblem.substring(0,lakeHealthProblem.length()-1);
+            lakeHealthProblem = lakeHealthProblem.substring(0, lakeHealthProblem.length() - 1);
             documentData.put("lake_health_problem", lakeHealthProblem);
         }
-
-        CollectionReference collectionReference = firebaseFirestore.collection("Lake Health");
-        String id = collectionReference.document().getId();
         collectionReference.document(id).set(documentData).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
@@ -244,4 +358,49 @@ public class LakeHealthActivity extends AppCompatActivity {
         });
     }
 
+
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+
+        currentPhotoPath = image.getAbsolutePath();
+        return image;
+    }
+
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            File photoFile = null;
+            try {
+                photoFile = createImageFile();
+            } catch (IOException ex) {
+                // Error occurred while creating the File
+                ex.printStackTrace();
+            }
+            if (photoFile != null) {
+                Uri photoURI = FileProvider.getUriForFile(this,
+                        "com.pukhuriandbeels.android.fileprovider",
+                        photoFile);
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
+            }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
+            File file = new File(currentPhotoPath);
+            imageViewSample.setImageURI(Uri.fromFile(file));
+            imageUri = Uri.fromFile(file);
+        }
+    }
 }

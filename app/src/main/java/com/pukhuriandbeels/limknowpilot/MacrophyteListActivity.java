@@ -123,8 +123,6 @@ public class MacrophyteListActivity extends AppCompatActivity {
         FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
         CollectionReference collectionReference = firebaseFirestore.collection("Macrophytes");
 
-        //19
-        //loading last 7
         collectionReference.orderBy("name").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {

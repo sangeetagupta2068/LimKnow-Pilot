@@ -53,16 +53,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
-        StorageReference storageReference = firebaseStorage.getReference();
-        StorageReference macrophyteStorageReference = storageReference.child("macrophytes");
-        StorageReference sampleReference = macrophyteStorageReference.child("macrophytes/Nymphoides indica");
-        sampleReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                Toast.makeText(getApplicationContext(),uri.toString(),Toast.LENGTH_SHORT).show();
-            }
-        });
+//        FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
+//        StorageReference storageReference = firebaseStorage.getReference();
+//        StorageReference macrophyteStorageReference = storageReference.child("macrophytes");
+//        StorageReference sampleReference = macrophyteStorageReference.child("macrophytes/Nymphoides indica");
+//        sampleReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+//            @Override
+//            public void onSuccess(Uri uri) {
+//                Toast.makeText(getApplicationContext(),uri.toString(),Toast.LENGTH_SHORT).show();
+//            }
+//        });
 
     }
 

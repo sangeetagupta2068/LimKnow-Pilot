@@ -38,4 +38,5 @@
     <string name="lake_health_question_one">Do you see any dead fishes nearby?</string>
     <string name="lake_health_question_two">What is the water colour?</string>
     <string name="lake_health_question_three"> Is there any other problem you see ? </string>
+    <string name="lake_health_question_four">Do you see a dead animal? Tell us more. </string>
 </resources>
