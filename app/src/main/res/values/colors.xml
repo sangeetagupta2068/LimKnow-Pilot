@@ -7,4 +7,6 @@
     <color name="colorBlack">#251E1E</color>
     <color name="colorPastel">#EAC8CB</color>
     <color name="colorText">#DE000000</color>
+    <color name="colorGreen">#2a9d8f</color>
+    <color name="colorBlue">#00B0FF</color>
 </resources>

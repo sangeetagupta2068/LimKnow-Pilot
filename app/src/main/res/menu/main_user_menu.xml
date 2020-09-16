@@ -3,6 +3,7 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/augmented_reality_game"
+
             android:fontFamily="@font/playfair_display"
             android:icon="@drawable/ic_baseline_augmented_reality_24"
             android:title='Lake AR' />

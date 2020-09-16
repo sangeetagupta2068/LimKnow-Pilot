@@ -4,16 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPastel"
     tools:context=".GeneralCitizenScienceActivity">
     <LinearLayout
-        android:layout_width="414dp"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:paddingHorizontal="32dp"
         android:paddingTop="40dp"
-        android:paddingBottom="100dp"
-        android:layout_marginTop="132dp"
-        android:background="@drawable/macrophyte_item_background"
+        android:paddingBottom="40dp"
         android:orientation="vertical"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -92,14 +89,19 @@
             android:textColor="@color/colorBlack"
             android:id="@+id/edit_text_lake"
             android:layout_height="wrap_content"/>
+
         <Button
             android:id="@+id/button_general"
             style="?attr/materialButtonOutlinedStyle"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="right"
+            android:layout_gravity="center_horizontal"
+            android:background = "@drawable/rounded_corners"
             android:elevation="10dp"
+            android:textSize="20dp"
+            android:layout_marginTop="10dp"
             android:text="Submit"
+            android:textColor="#ffffff"
             app:rippleColor="@color/colorPastel" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
