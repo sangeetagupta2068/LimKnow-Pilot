@@ -68,6 +68,8 @@ public class CitizenScienceActivity extends AppCompatActivity {
                         startActivity(intent);
                         break;
                     case R.id.augmented_reality_game:
+                        Intent lakeARIntent = new Intent(CitizenScienceActivity.this, LakeARActivity.class);
+                        startActivity(lakeARIntent);
                         break;
                     case R.id.reporting:
                         break;

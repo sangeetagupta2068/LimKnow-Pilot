@@ -68,6 +68,8 @@ public class MacrophyteListActivity extends AppCompatActivity {
                     case R.id.macrophytes:
                         break;
                     case R.id.augmented_reality_game:
+                        Intent lakeARIntent = new Intent(MacrophyteListActivity.this, LakeARActivity.class);
+                        startActivity(lakeARIntent);
                         break;
                     case R.id.reporting:
                         Intent intent = new Intent(MacrophyteListActivity.this, InvasiveSpeciesWatchActivity.class);
