@@ -3,6 +3,7 @@ package com.pukhuriandbeels.limknowpilot;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -15,6 +16,8 @@ import com.google.ar.core.Anchor;
 import com.google.ar.core.HitResult;
 import com.google.ar.core.Plane;
 import com.google.ar.sceneform.AnchorNode;
+import com.google.ar.sceneform.HitTestResult;
+import com.google.ar.sceneform.Node;
 import com.google.ar.sceneform.assets.RenderableSource;
 import com.google.ar.sceneform.rendering.ModelRenderable;
 import com.google.ar.sceneform.rendering.Renderable;
@@ -36,7 +39,7 @@ public class LakeARActivity extends AppCompatActivity {
     private Button buttonAR;
 
     private ModelRenderable modelRenderable;
-    private String MODEL_URL = "https://github.com/sangeetagupta2068/LimKnow-Pilot/blob/master/app/sampledata/sample/Astronaut.gltf";
+    private String MODEL_URL = "https://firebasestorage.googleapis.com/v0/b/limknow-pilot.appspot.com/o/AR%20Animals%2FBlackNeckedStilt.glb?alt=media&token=8a31708a-9e51-494c-a764-5686a5c4401f/?raw=true";
     private FirebaseAuth firebaseAuth;
     private StorageReference firebaseStorageReference;
 
@@ -48,31 +51,34 @@ public class LakeARActivity extends AppCompatActivity {
         setListeners();
     }
 
-    private  void initialize(){
+    private void initialize() {
         arFragment = (ArFragment) getSupportFragmentManager().findFragmentById(R.id.lake_ar_fragment);
         buttonAR = findViewById(R.id.button_lake_ar);
     }
 
-    private void setListeners(){
+    private void setListeners() {
         arFragment.setOnTapArPlaneListener(new BaseArFragment.OnTapArPlaneListener() {
             @Override
             public void onTapPlane(HitResult hitResult, Plane plane, MotionEvent motionEvent) {
+                if (plane.getType() != Plane.Type.HORIZONTAL_UPWARD_FACING)
+                    return;
                 placeModel(hitResult.createAnchor());
             }
         });
     }
 
-    private void placeModel(Anchor anchor){
-        ModelRenderable.builder().setSource(this, RenderableSource.builder()
-                .setSource(this, Uri.parse(MODEL_URL),RenderableSource.SourceType.GLB)
-                .setScale(0.75f)
+    private void placeModel(Anchor anchor) {
+        ModelRenderable.builder().setSource(arFragment.getContext(), RenderableSource.builder()
+                .setSource(this, Uri.parse(MODEL_URL), RenderableSource.SourceType.GLB)
+                .setScale(0.06f)
                 .setRecenterMode(RenderableSource.RecenterMode.ROOT)
                 .build()
 
         ).setRegistryId(MODEL_URL)
                 .build()
                 .thenAccept(renderable -> {
-                    addNodeToScene(renderable,anchor);
+                    Toast.makeText(LakeARActivity.this, "Reached here", Toast.LENGTH_SHORT).show();
+                    addNodeToScene(renderable, anchor);
                 }).exceptionally(throwable -> {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage(throwable.getMessage()).show();
@@ -82,75 +88,17 @@ public class LakeARActivity extends AppCompatActivity {
 
     private void addNodeToScene(ModelRenderable renderable, Anchor anchor) {
         AnchorNode anchorNode = new AnchorNode(anchor);
-        anchorNode.setRenderable(renderable);
+        TransformableNode node = new TransformableNode(arFragment.getTransformationSystem());
+        node.setOnTapListener(new Node.OnTapListener() {
+            @Override
+            public void onTap(HitTestResult hitTestResult, MotionEvent motionEvent) {
+                Intent intent = new Intent(LakeARActivity.this, ARAnimalItemActivity.class);
+                startActivity(intent);
+            }
+        });
+        node.setRenderable(renderable);
+        node.setParent(anchorNode);
         arFragment.getArSceneView().getScene().addChild(anchorNode);
+        node.select();
     }
-
-//    private void setupModel(){
-//        ModelRenderable.builder().setSource(
-//                this,
-//                RenderableSource
-//                        .builder()
-//                        .setSource(this, Uri.parse(MODEL_URL),RenderableSource.SourceType.GLB).setScale(0.75f)
-//                        .setRecenterMode(RenderableSource.RecenterMode.ROOT)
-//                        .build())
-//                        .setRegistryId(MODEL_URL)
-//                        .build()
-//                        .thenAccept(renderable -> modelRenderable = renderable)
-//                        .exceptionally(throwable -> {
-//                            Toast.makeText(LakeARActivity.this, "Unable to load model.", Toast.LENGTH_SHORT).show();
-//                            return null;
-//                        });
-//    }
-//
-//    private void setupPlane() {
-//        arFragment.setOnTapArPlaneListener(((hitResult, plane, motionEvent) -> {
-//            Anchor anchor = hitResult.createAnchor();
-//            AnchorNode anchorNode = new AnchorNode(anchor);
-//            anchorNode.setRenderable(modelRenderable);
-//           arFragment.getArSceneView().getScene().addChild(anchorNode);
-////            createModel(anchorNode);
-//
-//        }));
-//    }
-//
-//    private void createModel(AnchorNode anchorNode){
-//        TransformableNode transformableNode = new TransformableNode(arFragment.getTransformationSystem());
-//        transformableNode.setParent(anchorNode);
-//        transformableNode.setRenderable(modelRenderable);
-//        transformableNode.select();
-//    }
-//
-//    private void setupFirebase(){
-//        firebaseAuth = FirebaseAuth.getInstance();
-//
-//        firebaseStorageReference = FirebaseStorage.getInstance().getReference();
-//        StorageReference macrophyteStorageReference = firebaseStorageReference.child("AR Animals");
-//        StorageReference sampleReference = macrophyteStorageReference.child("AR Animals/BlackNeckedStilt.glb");
-//
-//        try {
-//            File file = File.createTempFile("BlackNeckedStilt","glb");
-//            sampleReference.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-//                @Override
-//                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-//                    buildModel(file);
-//                    Toast.makeText(getApplicationContext(),"Reached here", Toast.LENGTH_SHORT).show();
-//                }
-//            });
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//
-//    }
-//
-//    private void buildModel(File file) {
-//        RenderableSource renderableSource = RenderableSource.builder()
-//                .setSource(this,Uri.parse(file.getPath()),RenderableSource.SourceType.GLB)
-//                .setRecenterMode(RenderableSource.RecenterMode.ROOT)
-//                .build();
-//
-//        ModelRenderable.builder().setSource(this, renderableSource).setRegistryId(Uri.parse(file.getPath())).build().thenAccept(renderable -> {
-//            modelRenderable = renderable;
-//        });
-//    }
 }
