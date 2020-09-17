@@ -36,7 +36,7 @@ public class LakeARActivity extends AppCompatActivity {
     private Button buttonAR;
 
     private ModelRenderable modelRenderable;
-    private String MODEL_URL = "";
+    private String MODEL_URL = "https://github.com/sangeetagupta2068/LimKnow-Pilot/blob/master/app/sampledata/sample/Astronaut.gltf";
     private FirebaseAuth firebaseAuth;
     private StorageReference firebaseStorageReference;
 
