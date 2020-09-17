@@ -42,12 +42,13 @@
             <ImageView
                 android:id="@+id/invasive_species_image_1"
                 android:layout_width="match_parent"
+                android:scaleType="fitXY"
                 android:layout_height="wrap_content"
                 tools:srcCompat="@tools:sample/avatars" />
 
             <RadioButton
                 android:id="@+id/invasive_species_2"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
                 android:text="Invasive Species 2"
@@ -56,8 +57,9 @@
 
             <ImageView
                 android:id="@+id/invasive_species_image_2"
-                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:scaleType="fitXY"
                 tools:srcCompat="@tools:sample/avatars" />
 
             <RadioButton
@@ -70,8 +72,9 @@
                 tools:layout_editor_absoluteY="27dp" />
             <ImageView
                 android:id="@+id/invasive_species_image_3"
-                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:scaleType="fitXY"
                 tools:srcCompat="@tools:sample/avatars" />
 
             <RadioButton
@@ -84,8 +87,9 @@
                 tools:layout_editor_absoluteY="27dp" />
             <ImageView
                 android:id="@+id/invasive_species_image_4"
-                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:scaleType="fitXY"
                 tools:srcCompat="@tools:sample/avatars" />
 
             <RadioButton

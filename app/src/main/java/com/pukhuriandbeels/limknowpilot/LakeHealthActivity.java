@@ -51,7 +51,9 @@ import androidx.core.content.FileProvider;
 
 public class LakeHealthActivity extends AppCompatActivity {
 
-    private static final int REQUEST_TAKE_PHOTO = 103;
+    public static final int REQUEST_TAKE_PHOTO = 103;
+    public static final int CAMERA_REQUEST_CODE = 101;
+
     private RadioButton[] radioButtons;
     private RadioGroup radioGroup;
     private CheckBox[] checkBoxes;
@@ -72,8 +74,6 @@ public class LakeHealthActivity extends AppCompatActivity {
 
     private FirebaseFirestore firebaseFirestore;
     private FirebaseAuth firebaseAuth;
-
-    private static final int CAMERA_REQUEST_CODE = 101;
 
     private Date date;
     private StorageReference firebaseStorageReference;
