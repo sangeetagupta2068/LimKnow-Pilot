@@ -1,16 +1,15 @@
 package com.pukhuriandbeels.limknowpilot;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.pukhuriandbeels.limknowpilot.model.Macrophyte;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class MacrophyteItemActivity extends AppCompatActivity {
 
@@ -25,10 +24,10 @@ public class MacrophyteItemActivity extends AppCompatActivity {
         initialize();
 
         Intent intent = getIntent();
-        if(intent.getSerializableExtra("MACROPHYTE_ITEM")!=null){
+        if (intent.getSerializableExtra("MACROPHYTE_ITEM") != null) {
             Macrophyte macrophyte = (Macrophyte) intent.getSerializableExtra("MACROPHYTE_ITEM");
-            if(macrophyte.isInvasiveSpecies()){
-                macrophyteNameTextView.setText(macrophyte.getMacrophyteName() + " " + "\n(Invasive Species)" );
+            if (macrophyte.isInvasiveSpecies()) {
+                macrophyteNameTextView.setText(macrophyte.getMacrophyteName() + " " + "\n(Invasive Species)");
             } else {
                 macrophyteNameTextView.setText(macrophyte.getMacrophyteName());
             }
@@ -36,7 +35,7 @@ public class MacrophyteItemActivity extends AppCompatActivity {
             macrophytePictureCreditTextView.setText(macrophyte.getMacrophyteImageCredit());
             macrophyteDescriptionTextView.setText(macrophyte.getMacrophyteDescription());
             macrophyteCommonNameTextView.setText(macrophyte.getCommonName());
-            if(macrophyte.getMacrophyteImageURL()!=null) {
+            if (macrophyte.getMacrophyteImageURL() != null) {
                 Glide.with(this).load(Uri.parse(macrophyte.getMacrophyteImageURL())).into(macrophyteImageView);
             } else {
                 macrophyteImageView.setImageResource(R.drawable.sample_macrophyte);
@@ -44,7 +43,7 @@ public class MacrophyteItemActivity extends AppCompatActivity {
         }
     }
 
-    private void initialize(){
+    private void initialize() {
         macrophyteNameTextView = findViewById(R.id.macrophyte_scientific_name);
         macrophyteCommonNameTextView = findViewById(R.id.macrophyte_common_name);
         macrophyteDescriptionTextView = findViewById(R.id.macrophyte_about);

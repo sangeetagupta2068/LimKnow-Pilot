@@ -162,20 +162,20 @@ public class GeneralCitizenScienceActivity extends AppCompatActivity {
             locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
             LocationServices.getFusedLocationProviderClient(GeneralCitizenScienceActivity.this)
                     .requestLocationUpdates(locationRequest,
-                    new LocationCallback() {
-                        @Override
-                        public void onLocationResult(LocationResult locationResult) {
-                            super.onLocationResult(locationResult);
-                            LocationServices.getFusedLocationProviderClient(GeneralCitizenScienceActivity.this)
-                                    .removeLocationUpdates(this);
-                            if (locationResult != null && locationResult.getLocations().size() > 0) {
-                                int latestLocationIndex = locationResult.getLocations().size() - 1;
-                                latitude = locationResult.getLocations().get(latestLocationIndex).getLatitude();
-                                longitude = locationResult.getLocations().get(latestLocationIndex).getLongitude();
-                            }
-                        }
-                    },
-                    Looper.getMainLooper());
+                            new LocationCallback() {
+                                @Override
+                                public void onLocationResult(LocationResult locationResult) {
+                                    super.onLocationResult(locationResult);
+                                    LocationServices.getFusedLocationProviderClient(GeneralCitizenScienceActivity.this)
+                                            .removeLocationUpdates(this);
+                                    if (locationResult != null && locationResult.getLocations().size() > 0) {
+                                        int latestLocationIndex = locationResult.getLocations().size() - 1;
+                                        latitude = locationResult.getLocations().get(latestLocationIndex).getLatitude();
+                                        longitude = locationResult.getLocations().get(latestLocationIndex).getLongitude();
+                                    }
+                                }
+                            },
+                            Looper.getMainLooper());
         }
     }
 
@@ -197,7 +197,7 @@ public class GeneralCitizenScienceActivity extends AppCompatActivity {
         }
 
         if (!beelRelation.equals("")) {
-            beelRelation = beelRelation.substring(0,beelRelation.length()-1);
+            beelRelation = beelRelation.substring(0, beelRelation.length() - 1);
             documentData.put("beel_relation", beelRelation);
         }
 

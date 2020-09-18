@@ -1,17 +1,12 @@
 package com.pukhuriandbeels.limknowpilot;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.MotionEvent;
-import android.view.View;
-import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.ar.core.Anchor;
 import com.google.ar.core.HitResult;
 import com.google.ar.core.Plane;
@@ -20,28 +15,25 @@ import com.google.ar.sceneform.HitTestResult;
 import com.google.ar.sceneform.Node;
 import com.google.ar.sceneform.assets.RenderableSource;
 import com.google.ar.sceneform.rendering.ModelRenderable;
-import com.google.ar.sceneform.rendering.Renderable;
 import com.google.ar.sceneform.ux.ArFragment;
 import com.google.ar.sceneform.ux.BaseArFragment;
 import com.google.ar.sceneform.ux.TransformableNode;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.storage.FileDownloadTask;
-import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-import java.io.File;
-import java.io.IOException;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class LakeARActivity extends AppCompatActivity {
 
+    public static int count = 0;
     private ArFragment arFragment;
-    private Button buttonAR;
-
+    private TextView textViewGuide;
     private ModelRenderable modelRenderable;
-    private String MODEL_URL = "https://firebasestorage.googleapis.com/v0/b/limknow-pilot.appspot.com/o/AR%20Animals%2FBlackNeckedStilt.glb?alt=media&token=8a31708a-9e51-494c-a764-5686a5c4401f/?raw=true";
+    private String MODEL_URL;
     private FirebaseAuth firebaseAuth;
     private StorageReference firebaseStorageReference;
+    private float scale;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +45,12 @@ public class LakeARActivity extends AppCompatActivity {
 
     private void initialize() {
         arFragment = (ArFragment) getSupportFragmentManager().findFragmentById(R.id.lake_ar_fragment);
-        buttonAR = findViewById(R.id.button_lake_ar);
+        textViewGuide = findViewById(R.id.lake_ar_guide);
+        textViewGuide.setText("Loading...");
+
+        MODEL_URL = LakeARQuizActivity.animals.get(LakeARQuizActivity.questionCount).getAnimalARModelURL();
+        scale = LakeARQuizActivity.animals.get(LakeARQuizActivity.questionCount).getAnimalScale();
+        arFragment.getArSceneView().getPlaneRenderer().setVisible(true);
     }
 
     private void setListeners() {
@@ -70,7 +67,7 @@ public class LakeARActivity extends AppCompatActivity {
     private void placeModel(Anchor anchor) {
         ModelRenderable.builder().setSource(arFragment.getContext(), RenderableSource.builder()
                 .setSource(this, Uri.parse(MODEL_URL), RenderableSource.SourceType.GLB)
-                .setScale(0.06f)
+                .setScale(scale)
                 .setRecenterMode(RenderableSource.RecenterMode.ROOT)
                 .build()
 
@@ -101,4 +98,5 @@ public class LakeARActivity extends AppCompatActivity {
         arFragment.getArSceneView().getScene().addChild(anchorNode);
         node.select();
     }
+
 }

@@ -10,7 +10,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ARAnimalItemActivity"></activity>
+        <activity android:name=".BestShotActivity"></activity>
+        <activity android:name=".LakeARQuizActivity" />
+        <activity
+            android:name=".ARAnimalItemActivity"
+            android:parentActivityName=".LakeARActivity" />
         <activity android:name=".LakeARActivity" />
         <activity android:name=".InvasiveSpeciesWatchActivity" />
         <activity android:name=".LakeHealthActivity" />
@@ -47,20 +51,19 @@
                 android:resource="@xml/file_paths" />
         </provider>
     </application>
-
     <uses-feature
         android:glEsVersion="0x00030000"
         android:required="true" />
+
     <uses-feature
         android:name="android.hardware.camera.ar"
         android:required="true" />
-
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
 </manifest>

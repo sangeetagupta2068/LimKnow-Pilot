@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".BestShotActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="32dp"
+        android:paddingTop="40dp"
+        android:paddingBottom="100dp"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorBlack"
+            android:textStyle="italic"
+            android:text="Your lakes, your pictures. If you want to contibute to this wetland database please upload here. We will upload your pictures with due credits. Please ensure you are uploading one picture at a time."/>
+
+        <TextView
+            android:layout_marginTop="18dp"
+            android:layout_width="match_parent"
+            android:textColor="@color/colorBlack"
+            android:layout_height="wrap_content"
+            android:text="Type"/>
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/radio_group_best_shot">
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/radio_1"
+                android:text="Landscape"/>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/radio_2"
+                android:text="Birds"/>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/radio_3"
+                android:text="Animals"/>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/radio_4"
+                android:text="Insects"/>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/radio_5"
+                android:text="Insects"/>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/radio_6"
+                android:text="Aquatic plants"/>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/radio_7"
+                android:text="Trees"/>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/radio_8"
+                android:text="Others"/>
+        </RadioGroup>
+        <EditText
+            android:layout_width="match_parent"
+            android:textColor="@color/colorBlack"
+            android:visibility="gone"
+            android:textSize="14sp"
+            android:id="@+id/edit_text_lake_health_other"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:id="@+id/button_dead_animal_upload"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="26dp"
+            android:background="@drawable/small_button_corners"
+            android:elevation="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="32dp"
+            android:layout_gravity="left"
+            android:paddingHorizontal="8dp"
+            android:text="Upload picture"
+            android:textColor="@color/colorBlue"
+            android:textSize="12dp"
+            app:rippleColor="@color/colorBlue" />
+
+        <ImageView
+            android:layout_width="350dp"
+            android:layout_height="350dp"
+            android:layout_marginTop="5dp"
+            android:id="@+id/sample_image_view_best_shot"/>
+        <TextView
+            android:layout_marginTop="18dp"
+            android:layout_width="match_parent"
+            android:textColor="@color/colorBlack"
+            android:layout_height="wrap_content"
+            android:text="Photographed by:"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:textColor="@color/colorBlack"
+            android:layout_marginStart="32dp"
+            android:id="@+id/edit_text_other_lake_health"
+            android:textSize="14sp"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:layout_marginTop="18dp"
+            android:layout_width="match_parent"
+            android:textColor="@color/colorBlack"
+            android:layout_height="wrap_content"
+            android:text="Observed on:"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:textColor="@color/colorBlack"
+            android:layout_marginStart="32dp"
+            android:id="@+id/observed_on"
+            android:textSize="14sp"
+            android:layout_height="wrap_content"/>
+        <Button
+            android:id="@+id/button_lake_health"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background = "@drawable/rounded_corners"
+            android:elevation="10dp"
+            android:textSize="15dp"
+            android:layout_marginTop="10dp"
+            android:text="Submit"
+            android:textColor="#ffffff"
+            app:rippleColor="@color/colorBlue" />
+    </LinearLayout>
+
+</ScrollView>

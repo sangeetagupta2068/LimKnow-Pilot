@@ -16,7 +16,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.pukhuriandbeels.limknowpilot.adapter.MacrophyteAdapter;
 import com.pukhuriandbeels.limknowpilot.model.Macrophyte;
@@ -68,7 +67,7 @@ public class MacrophyteListActivity extends AppCompatActivity {
                     case R.id.macrophytes:
                         break;
                     case R.id.augmented_reality_game:
-                        Intent lakeARIntent = new Intent(MacrophyteListActivity.this, LakeARActivity.class);
+                        Intent lakeARIntent = new Intent(MacrophyteListActivity.this, LakeARQuizActivity.class);
                         startActivity(lakeARIntent);
                         break;
                     case R.id.reporting:

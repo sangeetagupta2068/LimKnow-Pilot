@@ -3,7 +3,6 @@ package com.pukhuriandbeels.limknowpilot;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -68,7 +67,7 @@ public class CitizenScienceActivity extends AppCompatActivity {
                         startActivity(intent);
                         break;
                     case R.id.augmented_reality_game:
-                        Intent lakeARIntent = new Intent(CitizenScienceActivity.this, LakeARActivity.class);
+                        Intent lakeARIntent = new Intent(CitizenScienceActivity.this, LakeARQuizActivity.class);
                         startActivity(lakeARIntent);
                         break;
                     case R.id.reporting:

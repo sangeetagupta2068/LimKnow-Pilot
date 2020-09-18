@@ -3,6 +3,7 @@ package com.pukhuriandbeels.limknowpilot.model;
 import java.io.Serializable;
 
 public class Macrophyte implements Serializable {
+    //declare fields
     private String macrophyteName;
     private String macrophyteType;
     private String commonName;
@@ -11,6 +12,7 @@ public class Macrophyte implements Serializable {
     private String macrophyteImageCredit;
     private boolean invasiveSpecies;
 
+    //initialize fields
     public Macrophyte(String macrophyteName, String macrophyteType, String commonName, String macrophyteDescription, String macrophyteImageURL, String macrophyteImageCredit, boolean invasiveSpecies) {
         this.macrophyteName = macrophyteName;
         this.macrophyteType = macrophyteType;
@@ -24,6 +26,7 @@ public class Macrophyte implements Serializable {
     public Macrophyte() {
     }
 
+    //getters and setters
     public String getMacrophyteName() {
         return macrophyteName;
     }

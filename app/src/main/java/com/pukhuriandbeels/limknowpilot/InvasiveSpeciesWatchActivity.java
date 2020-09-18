@@ -90,9 +90,9 @@ public class InvasiveSpeciesWatchActivity extends AppCompatActivity {
 
     private void initialize() {
         lakeName = "Deepor Beel";
-        radioGroupInvasiveSpecies = findViewById(R.id.invasive_species_radio_group);
+        radioGroupInvasiveSpecies = findViewById(R.id.animal_ar_radio_group);
         radioButtons = new RadioButton[5];
-        radioButtons[0] = findViewById(R.id.invasive_species_1);
+        radioButtons[0] = findViewById(R.id.animal_radio_1);
         radioButtons[1] = findViewById(R.id.invasive_species_2);
         radioButtons[2] = findViewById(R.id.invasive_species_3);
         radioButtons[3] = findViewById(R.id.invasive_species_4);
@@ -207,7 +207,7 @@ public class InvasiveSpeciesWatchActivity extends AppCompatActivity {
         documentData.put("longitude", longitude);
         documentData.put("date", date);
         documentData.put("lake", lakeName);
-        documentData.put("invasive_species_widespread",widespreadPercentage);
+        documentData.put("invasive_species_widespread", widespreadPercentage);
 
         String id = collectionReference.document().getId();
 

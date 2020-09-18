@@ -1,25 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".LakeARActivity">
 
     <fragment
         android:id="@+id/lake_ar_fragment"
         android:name="com.google.ar.sceneform.ux.ArFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_weight="9"
+        android:layout_height="0dp">
     </fragment>
 
-    <Button
-        android:id="@+id/button_lake_ar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <TextView
+        android:id="@+id/lake_ar_guide"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         android:gravity="center_horizontal"
-        android:text="Click Here"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:paddingHorizontal="20dp"
+        android:text="Loading..."
+        android:paddingTop="20dp"
+        android:layout_weight="1" />
+</LinearLayout>

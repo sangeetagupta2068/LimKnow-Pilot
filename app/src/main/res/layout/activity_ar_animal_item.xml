@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ARAnimalItemActivity">
+    <ImageView
+        android:id="@+id/animal_image"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="2dp"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toTopOf="@+id/content_linearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/sample_animal" />
+
+    <LinearLayout
+        android:id="@+id/content_linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:paddingHorizontal="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorBlack"
+            android:text="Common Name:"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:id="@+id/animal_common_name"
+            android:textColor="@color/colorBlack"
+            android:text="Spotbilled pelican"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="8dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/colorBlack"
+            android:text="Waterbody Association:"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:id="@+id/animal_waterbody_association"
+            android:textColor="@color/colorBlack"
+            android:text="The black markings on its upper mandible gives this bird its name. Like most other pelicans, it catches fish in its huge bill pouch while swimming at the surface. They form colonies of nests on low trees near wetlands for breeding."/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="8dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/colorBlack"
+            android:layout_height="wrap_content"
+            android:text="Threats:"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:id="@+id/animal_threats"
+            android:textColor="@color/colorBlack"
+            android:text="It is a major invasive species that grows in shallow water.It forms dense mats and can alter the distribution of native aquatic vegetation"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="30dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="@color/colorBlack"
+            android:text="Image source: "/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="10sp"
+            android:textStyle="italic"
+            android:textColor="@color/colorBlack"
+            android:id="@+id/animal_picture_credits"
+            android:text="By arthur_chapman - https://www.flickr.com/photos/arthur_chapman/3014515838/, CC BY 2.0, https://commons.wikimedia.org/w/index.php?curid=5564489"/>
+        <Button
+            android:id="@+id/button_submit_animal"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="26dp"
+            app:layout_constraintTop_toBottomOf="@+id/invasive_species_other_label"
+            app:layout_constraintStart_toStartOf="@+id/animal_ar_radio_group"
+            android:background="@drawable/small_button_corners_dark"
+            android:elevation="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="32dp"
+            android:layout_gravity="right"
+            android:paddingHorizontal="8dp"
+            android:text="NEXT"
+            android:textColor="#ffffff"
+            android:textSize="12dp"
+            app:rippleColor="@color/colorBlue" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="8dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/title_linearLayout"
+        android:background="@drawable/macrophyte_item_background"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@id/content_linearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.538"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:id="@+id/animal_scientific_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-black"
+            android:padding="32dp"
+            android:text="Pelecanus philippensis "
+            android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+            android:textColor="#372222"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

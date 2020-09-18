@@ -1,0 +1,81 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".LakeARQuizActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="32dp"
+        android:paddingTop="40dp"
+        android:paddingBottom="100dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/animal_ar_quiz_question"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Do you observe any invasive species?"
+            android:textColor="@color/colorBlack"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:id="@+id/animal_ar_radio_group"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/animal_ar_quiz_question"
+            app:layout_constraintStart_toStartOf="@+id/animal_ar_quiz_question">
+
+            <RadioButton
+                android:id="@+id/animal_radio_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:text="Invasive Species 1"
+                tools:layout_editor_absoluteX="-1dp"
+                tools:layout_editor_absoluteY="27dp" />
+
+            <RadioButton
+                android:id="@+id/animal_radio_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:text="Invasive Species 2"
+                tools:layout_editor_absoluteX="-1dp"
+                tools:layout_editor_absoluteY="27dp" />
+
+            <RadioButton
+                android:id="@+id/animal_radio_3"
+                android:layout_width="wrap_content"
+                android:textSize="14sp"
+                android:text="Invasive Species 3"
+                android:layout_height="wrap_content"
+                tools:layout_editor_absoluteX="-1dp"
+                tools:layout_editor_absoluteY="27dp" />
+
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/button_animal_ar"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/rounded_corners"
+            android:elevation="10dp"
+            android:text="Submit"
+            android:textColor="#ffffff"
+            android:textSize="15dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/animal_ar_radio_group"
+            app:rippleColor="@color/colorBlue" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
+

@@ -13,22 +13,12 @@ import com.bumptech.glide.Glide;
 import com.pukhuriandbeels.limknowpilot.R;
 import com.pukhuriandbeels.limknowpilot.model.Macrophyte;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class MacrophyteAdapter extends BaseAdapter {
     private List<Macrophyte> macrophyteArrayList;
     private LayoutInflater layoutInflater;
     private Context context;
-
-    //    private TextView serialNum, name, contactNum;
-    private class MacrophyteViewHolder {
-        ImageView imageView;
-        TextView textView;
-
-        MacrophyteViewHolder(){}
-    }
 
     public MacrophyteAdapter(Context context, List<Macrophyte> macrophyteArrayList) {
         this.context = context;
@@ -52,7 +42,7 @@ public class MacrophyteAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        if(convertView == null) {
+        if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.macrophyte_list_item, parent, false);
         }
         MacrophyteViewHolder macrophyteViewHolder = new MacrophyteViewHolder();
@@ -60,17 +50,26 @@ public class MacrophyteAdapter extends BaseAdapter {
         macrophyteViewHolder.textView = convertView.findViewById(R.id.macrophyte_name);
         macrophyteViewHolder.imageView = convertView.findViewById(R.id.macrophyte_image);
 
-        if(macrophyteArrayList.get(position).isInvasiveSpecies()){
+        if (macrophyteArrayList.get(position).isInvasiveSpecies()) {
             macrophyteViewHolder.textView.setText(macrophyteArrayList.get(position).getMacrophyteName() + " " + "\n(Invasive Species)");
         } else {
             macrophyteViewHolder.textView.setText(macrophyteArrayList.get(position).getMacrophyteName());
         }
 
-        if(macrophyteArrayList.get(position).getMacrophyteImageURL()!=null) {
+        if (macrophyteArrayList.get(position).getMacrophyteImageURL() != null) {
             Uri uri = Uri.parse(macrophyteArrayList.get(position).getMacrophyteImageURL());
             Glide.with(context).load(uri).placeholder(R.drawable.sample_macrophyte).error(R.drawable.sample_macrophyte).into(macrophyteViewHolder.imageView);
         }
         return convertView;
+    }
+
+    //    private TextView serialNum, name, contactNum;
+    private class MacrophyteViewHolder {
+        ImageView imageView;
+        TextView textView;
+
+        MacrophyteViewHolder() {
+        }
     }
 
 }

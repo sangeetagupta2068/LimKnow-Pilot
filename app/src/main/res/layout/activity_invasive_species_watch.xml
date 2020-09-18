@@ -15,7 +15,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/invasive_species_watch_label"
+            android:id="@+id/animal_ar_quiz_question"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Do you observe any invasive species?"
@@ -26,13 +26,13 @@
 
         <RadioGroup
             android:layout_width="match_parent"
-            android:id="@+id/invasive_species_radio_group"
+            android:id="@+id/animal_ar_radio_group"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/invasive_species_watch_label"
-            app:layout_constraintStart_toStartOf="@+id/invasive_species_watch_label">
+            app:layout_constraintTop_toBottomOf="@+id/animal_ar_quiz_question"
+            app:layout_constraintStart_toStartOf="@+id/animal_ar_quiz_question">
 
             <RadioButton
-                android:id="@+id/invasive_species_1"
+                android:id="@+id/animal_radio_1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
@@ -107,8 +107,8 @@
             android:textSize="14sp"
             android:layout_marginTop="10dp"
             android:id="@+id/invasive_species_other_label"
-            app:layout_constraintTop_toBottomOf="@+id/invasive_species_radio_group"
-            app:layout_constraintStart_toStartOf="@+id/invasive_species_radio_group"
+            app:layout_constraintTop_toBottomOf="@+id/animal_ar_radio_group"
+            app:layout_constraintStart_toStartOf="@+id/animal_ar_radio_group"
             android:textColor="@color/colorBlack"
             android:text="Please upload picture of the plant"
             android:layout_marginStart="32dp"/>
@@ -118,7 +118,7 @@
             android:layout_width="wrap_content"
             android:layout_height="26dp"
             app:layout_constraintTop_toBottomOf="@+id/invasive_species_other_label"
-            app:layout_constraintStart_toStartOf="@+id/invasive_species_radio_group"
+            app:layout_constraintStart_toStartOf="@+id/animal_ar_radio_group"
             android:background="@drawable/small_button_corners"
             android:elevation="10dp"
             android:layout_marginTop="5dp"
@@ -132,7 +132,7 @@
         <ImageView
             android:layout_width="350dp"
             app:layout_constraintTop_toBottomOf="@+id/button_invasive_species_upload"
-            app:layout_constraintStart_toStartOf="@+id/invasive_species_radio_group"
+            app:layout_constraintStart_toStartOf="@+id/animal_ar_radio_group"
             android:layout_height="350dp"
             android:layout_marginTop="5dp"
             android:id="@+id/sample_invasive_species_image_view"/>
@@ -143,7 +143,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/invasive_species_spread_label"
             app:layout_constraintTop_toBottomOf="@+id/sample_invasive_species_image_view"
-            app:layout_constraintStart_toStartOf="@+id/invasive_species_radio_group"
+            app:layout_constraintStart_toStartOf="@+id/animal_ar_radio_group"
             android:text="How widespread is it in percentage(%)?"/>
 
         <SeekBar
