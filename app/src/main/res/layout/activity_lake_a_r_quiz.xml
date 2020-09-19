@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingHorizontal="32dp"
-        android:paddingTop="40dp"
+        android:paddingTop="30dp"
         android:paddingBottom="100dp"
         android:orientation="vertical">
 
@@ -20,12 +20,16 @@
             android:layout_height="wrap_content"
             android:text="Do you observe any invasive species?"
             android:textColor="@color/colorBlack"
+            android:fontFamily="@font/nunito"
+            android:textSize="22sp"
+            android:textIsSelectable="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <RadioGroup
             android:layout_width="match_parent"
+            android:layout_marginVertical="30dp"
             android:id="@+id/animal_ar_radio_group"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@+id/animal_ar_quiz_question"
@@ -35,7 +39,9 @@
                 android:id="@+id/animal_radio_1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="14sp"
+                android:textSize="18sp"
+                android:textColor="@color/colorBlack"
+                android:fontFamily="@font/nunito"
                 android:text="Invasive Species 1"
                 tools:layout_editor_absoluteX="-1dp"
                 tools:layout_editor_absoluteY="27dp" />
@@ -44,7 +50,9 @@
                 android:id="@+id/animal_radio_2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="14sp"
+                android:textSize="18sp"
+                android:textColor="@color/colorBlack"
+                android:fontFamily="@font/nunito"
                 android:text="Invasive Species 2"
                 tools:layout_editor_absoluteX="-1dp"
                 tools:layout_editor_absoluteY="27dp" />
@@ -52,7 +60,9 @@
             <RadioButton
                 android:id="@+id/animal_radio_3"
                 android:layout_width="wrap_content"
-                android:textSize="14sp"
+                android:textSize="18sp"
+                android:textColor="@color/colorBlack"
+                android:fontFamily="@font/nunito"
                 android:text="Invasive Species 3"
                 android:layout_height="wrap_content"
                 tools:layout_editor_absoluteX="-1dp"
@@ -67,11 +77,13 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="30dp"
-            android:background="@drawable/rounded_corners"
-            android:elevation="10dp"
+            android:fontFamily="@font/lato"
+            android:background="@drawable/large_button_style"
+            android:elevation="20dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
             android:text="Submit"
-            android:textColor="#ffffff"
-            android:textSize="15dp"
+            android:textColor="#fafafa"
+            android:textSize="18sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/animal_ar_radio_group"
             app:rippleColor="@color/colorBlue" />

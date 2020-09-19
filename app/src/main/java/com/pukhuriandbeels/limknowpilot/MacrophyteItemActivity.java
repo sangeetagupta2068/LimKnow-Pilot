@@ -3,6 +3,8 @@ package com.pukhuriandbeels.limknowpilot;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,6 +18,7 @@ public class MacrophyteItemActivity extends AppCompatActivity {
     private TextView macrophyteNameTextView, macrophyteCommonNameTextView, macrophyteTypeTextView;
     private TextView macrophyteDescriptionTextView, macrophytePictureCreditTextView;
     private ImageView macrophyteImageView;
+    private Button button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +44,13 @@ public class MacrophyteItemActivity extends AppCompatActivity {
                 macrophyteImageView.setImageResource(R.drawable.sample_macrophyte);
             }
         }
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     private void initialize() {
@@ -50,5 +60,6 @@ public class MacrophyteItemActivity extends AppCompatActivity {
         macrophyteTypeTextView = findViewById(R.id.macrophyte_type);
         macrophytePictureCreditTextView = findViewById(R.id.macrophyte_picture_credits);
         macrophyteImageView = findViewById(R.id.macrophyte_image);
+        button = findViewById(R.id.button_submit_macrophyte);
     }
 }

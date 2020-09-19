@@ -2,43 +2,49 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/home"
+            android:fontFamily="@font/nunito"
+            android:icon="@drawable/ic_baseline_home_24"
+            android:title='Home' />
+        <item
             android:id="@+id/augmented_reality_game"
 
-            android:fontFamily="@font/playfair_display"
+            android:fontFamily="@font/nunito"
             android:icon="@drawable/ic_baseline_augmented_reality_24"
-            android:title='Lake AR' />
+            android:title='Lake 3D' />
         <item
             android:id="@+id/macrophytes"
-            android:fontFamily="@font/playfair_display"
+            android:fontFamily="@font/nunito"
             android:icon="@drawable/ic_baseline_filter_macrophytes_24"
             android:title='Aquatic Plants' />
         <item
             android:id="@+id/reporting"
-            android:fontFamily="@font/playfair_display"
+            android:fontFamily="@font/nunito"
             android:icon="@drawable/ic_baseline_create_24"
             android:title='Citizen Science' />
         <item
             android:id="@+id/about"
-            android:fontFamily="@font/playfair_display"
+            android:fontFamily="@font/nunito"
             android:icon="@drawable/ic_baseline_about_24"
-            android:title='About' />
+            android:title='Beels and Pukhuris' />
         <item
             android:id="@+id/policy"
+            android:fontFamily="@font/nunito"
             android:icon="@drawable/ic_baseline_policy_24"
             android:title='Privacy Policy' />
     </group>
 
-        <item android:title="Profile" android:fontFamily="@font/playfair_display">
+        <item android:title="Profile" android:fontFamily="@font/nunito">
             <menu>
                 <group android:checkableBehavior="single">
                 <item
                     android:id="@+id/badges"
                     android:icon="@drawable/ic_baseline_card_badge_24"
-                    android:fontFamily="@font/playfair_display"
+                    android:fontFamily="@font/nunito"
                     android:title='Badges' />
                 <item
                     android:id="@+id/edit_profile"
-                    android:fontFamily="@font/playfair_display"
+                    android:fontFamily="@font/nunito"
                     android:icon="@drawable/ic_baseline_create_24"
                     android:title='Edit Profile' />
                 <item

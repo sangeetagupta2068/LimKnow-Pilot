@@ -16,12 +16,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/colorBlack"
-            android:textStyle="italic"
+            android:fontFamily="@font/nunito_sans_light_italic"
+            android:textSize="18sp"
             android:text="Your lakes, your pictures. If you want to contibute to this wetland database please upload here. We will upload your pictures with due credits. Please ensure you are uploading one picture at a time."/>
 
         <TextView
             android:layout_marginTop="18dp"
             android:layout_width="match_parent"
+            android:textSize="22sp"
+            android:fontFamily="@font/nunito"
             android:textColor="@color/colorBlack"
             android:layout_height="wrap_content"
             android:text="Type"/>
@@ -31,68 +34,88 @@
             android:id="@+id/radio_group_best_shot">
             <RadioButton
                 android:layout_width="wrap_content"
+                android:fontFamily="@font/nunito"
+                android:textSize="18sp"
                 android:layout_height="wrap_content"
-                android:id="@+id/radio_1"
+                android:id="@+id/radio_best_1"
                 android:text="Landscape"/>
             <RadioButton
                 android:layout_width="wrap_content"
+                android:fontFamily="@font/nunito"
+                android:textSize="18sp"
                 android:layout_height="wrap_content"
-                android:id="@+id/radio_2"
+                android:id="@+id/radio_best_2"
                 android:text="Birds"/>
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/radio_3"
+                android:fontFamily="@font/nunito"
+                android:textSize="18sp"
+                android:id="@+id/radio_best_3"
                 android:text="Animals"/>
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/radio_4"
+                android:fontFamily="@font/nunito"
+                android:textSize="18sp"
+                android:id="@+id/radio_best_4"
                 android:text="Insects"/>
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/radio_5"
+                android:fontFamily="@font/nunito"
+                android:textSize="18sp"
+                android:id="@+id/radio_best_5"
                 android:text="Insects"/>
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/radio_6"
+                android:fontFamily="@font/nunito"
+                android:textSize="18sp"
+                android:id="@+id/radio_best_6"
                 android:text="Aquatic plants"/>
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/radio_7"
+                android:id="@+id/radio_best_7"
+                android:fontFamily="@font/nunito"
+                android:textSize="18sp"
                 android:text="Trees"/>
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/radio_8"
-                android:text="Others"/>
+                android:id="@+id/radio_best_8"
+                android:fontFamily="@font/nunito"
+                android:textSize="18sp"
+                android:text="Other"/>
         </RadioGroup>
         <EditText
             android:layout_width="match_parent"
             android:textColor="@color/colorBlack"
             android:visibility="gone"
-            android:textSize="14sp"
-            android:id="@+id/edit_text_lake_health_other"
+            android:fontFamily="@font/nunito"
+            android:textSize="18sp"
+            android:id="@+id/edit_text_best_shot_other"
             android:layout_height="wrap_content"/>
 
         <Button
-            android:id="@+id/button_dead_animal_upload"
+            android:id="@+id/button_upload_shot"
             style="?attr/materialButtonOutlinedStyle"
             android:layout_width="wrap_content"
-            android:layout_height="26dp"
+            android:layout_height="50dp"
+            app:layout_constraintTop_toBottomOf="@+id/invasive_species_other_label"
+            app:layout_constraintStart_toStartOf="@+id/animal_ar_radio_group"
             android:background="@drawable/small_button_corners"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
             android:elevation="10dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginStart="32dp"
+            android:fontFamily="@font/lato"
+            android:layout_marginTop="10dp"
             android:layout_gravity="left"
-            android:paddingHorizontal="8dp"
+            android:backgroundTint="#FFDE8F"
+            android:paddingHorizontal="20dp"
             android:text="Upload picture"
-            android:textColor="@color/colorBlue"
-            android:textSize="12dp"
-            app:rippleColor="@color/colorBlue" />
+            android:textColor="#A5633B"
+            android:textSize="18sp" />
 
         <ImageView
             android:layout_width="350dp"
@@ -103,17 +126,21 @@
             android:layout_marginTop="18dp"
             android:layout_width="match_parent"
             android:textColor="@color/colorBlack"
+            android:fontFamily="@font/nunito"
+            android:textSize="22sp"
             android:layout_height="wrap_content"
             android:text="Photographed by:"/>
         <EditText
             android:layout_width="match_parent"
             android:textColor="@color/colorBlack"
-            android:layout_marginStart="32dp"
-            android:id="@+id/edit_text_other_lake_health"
-            android:textSize="14sp"
+            android:id="@+id/edit_text_best_shot_name"
+            android:fontFamily="@font/nunito"
+            android:textSize="18sp"
             android:layout_height="wrap_content"/>
         <TextView
             android:layout_marginTop="18dp"
+            android:fontFamily="@font/nunito"
+            android:textSize="22sp"
             android:layout_width="match_parent"
             android:textColor="@color/colorBlack"
             android:layout_height="wrap_content"
@@ -122,23 +149,40 @@
         <EditText
             android:layout_width="match_parent"
             android:textColor="@color/colorBlack"
-            android:layout_marginStart="32dp"
-            android:id="@+id/observed_on"
-            android:textSize="14sp"
+            android:id="@+id/edit_text_best_shot_observed_on"
+            android:fontFamily="@font/nunito"
+            android:textSize="18sp"
             android:layout_height="wrap_content"/>
         <Button
-            android:id="@+id/button_lake_health"
+            android:id="@+id/button_best_shot"
+            android:layout_marginTop="30dp"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="match_parent"
+            android:fontFamily="@font/lato"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background = "@drawable/large_button_citizen_science_style"
+            android:elevation="20dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textSize="18sp"
+            android:text="Submit"
+            android:textColor="#fafafa" />
+        <Button
+            android:id="@+id/button_best_shot_cancel"
             style="?attr/materialButtonOutlinedStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
             android:layout_gravity="center_horizontal"
-            android:background = "@drawable/rounded_corners"
-            android:elevation="10dp"
-            android:textSize="15dp"
-            android:layout_marginTop="10dp"
-            android:text="Submit"
-            android:textColor="#ffffff"
-            app:rippleColor="@color/colorBlue" />
+            android:background="@drawable/large_button_light_citizen_science"
+            android:elevation="20dp"
+            android:fontFamily="@font/lato"
+            android:text="Cancel"
+            android:backgroundTint="#FFDE8F"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textColor="#A5633B"
+            android:textSize="18sp"
+            />
     </LinearLayout>
 
 </ScrollView>

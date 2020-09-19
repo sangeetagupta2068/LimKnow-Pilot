@@ -46,7 +46,6 @@ public class LakeARActivity extends AppCompatActivity {
     private void initialize() {
         arFragment = (ArFragment) getSupportFragmentManager().findFragmentById(R.id.lake_ar_fragment);
         textViewGuide = findViewById(R.id.lake_ar_guide);
-        textViewGuide.setText("Loading...");
 
         MODEL_URL = LakeARQuizActivity.animals.get(LakeARQuizActivity.questionCount).getAnimalARModelURL();
         scale = LakeARQuizActivity.animals.get(LakeARQuizActivity.questionCount).getAnimalScale();

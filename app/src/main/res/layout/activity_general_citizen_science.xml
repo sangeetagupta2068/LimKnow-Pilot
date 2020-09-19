@@ -17,22 +17,29 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/colorBlack"
+            android:textSize="22sp"
+            android:fontFamily="@font/nunito"
             android:text="@string/general_question_one"/>
         <EditText
             android:layout_width="match_parent"
             android:textColor="@color/colorBlack"
             android:id="@+id/edit_text_fees"
-            android:textSize="14sp"
+            android:textSize="18sp"
+            android:fontFamily="@font/nunito"
             android:layout_height="wrap_content"/>
         <TextView
             android:layout_marginTop="18dp"
             android:layout_width="match_parent"
             android:textColor="@color/colorBlack"
             android:layout_height="wrap_content"
+            android:textSize="22sp"
+            android:fontFamily="@font/nunito"
             android:text="@string/general_question_two"/>
         <CheckBox
             android:layout_width="wrap_content"
-            android:text="recreation"
+            android:text="Recreation"
+            android:fontFamily="@font/nunito"
+            android:textSize="18sp"
             android:id="@+id/checkbox_1"
             android:textColor="@color/colorBlack"
             android:layout_height="wrap_content"/>
@@ -40,69 +47,102 @@
             android:layout_width="wrap_content"
             android:textColor="@color/colorBlack"
             android:id="@+id/checkbox_2"
+            android:fontFamily="@font/nunito"
+            android:textSize="18sp"
             android:layout_height="wrap_content"
-            android:text="live in that area"/>
+            android:text="Live in that area"/>
         <CheckBox
             android:layout_width="wrap_content"
             android:textColor="@color/colorBlack"
             android:id="@+id/checkbox_3"
+            android:fontFamily="@font/nunito"
+            android:textSize="18sp"
             android:layout_height="wrap_content"
-            android:text="fishing"/>
+            android:text="Fishing"/>
         <CheckBox
             android:layout_width="wrap_content"
             android:textColor="@color/colorBlack"
             android:layout_height="wrap_content"
             android:id="@+id/checkbox_4"
-            android:text="bird watcher"/>
+            android:fontFamily="@font/nunito"
+            android:textSize="18sp"
+            android:text="Bird watcher"/>
         <CheckBox
             android:layout_width="wrap_content"
             android:textColor="@color/colorBlack"
             android:id="@+id/checkbox_5"
+            android:fontFamily="@font/nunito"
+            android:textSize="18sp"
             android:layout_height="wrap_content"
-            android:text="tourist"/>
+            android:text="Tourist"/>
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/checkbox_6"
-            android:text="wildlife enthusiast"/>
+            android:fontFamily="@font/nunito"
+            android:textSize="18sp"
+            android:text="Wildlife enthusiast"/>
         <CheckBox
             android:layout_width="wrap_content"
             android:id="@+id/checkbox_7"
+            android:fontFamily="@font/nunito"
+            android:textSize="18sp"
             android:textColor="@color/colorBlack"
             android:layout_height="wrap_content"
-            android:text="other"/>
+            android:text="Other"/>
         <EditText
             android:layout_width="match_parent"
             android:textColor="@color/colorBlack"
             android:id="@+id/edit_text_other"
             android:visibility="gone"
-            android:textSize="14sp"
+            android:fontFamily="@font/nunito"
+            android:textSize="18sp"
             android:layout_height="wrap_content"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/colorBlack"
             android:layout_marginTop="18dp"
+            android:textSize="22sp"
+            android:fontFamily="@font/nunito"
             android:text="@string/general_question_three"/>
         <EditText
             android:layout_width="match_parent"
             android:textColor="@color/colorBlack"
             android:id="@+id/edit_text_lake"
-            android:textSize="14sp"
+            android:textSize="18sp"
+            android:fontFamily="@font/nunito"
             android:layout_height="wrap_content"/>
 
         <Button
             android:id="@+id/button_general"
+            android:layout_marginTop="30dp"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="match_parent"
+            android:fontFamily="@font/lato"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background = "@drawable/large_button_citizen_science_style"
+            android:elevation="20dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textSize="18sp"
+            android:text="Submit"
+            android:textColor="#fafafa"/>
+        <Button
+            android:id="@+id/button_general_cancel"
             style="?attr/materialButtonOutlinedStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
             android:layout_gravity="center_horizontal"
-            android:background = "@drawable/rounded_corners"
-            android:elevation="10dp"
-            android:textSize="15dp"
-            android:layout_marginTop="10dp"
-            android:text="Submit"
-            android:textColor="#ffffff"
-            app:rippleColor="@color/colorPastel" />
+            android:background="@drawable/large_button_light_citizen_science"
+            android:elevation="20dp"
+            android:fontFamily="@font/lato"
+            android:text="Cancel"
+            android:backgroundTint="#FFDE8F"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textColor="#A5633B"
+            android:textSize="18sp"
+            />
     </LinearLayout>
 </ScrollView>

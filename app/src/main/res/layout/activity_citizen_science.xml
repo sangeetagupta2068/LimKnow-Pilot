@@ -40,6 +40,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="TextView"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
@@ -47,16 +48,100 @@
             app:layout_constraintVertical_bias="0.829" />
 
         <androidx.cardview.widget.CardView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginVertical="10dp"
+            android:id="@+id/cardview_1"
+            android:layout_marginHorizontal="12dp"
+            app:cardCornerRadius="8dp"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:elevation="10dp"
             app:layout_constraintTop_toBottomOf="@id/toolbar"
             app:layout_constraintStart_toStartOf="parent"
             android:background="@color/colorPastel">
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:text="Lake Health" />
+                android:layout_height="wrap_content"
+                android:background="#B2E2FC"
+                android:gravity="center_horizontal"
+                android:fontFamily="@font/nunito"
+                android:textSize="18dp"
+                android:paddingVertical="60dp"
+                android:text="General Feedback" />
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="12dp"
+            app:cardCornerRadius="8dp"
+            android:elevation="10dp"
+            android:layout_marginVertical="10dp"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:id="@+id/cardview_2"
+            app:layout_constraintTop_toBottomOf="@+id/cardview_1"
+            app:layout_constraintStart_toStartOf="parent"
+            android:background="@color/colorPastel">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#B5D2FB"
+                android:gravity="center_horizontal"
+                android:paddingVertical="60dp"
+                android:fontFamily="@font/nunito"
+                android:textSize="18dp"
+                android:text="Invasive Species Watch" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="12dp"
+            app:cardCornerRadius="8dp"
+            android:layout_marginVertical="10dp"
+            android:elevation="10dp"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:id="@+id/cardview_3"
+            app:layout_constraintTop_toBottomOf="@+id/cardview_2"
+            app:layout_constraintStart_toStartOf="parent"
+            android:background="@color/colorPastel">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#BAF4FE"
+                android:fontFamily="@font/nunito"
+                android:textSize="18dp"
+                android:gravity="center_horizontal"
+                android:paddingVertical="60dp"
+                android:text="Lake Health Reporting" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="12dp"
+            app:cardCornerRadius="8dp"
+            android:elevation="10dp"
+            android:layout_marginVertical="10dp"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:id="@+id/citizen_science_cardview_4"
+            app:layout_constraintTop_toBottomOf="@+id/cardview_3"
+            app:layout_constraintStart_toStartOf="parent"
+            android:background="@color/colorPastel">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FFFFB7"
+                android:fontFamily="@font/nunito"
+                android:textSize="18dp"
+                android:gravity="center_horizontal"
+                android:paddingVertical="60dp"
+                android:text="Your Best Shot" />
         </androidx.cardview.widget.CardView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

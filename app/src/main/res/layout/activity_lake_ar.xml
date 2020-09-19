@@ -19,9 +19,12 @@
         android:id="@+id/lake_ar_guide"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:gravity="center_horizontal"
+        android:gravity="center"
         android:paddingHorizontal="20dp"
-        android:text="Loading..."
-        android:paddingTop="20dp"
+        android:fontFamily="@font/nunito"
+        android:textColor="@color/colorBlack"
+        android:textSize="18dp"
+        android:text="Find a plane to place the animal. Tap on animal to learn more!"
+        android:paddingTop="10dp"
         android:layout_weight="1" />
 </LinearLayout>

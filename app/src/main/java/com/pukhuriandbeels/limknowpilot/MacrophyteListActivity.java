@@ -58,8 +58,12 @@ public class MacrophyteListActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
-
+                    case R.id.home:
+                        finish();
+                        break;
                     case R.id.about:
+                        Intent aboutIntent = new Intent(MacrophyteListActivity.this, LakeActivity.class);
+                        startActivity(aboutIntent);
                         break;
                     case R.id.policy:
                         break;
@@ -71,7 +75,7 @@ public class MacrophyteListActivity extends AppCompatActivity {
                         startActivity(lakeARIntent);
                         break;
                     case R.id.reporting:
-                        Intent intent = new Intent(MacrophyteListActivity.this, InvasiveSpeciesWatchActivity.class);
+                        Intent intent = new Intent(MacrophyteListActivity.this, CitizenScienceActivity.class);
                         startActivity(intent);
                         break;
 

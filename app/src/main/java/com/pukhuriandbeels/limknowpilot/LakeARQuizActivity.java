@@ -126,12 +126,15 @@ public class LakeARQuizActivity extends AppCompatActivity {
 
                         if (animal.getAnimalCommonName().equals("Indian elephant"))
                             animal.setAnimalScale(1.85f);
+                        else if (animal.getAnimalCommonName().equals("Greater Adjutant stork"))
+                            animal.setAnimalScale(0.5f);
                         else if (animal.getAnimalCommonName().equals("Lesser Adjutant Stork"))
-                            animal.setAnimalScale(0.35f);
+                            animal.setAnimalScale(0.5f);
                         else if (animal.getAnimalCommonName().equals("Sambar Deer"))
                             animal.setAnimalScale(0.03f);
                         else if (animal.getAnimalCommonName().equals("Black winged stilt"))
-                            animal.setAnimalScale(0.005f);
+                            animal.setAnimalScale(0.06f);
+
                         questionTextView.setText(animals.get(questionCount).getAssociatedQuestion());
                         radioButtons[0].setText(animals.get(questionCount).getOptionOne());
                         radioButtons[1].setText(animals.get(questionCount).getOptionTwo());
