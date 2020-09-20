@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -34,6 +35,7 @@ public class LakeARQuizActivity extends AppCompatActivity {
     private RadioGroup questionRadioGroup;
     private RadioButton[] radioButtons;
     private Button submit;
+    private ProgressBar progressBar;
 
     private FirebaseAuth firebaseAuth;
 
@@ -48,6 +50,7 @@ public class LakeARQuizActivity extends AppCompatActivity {
     private void initialize() {
         questionTextView = findViewById(R.id.animal_ar_quiz_question);
         questionRadioGroup = findViewById(R.id.animal_ar_radio_group);
+        progressBar = findViewById(R.id.connection_status);
 
         radioButtons = new RadioButton[3];
         radioButtons[0] = findViewById(R.id.animal_radio_1);
@@ -64,6 +67,7 @@ public class LakeARQuizActivity extends AppCompatActivity {
         radioButtons[2].setVisibility(View.GONE);
 
         submit.setVisibility(View.GONE);
+        progressBar.setVisibility(View.VISIBLE);
 
         if (questionCount == animals.size()) {
             questionCount = 0;
@@ -83,6 +87,7 @@ public class LakeARQuizActivity extends AppCompatActivity {
             radioButtons[2].setVisibility(View.VISIBLE);
 
             submit.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.GONE);
 
         }
 
@@ -148,12 +153,12 @@ public class LakeARQuizActivity extends AppCompatActivity {
                         radioButtons[2].setVisibility(View.VISIBLE);
 
                         submit.setVisibility(View.VISIBLE);
+                        progressBar.setVisibility(View.GONE);
                     }
 
                 }
             });
 
-            Toast.makeText(getApplicationContext(), "Ready", Toast.LENGTH_SHORT).show();
             collectionReference.get().addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {

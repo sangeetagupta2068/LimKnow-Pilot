@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Looper;
+import android.os.SystemClock;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
@@ -15,6 +16,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -60,6 +62,8 @@ public class LakeHealthActivity extends AppCompatActivity {
     private EditText editTextDeadFish, editTextLakeHealthProblem, editTextDeadAnimalDescription;
     private Button buttonLakeHealth, buttonUploadDeadAnimalImage;
     private TextView textViewDeadAnimalLabel, textViewDeadAnimalUploadImage;
+    private ProgressBar progressBar;
+    private Button buttonCancel;
 
     private ImageView imageViewSample;
 
@@ -80,6 +84,7 @@ public class LakeHealthActivity extends AppCompatActivity {
     private String currentPhotoPath;
     private Uri imageUri;
     private CollectionReference collectionReference;
+    private long lastClickTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +97,12 @@ public class LakeHealthActivity extends AppCompatActivity {
     }
 
     private void initialize() {
+        currentPhotoPath = "";
+        lakeWaterColor = "";
+        lakeHealthProblem = "";
+        deadAnimalDescription = "";
+        deadFish = "";
+
         radioGroup = findViewById(R.id.radio_group_lake_health);
         radioButtons = new RadioButton[4];
         radioButtons[0] = findViewById(R.id.radio_1);
@@ -117,12 +128,15 @@ public class LakeHealthActivity extends AppCompatActivity {
         textViewDeadAnimalUploadImage = findViewById(R.id.dead_animal_image_label);
 
         imageViewSample = findViewById(R.id.sample_image_view);
+        progressBar = findViewById(R.id.lake_health_connection_status);
+        buttonCancel = findViewById(R.id.button_lake_health_cancel);
 
         textViewDeadAnimalLabel.setVisibility(View.GONE);
         editTextDeadAnimalDescription.setVisibility(View.GONE);
         textViewDeadAnimalUploadImage.setVisibility(View.GONE);
         buttonUploadDeadAnimalImage.setVisibility(View.GONE);
         imageViewSample.setVisibility(View.GONE);
+        progressBar.setVisibility(View.GONE);
     }
 
     private void setListeners() {
@@ -164,53 +178,66 @@ public class LakeHealthActivity extends AppCompatActivity {
         buttonLakeHealth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getCurrentLocationSetup();
-                date = Calendar.getInstance().getTime();
-                deadFish = editTextDeadFish.getText().toString();
-                lakeHealthProblem = "";
-                if (checkBoxes[4].isChecked()) {
-                    lakeHealthProblem = editTextLakeHealthProblem.getText().toString() + ",";
+                if(lakeWaterColor.equals("") && lakeHealthProblem.equals("") && deadFish.equals("")) {
+                    Toast.makeText(getApplicationContext(), "Can't submit empty form", Toast.LENGTH_SHORT).show();
+                    return;
                 }
-                if (checkBoxes[3].isChecked()) {
-                    deadAnimalDescription = editTextDeadAnimalDescription.getText().toString();
-                }
-                for (int count = 0; count < 4; count++) {
-                    if (checkBoxes[count].isChecked()) {
-                        lakeHealthProblem = lakeHealthProblem + checkBoxes[count].getText().toString() + ",";
+                if( SystemClock.elapsedRealtime() - lastClickTime <1000)
+                    return;
+                else {
+                    progressBar.setVisibility(View.VISIBLE);
+                    getCurrentLocationSetup();
+                    date = Calendar.getInstance().getTime();
+                    deadFish = editTextDeadFish.getText().toString();
+                    lakeHealthProblem = "";
+                    if (checkBoxes[4].isChecked()) {
+                        lakeHealthProblem = editTextLakeHealthProblem.getText().toString() + ",";
                     }
-                }
-
-                File file = new File(currentPhotoPath);
-                imageUri = Uri.fromFile(file);
-                Toast.makeText(LakeHealthActivity.this,
-                        lakeHealthProblem
-                                + " "
-                                + deadFish
-                                + " "
-                                + lakeWaterColor + currentPhotoPath + String.valueOf(imageUri),
-                        Toast.LENGTH_SHORT).show();
-
-                final StorageReference storageReference = firebaseStorageReference.child("Dead Animals").child(imageUri.getLastPathSegment());
-                storageReference.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                            @Override
-                            public void onSuccess(Uri uri) {
-                                firebaseFirestoreTransaction(uri.toString());
-                                Toast.makeText(LakeHealthActivity.this, "Uploaded image url : " + uri.toString(), Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                        Toast.makeText(LakeHealthActivity.this, "Uploaded", Toast.LENGTH_SHORT).show();
+                    if (checkBoxes[3].isChecked()) {
+                        deadAnimalDescription = editTextDeadAnimalDescription.getText().toString();
                     }
-                });
-                storageReference.putFile(imageUri).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
+                    for (int count = 0; count < 4; count++) {
+                        if (checkBoxes[count].isChecked()) {
+                            lakeHealthProblem = lakeHealthProblem + checkBoxes[count].getText().toString() + ",";
+                        }
+                    }
+
+                    if (currentPhotoPath.equals("")){
                         firebaseFirestoreTransaction(null);
-                        Toast.makeText(LakeHealthActivity.this, "Upload failed", Toast.LENGTH_SHORT).show();
+                    return;
                     }
-                });
+
+                    File file = new File(currentPhotoPath);
+                    imageUri = Uri.fromFile(file);
+                    Toast.makeText(LakeHealthActivity.this,
+                            lakeHealthProblem
+                                    + " "
+                                    + deadFish
+                                    + " "
+                                    + lakeWaterColor + currentPhotoPath + String.valueOf(imageUri),
+                            Toast.LENGTH_SHORT).show();
+
+                    final StorageReference storageReference = firebaseStorageReference.child("Dead Animals").child(imageUri.getLastPathSegment());
+                    storageReference.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    firebaseFirestoreTransaction(uri.toString());
+                                }
+                            });
+                        }
+                    });
+                    storageReference.putFile(imageUri).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            firebaseFirestoreTransaction(null);
+                        }
+                    });
+
+                    lastClickTime = SystemClock.elapsedRealtime();
+                }
 
 
             }
@@ -225,6 +252,12 @@ public class LakeHealthActivity extends AppCompatActivity {
                 } else {
                     dispatchTakePictureIntent();
                 }
+            }
+        });
+        buttonCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
     }
@@ -341,6 +374,7 @@ public class LakeHealthActivity extends AppCompatActivity {
         collectionReference.document(id).set(documentData).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
+                progressBar.setVisibility(View.GONE);
                 Toast.makeText(getApplicationContext(), "Thank you for your response", Toast.LENGTH_LONG).show();
                 try {
                     Thread.sleep(50);
@@ -353,6 +387,7 @@ public class LakeHealthActivity extends AppCompatActivity {
         collectionReference.document(id).set(documentData).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
+                progressBar.setVisibility(View.GONE);
                 Toast.makeText(getApplicationContext(), "Couldn't add data! Try again!", Toast.LENGTH_LONG).show();
             }
         });

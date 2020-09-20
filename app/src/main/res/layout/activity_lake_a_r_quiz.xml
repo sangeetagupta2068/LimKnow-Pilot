@@ -14,6 +14,18 @@
         android:paddingBottom="100dp"
         android:orientation="vertical">
 
+        <ProgressBar
+            android:id="@+id/connection_status"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="320dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
             android:id="@+id/animal_ar_quiz_question"
             android:layout_width="match_parent"
@@ -60,11 +72,11 @@
             <RadioButton
                 android:id="@+id/animal_radio_3"
                 android:layout_width="wrap_content"
-                android:textSize="18sp"
-                android:textColor="@color/colorBlack"
+                android:layout_height="wrap_content"
                 android:fontFamily="@font/nunito"
                 android:text="Invasive Species 3"
-                android:layout_height="wrap_content"
+                android:textColor="@color/colorBlack"
+                android:textSize="18sp"
                 tools:layout_editor_absoluteX="-1dp"
                 tools:layout_editor_absoluteY="27dp" />
 
@@ -76,12 +88,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="30dp"
-            android:fontFamily="@font/lato"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="24dp"
             android:background="@drawable/large_button_style"
             android:elevation="20dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:fontFamily="@font/lato"
             android:text="Submit"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
             android:textColor="#fafafa"
             android:textSize="18sp"
             app:layout_constraintStart_toStartOf="parent"

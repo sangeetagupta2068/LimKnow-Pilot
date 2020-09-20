@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -36,6 +37,7 @@ public class MacrophyteListActivity extends AppCompatActivity {
     private List<Macrophyte> macrophytes = new ArrayList<>();
     private MacrophyteAdapter macrophyteAdapter;
     private ListView listView;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,6 +102,9 @@ public class MacrophyteListActivity extends AppCompatActivity {
         navigationView.setCheckedItem(R.id.macrophytes);
         macrophyteAdapter = new MacrophyteAdapter(this, macrophytes);
         listView = findViewById(R.id.macrophyte_list);
+        progressBar = findViewById(R.id.macrophyte_list_connection_status);
+        progressBar.setVisibility(View.VISIBLE);
+        listView.setVisibility(View.GONE);
 
         setFirebaseFirestoreTransaction();
 
@@ -148,6 +153,8 @@ public class MacrophyteListActivity extends AppCompatActivity {
 
                 macrophyteAdapter = new MacrophyteAdapter(getApplicationContext(), macrophytes);
                 listView.setAdapter(macrophyteAdapter);
+                listView.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.GONE);
             }
         });
         collectionReference.get().addOnFailureListener(new OnFailureListener() {

@@ -5,11 +5,13 @@ import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Looper;
+import android.os.SystemClock;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.location.LocationCallback;
@@ -38,6 +40,8 @@ public class GeneralCitizenScienceActivity extends AppCompatActivity {
     private EditText editTextBeelRelation, editTextFees, editTextPotentialLakeName;
     private CheckBox[] checkBoxes;
     private Button buttonGeneralCitizenScience;
+    private Button buttonCancel;
+    private ProgressBar progressBar;
 
     private String beelRelation, potentialFees, potentialLake, lakeName;
     private double latitude, longitude;
@@ -46,6 +50,7 @@ public class GeneralCitizenScienceActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private String userName, userEmailId;
     private FirebaseFirestore firebaseFirestore;
+    private long lastClickTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +67,9 @@ public class GeneralCitizenScienceActivity extends AppCompatActivity {
         editTextBeelRelation = findViewById(R.id.edit_text_other);
         editTextPotentialLakeName = findViewById(R.id.edit_text_lake);
         lakeName = "Deepor Beel";
+        beelRelation = "";
+        potentialFees = "";
+        potentialLake = "";
 
         checkBoxes = new CheckBox[7];
         checkBoxes[0] = findViewById(R.id.checkbox_1);
@@ -73,6 +81,10 @@ public class GeneralCitizenScienceActivity extends AppCompatActivity {
         checkBoxes[6] = findViewById(R.id.checkbox_7);
 
         buttonGeneralCitizenScience = findViewById(R.id.button_general);
+        buttonCancel = findViewById(R.id.button_general_cancel);
+        progressBar = findViewById(R.id.general_citizen_science_connection_status);
+
+        progressBar.setVisibility(View.GONE);
     }
 
     @SuppressLint("MissingPermission")
@@ -121,8 +133,15 @@ public class GeneralCitizenScienceActivity extends AppCompatActivity {
         buttonGeneralCitizenScience.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(beelRelation.equals("")  && potentialFees.equals("") && potentialLake.equals("")){
+                    Toast.makeText(getApplicationContext(),"Can't submit empty form",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if( SystemClock.elapsedRealtime() - lastClickTime <1000)
+                    return;
+                progressBar.setVisibility(View.VISIBLE);
                 getCurrentLocationSetup();
-
+                lastClickTime = SystemClock.elapsedRealtime();
                 date = Calendar.getInstance().getTime();
                 beelRelation = "";
                 potentialFees = editTextFees.getText().toString();
@@ -136,6 +155,13 @@ public class GeneralCitizenScienceActivity extends AppCompatActivity {
                 }
                 potentialLake = editTextPotentialLakeName.getText().toString();
                 firebaseFirestoreTransaction();
+            }
+        });
+
+        buttonCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
     }
@@ -206,6 +232,7 @@ public class GeneralCitizenScienceActivity extends AppCompatActivity {
         collectionReference.document(id).set(documentData).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
+                progressBar.setVisibility(View.GONE);
                 Toast.makeText(getApplicationContext(), "Thank you for your response", Toast.LENGTH_LONG).show();
                 try {
                     Thread.sleep(50);
@@ -218,6 +245,7 @@ public class GeneralCitizenScienceActivity extends AppCompatActivity {
         collectionReference.document(id).set(documentData).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
+                progressBar.setVisibility(View.GONE);
                 Toast.makeText(getApplicationContext(), "Couldn't add data! Try again!", Toast.LENGTH_LONG).show();
             }
         });
