@@ -10,27 +10,28 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".HomeActivity">
+        <activity android:name=".HomeActivity" android:screenOrientation="portrait">
 
         </activity>
-        <activity android:name=".BestShotActivity" android:parentActivityName=".CitizenScienceActivity"/>
-        <activity android:name=".LakeARQuizActivity" android:parentActivityName=".HomeActivity"/>
-        <activity android:name=".LakeActivity" android:parentActivityName=".HomeActivity" />
+        <activity android:name=".BestShotActivity" android:parentActivityName=".CitizenScienceActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".LakeARQuizActivity" android:parentActivityName=".HomeActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".LakeActivity" android:parentActivityName=".HomeActivity" android:screenOrientation="portrait" />
         <activity
             android:name=".ARAnimalItemActivity"
-            android:parentActivityName=".HomeActivity" />
-        <activity android:name=".LakeARActivity" android:parentActivityName=".HomeActivity"/>
-        <activity android:name=".InvasiveSpeciesWatchActivity" android:parentActivityName=".CitizenScienceActivity" />
-        <activity android:name=".LakeHealthActivity" android:parentActivityName=".CitizenScienceActivity" />
-        <activity android:name=".GeneralCitizenScienceActivity" android:parentActivityName=".CitizenScienceActivity" />
+            android:parentActivityName=".HomeActivity" android:screenOrientation="portrait" />
+        <activity android:name=".LakeARActivity" android:parentActivityName=".HomeActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".InvasiveSpeciesWatchActivity" android:parentActivityName=".CitizenScienceActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".LakeHealthActivity" android:parentActivityName=".CitizenScienceActivity" android:screenOrientation="portrait" />
+        <activity android:name=".GeneralCitizenScienceActivity" android:parentActivityName=".CitizenScienceActivity" android:screenOrientation="portrait"/>
         <activity
             android:name=".MacrophyteItemActivity"
-            android:parentActivityName=".MacrophyteListActivity" />
-        <activity android:name=".MacrophyteListActivity" android:parentActivityName=".HomeActivity"/>
+            android:parentActivityName=".MacrophyteListActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".MacrophyteListActivity" android:parentActivityName=".HomeActivity" android:screenOrientation="portrait"/>
         <activity
             android:name=".CitizenScienceActivity"
+            android:screenOrientation="portrait"
             android:parentActivityName=".HomeActivity"/>
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

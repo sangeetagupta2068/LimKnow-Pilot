@@ -78,7 +78,15 @@ public class ARAnimalItemActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (LakeARQuizActivity.questionCount == LakeARQuizActivity.animals.size()) {
                     LakeARQuizActivity.animals.clear();
-                    Toast.makeText(getApplicationContext(), "Done!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "You completed Lake 3D experience!", Toast.LENGTH_SHORT).show();
+                    try {
+                        Thread.sleep(50);
+                    } catch (InterruptedException ex) {
+                        ex.printStackTrace();
+                    }
+                    Intent intent = new Intent(ARAnimalItemActivity.this, HomeActivity.class);
+                    startActivity(intent);
+                    finish();
                 } else {
                     Intent intent = new Intent(ARAnimalItemActivity.this, LakeARQuizActivity.class);
                     startActivity(intent);

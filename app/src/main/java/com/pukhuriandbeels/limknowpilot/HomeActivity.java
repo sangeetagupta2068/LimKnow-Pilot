@@ -12,9 +12,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -22,14 +24,28 @@ public class HomeActivity extends AppCompatActivity {
     private NavigationView navigationView;
     private Toolbar toolbar;
     private CardView[] cardViews;
+    private TextView userNameTextView, userEmailTextView;
+
+    private String userName, userEmail;
+    private FirebaseAuth firebaseAuth;
+    private View header;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        userName = "";
+        userEmail = "";
+        setFirebaseAuthorizedUser();
 
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.navigation_view);
+        header = navigationView.getHeaderView(0);
+        userNameTextView = header.findViewById(R.id.user_name);
+        userEmailTextView = header.findViewById(R.id.user_email);
+
+        userEmailTextView.setText(userEmail);
+        userNameTextView.setText(userName);
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -82,6 +98,7 @@ public class HomeActivity extends AppCompatActivity {
                         break;
 
                 }
+                navigationView.setCheckedItem(R.id.home);
                 drawerLayout.closeDrawer(GravityCompat.START);
                 return true;
             }
@@ -137,6 +154,17 @@ public class HomeActivity extends AppCompatActivity {
             intent.addCategory(Intent.CATEGORY_HOME);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
+            finish();
+        }
+    }
+
+    private void setFirebaseAuthorizedUser(){
+        firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+
+        if(firebaseUser!=null){
+            userEmail = firebaseUser.getEmail();
+            userName = firebaseUser.getDisplayName();
         }
     }
 }

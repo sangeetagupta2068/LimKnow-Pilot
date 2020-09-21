@@ -29,7 +29,7 @@ public class Animal implements Serializable {
         this.animalThreat = animalThreat;
         this.animalWaterbodyAssociation = animalWaterbodyAssociation;
 
-        this.animalScale = 0.5f;
+        this.animalScale = 0.05f;
 
         this.associatedQuestion = associatedQuestion;
         this.optionOne = optionOne;

@@ -193,8 +193,8 @@ public class LakeHealthActivity extends AppCompatActivity {
                     }
                     if (checkBoxes[3].isChecked()) {
                         deadAnimalDescription = editTextDeadAnimalDescription.getText().toString();
-                        if(deadAnimalDescription.equals("") || currentPhotoPath.equals("")){
-                            Toast.makeText(getApplicationContext(),"Please share photo/dead animal description", Toast.LENGTH_SHORT).show();
+                        if(deadAnimalDescription.equals("") && currentPhotoPath.equals("")){
+                            Toast.makeText(getApplicationContext(),"Please share dead animal description/picture", Toast.LENGTH_SHORT).show();
                             return;
                         }
                     }

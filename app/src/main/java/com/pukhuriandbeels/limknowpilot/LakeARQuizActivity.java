@@ -36,8 +36,12 @@ public class LakeARQuizActivity extends AppCompatActivity {
     private RadioButton[] radioButtons;
     private Button submit;
     private ProgressBar progressBar;
+    private TextView textViewAnswer;
+
+    private String answer;
 
     private FirebaseAuth firebaseAuth;
+    private Button buttonCancel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +52,8 @@ public class LakeARQuizActivity extends AppCompatActivity {
     }
 
     private void initialize() {
+        answer = "";
+
         questionTextView = findViewById(R.id.animal_ar_quiz_question);
         questionRadioGroup = findViewById(R.id.animal_ar_radio_group);
         progressBar = findViewById(R.id.connection_status);
@@ -57,7 +63,10 @@ public class LakeARQuizActivity extends AppCompatActivity {
         radioButtons[1] = findViewById(R.id.animal_radio_2);
         radioButtons[2] = findViewById(R.id.animal_radio_3);
 
+        textViewAnswer = findViewById(R.id.answer);
+
         submit = findViewById(R.id.button_animal_ar);
+        buttonCancel = findViewById(R.id.button_animal_ar_cancel);
 
         questionTextView.setVisibility(View.GONE);
         questionRadioGroup.setVisibility(View.GONE);
@@ -65,8 +74,12 @@ public class LakeARQuizActivity extends AppCompatActivity {
         radioButtons[0].setVisibility(View.GONE);
         radioButtons[1].setVisibility(View.GONE);
         radioButtons[2].setVisibility(View.GONE);
+        textViewAnswer.setVisibility(View.GONE);
 
+        submit.setText("Submit");
         submit.setVisibility(View.GONE);
+        buttonCancel.setVisibility(View.GONE);
+
         progressBar.setVisibility(View.VISIBLE);
 
         if (questionCount == animals.size()) {
@@ -87,6 +100,7 @@ public class LakeARQuizActivity extends AppCompatActivity {
             radioButtons[2].setVisibility(View.VISIBLE);
 
             submit.setVisibility(View.VISIBLE);
+            buttonCancel.setVisibility(View.VISIBLE);
             progressBar.setVisibility(View.GONE);
 
         }
@@ -94,8 +108,46 @@ public class LakeARQuizActivity extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(LakeARQuizActivity.this, LakeARActivity.class);
+                if(submit.getText().toString().equalsIgnoreCase("submit")) {
+                    if (answer.equalsIgnoreCase(animals.get(questionCount).getAnimalCommonName())) {
+                        textViewAnswer.setText("Congratulations! Your answer is correct.");
+                        textViewAnswer.setTextColor(getResources().getColor(R.color.colorAccentGreen));
+                        textViewAnswer.setVisibility(View.VISIBLE);
+                    } else {
+                        textViewAnswer.setText(String.format("No worries.The correct answer is: %s", animals.get(questionCount).getAnimalCommonName()));
+                        textViewAnswer.setTextColor(getResources().getColor(R.color.colorKingFisherOrange));
+                        textViewAnswer.setVisibility(View.VISIBLE);
+                    }
+                    submit.setText("Experience 3D " + animals.get(questionCount).getAnimalCommonName());
+                } else if(submit.getText().toString().equalsIgnoreCase("Experience 3D " + animals.get(questionCount).getAnimalCommonName())){
+                    Intent intent = new Intent(LakeARQuizActivity.this, LakeARActivity.class);
+                    startActivity(intent);
+                }
+            }
+        });
+
+        questionRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                RadioButton radioButton = findViewById(questionRadioGroup.getCheckedRadioButtonId());
+                answer = radioButton.getText().toString();
+            }
+        });
+
+        buttonCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                questionCount = 0;
+                animals.clear();
+                Toast.makeText(getApplicationContext(),"See you soon!",Toast.LENGTH_SHORT).show();
+                try {
+                    Thread.sleep(50);
+                } catch (InterruptedException ex) {
+                    ex.printStackTrace();
+                }
+                Intent intent = new Intent(LakeARQuizActivity.this, HomeActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
     }
@@ -137,8 +189,10 @@ public class LakeARQuizActivity extends AppCompatActivity {
                             animal.setAnimalScale(0.5f);
                         else if (animal.getAnimalCommonName().equals("Sambar Deer"))
                             animal.setAnimalScale(0.03f);
-                        else if (animal.getAnimalCommonName().equals("Black winged stilt"))
-                            animal.setAnimalScale(0.06f);
+//                        else if (animal.getAnimalCommonName().equals("Black winged stilt"))
+//                            animal.setAnimalScale(0.05f);
+                        else if(animal.getAnimalCommonName().equalsIgnoreCase("Spotbilled Pelican"))
+                            animal.setAnimalScale(0.07f);
 
                         questionTextView.setText(animals.get(questionCount).getAssociatedQuestion());
                         radioButtons[0].setText(animals.get(questionCount).getOptionOne());
@@ -153,6 +207,7 @@ public class LakeARQuizActivity extends AppCompatActivity {
                         radioButtons[2].setVisibility(View.VISIBLE);
 
                         submit.setVisibility(View.VISIBLE);
+                        buttonCancel.setVisibility(View.VISIBLE);
                         progressBar.setVisibility(View.GONE);
                     }
 

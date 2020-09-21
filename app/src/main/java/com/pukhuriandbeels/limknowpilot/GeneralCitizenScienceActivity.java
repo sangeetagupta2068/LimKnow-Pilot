@@ -140,7 +140,12 @@ public class GeneralCitizenScienceActivity extends AppCompatActivity {
                 beelRelation = "";
                 potentialFees = editTextFees.getText().toString();
                 if (checkBoxes[6].isChecked()) {
-                    beelRelation = editTextBeelRelation.getText().toString() + ",";
+                    beelRelation = editTextBeelRelation.getText().toString();
+                    if(beelRelation.equals("")){
+                        Toast.makeText(getApplicationContext(),"Please enter other relation to beel",Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    beelRelation = beelRelation + ",";
                 }
 
                 for (int count = 0; count < 6; count++) {

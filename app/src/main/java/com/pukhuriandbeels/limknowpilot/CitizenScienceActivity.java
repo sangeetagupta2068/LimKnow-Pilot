@@ -5,9 +5,11 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -23,14 +25,25 @@ public class CitizenScienceActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private Toolbar toolbar;
+    private String userEmail, userName;
+    private FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_citizen_science);
+        userName = "";
+        userEmail = "";
+        setFirebaseAuthorizedUser();
 
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.navigation_view);
+        View header = navigationView.getHeaderView(0);
+        TextView userNameTextView = header.findViewById(R.id.user_name);
+        TextView userEmailTextView = header.findViewById(R.id.user_email);
+
+        userEmailTextView.setText(userEmail);
+        userNameTextView.setText(userName);
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -132,6 +145,16 @@ public class CitizenScienceActivity extends AppCompatActivity {
             drawerLayout.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
+        }
+    }
+
+    private void setFirebaseAuthorizedUser(){
+        firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+
+        if(firebaseUser!=null){
+            userEmail = firebaseUser.getEmail();
+            userName = firebaseUser.getDisplayName();
         }
     }
 }

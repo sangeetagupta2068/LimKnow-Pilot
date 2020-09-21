@@ -135,18 +135,18 @@ public class BestShotActivity extends AppCompatActivity {
                     return;
                 }
 
-                if(flag){
-                    Toast.makeText(getApplicationContext(),"Please upload picture",Toast.LENGTH_SHORT).show();
+                if(type.equals("")){
+                    Toast.makeText(getApplicationContext(),"Please select a type",Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                if(name.equals("Other") && other.equals("")){
+                if(type.equals("Other") && other.equals("")){
                     Toast.makeText(getApplicationContext(),"Please mention other applicable type",Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                if(type.equals("")){
-                    Toast.makeText(getApplicationContext(),"Please select a type",Toast.LENGTH_SHORT).show();
+                if(flag){
+                    Toast.makeText(getApplicationContext(),"Please upload picture",Toast.LENGTH_SHORT).show();
                     return;
                 }
 

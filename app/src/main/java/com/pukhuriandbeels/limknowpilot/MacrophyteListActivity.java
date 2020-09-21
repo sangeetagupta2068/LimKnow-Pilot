@@ -8,12 +8,14 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -38,14 +40,25 @@ public class MacrophyteListActivity extends AppCompatActivity {
     private MacrophyteAdapter macrophyteAdapter;
     private ListView listView;
     private ProgressBar progressBar;
+    private String userEmail, userName;
+    private FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_macrophyte_list);
+        userName = "";
+        userEmail = "";
+        setFirebaseAuthorizedUser();
 
         drawerLayout = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.navigation_view);
+        View header = navigationView.getHeaderView(0);
+        TextView userNameTextView = header.findViewById(R.id.user_name);
+        TextView userEmailTextView = header.findViewById(R.id.user_email);
+
+        userEmailTextView.setText(userEmail);
+        userNameTextView.setText(userName);
 
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -128,8 +141,18 @@ public class MacrophyteListActivity extends AppCompatActivity {
         }
     }
 
+    private void setFirebaseAuthorizedUser(){
+        firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+
+        if(firebaseUser!=null){
+            userEmail = firebaseUser.getEmail();
+            userName = firebaseUser.getDisplayName();
+        }
+    }
+
     private void setFirebaseFirestoreTransaction() {
-        FirebaseAuth.getInstance();
+
         FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
         CollectionReference collectionReference = firebaseFirestore.collection("Macrophytes");
 
