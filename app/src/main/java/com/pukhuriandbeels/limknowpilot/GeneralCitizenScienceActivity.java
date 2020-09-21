@@ -133,7 +133,7 @@ public class GeneralCitizenScienceActivity extends AppCompatActivity {
         buttonGeneralCitizenScience.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if( SystemClock.elapsedRealtime() - lastClickTime <1000)
+                if (SystemClock.elapsedRealtime() - lastClickTime < 1000)
                     return;
                 getCurrentLocationSetup();
                 date = Calendar.getInstance().getTime();
@@ -141,8 +141,8 @@ public class GeneralCitizenScienceActivity extends AppCompatActivity {
                 potentialFees = editTextFees.getText().toString();
                 if (checkBoxes[6].isChecked()) {
                     beelRelation = editTextBeelRelation.getText().toString();
-                    if(beelRelation.equals("")){
-                        Toast.makeText(getApplicationContext(),"Please enter other relation to beel",Toast.LENGTH_SHORT).show();
+                    if (beelRelation.equals("")) {
+                        Toast.makeText(getApplicationContext(), "Please enter other relation to beel", Toast.LENGTH_SHORT).show();
                         return;
                     }
                     beelRelation = beelRelation + ",";
@@ -154,8 +154,8 @@ public class GeneralCitizenScienceActivity extends AppCompatActivity {
                 }
                 potentialLake = editTextPotentialLakeName.getText().toString();
 
-                if(beelRelation.equals("")  && potentialFees.equals("") && potentialLake.equals("")){
-                    Toast.makeText(getApplicationContext(),"Can't submit empty form",Toast.LENGTH_SHORT).show();
+                if (beelRelation.equals("") && potentialFees.equals("") && potentialLake.equals("")) {
+                    Toast.makeText(getApplicationContext(), "Can't submit empty form", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 lastClickTime = SystemClock.elapsedRealtime();

@@ -1,13 +1,5 @@
 package com.pukhuriandbeels.limknowpilot;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.cardview.widget.CardView;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -17,6 +9,14 @@ import android.widget.TextView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -78,7 +78,7 @@ public class HomeActivity extends AppCompatActivity {
                         startActivity(lakeARIntent);
                         break;
                     case R.id.reporting:
-                        Intent intentCitizenScience = new Intent(HomeActivity.this,CitizenScienceActivity.class);
+                        Intent intentCitizenScience = new Intent(HomeActivity.this, CitizenScienceActivity.class);
                         startActivity(intentCitizenScience);
                         break;
 
@@ -95,6 +95,17 @@ public class HomeActivity extends AppCompatActivity {
                     case R.id.share:
                         break;
                     case R.id.contact_us:
+                        Intent contactIntent = new Intent(Intent.ACTION_SEND);
+
+                        contactIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"limknow2020@gmail.com"});
+                        contactIntent.putExtra(Intent.EXTRA_SUBJECT, "Query from " + userName);
+
+                        contactIntent.setType("message/rfc822");
+                        contactIntent.setPackage("com.google.android.gm");
+
+                        if (contactIntent.resolveActivity(getPackageManager()) != null) {
+                            startActivity(contactIntent);
+                        }
                         break;
 
                 }
@@ -114,7 +125,7 @@ public class HomeActivity extends AppCompatActivity {
         cardViews[0].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(HomeActivity.this,LakeARQuizActivity.class);
+                Intent intent = new Intent(HomeActivity.this, LakeARQuizActivity.class);
                 startActivity(intent);
             }
         });
@@ -122,7 +133,7 @@ public class HomeActivity extends AppCompatActivity {
         cardViews[1].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(HomeActivity.this,MacrophyteListActivity.class);
+                Intent intent = new Intent(HomeActivity.this, MacrophyteListActivity.class);
                 startActivity(intent);
             }
         });
@@ -158,11 +169,11 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
-    private void setFirebaseAuthorizedUser(){
+    private void setFirebaseAuthorizedUser() {
         firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
 
-        if(firebaseUser!=null){
+        if (firebaseUser != null) {
             userEmail = firebaseUser.getEmail();
             userName = firebaseUser.getDisplayName();
         }

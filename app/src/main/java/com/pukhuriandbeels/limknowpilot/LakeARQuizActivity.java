@@ -108,7 +108,7 @@ public class LakeARQuizActivity extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(submit.getText().toString().equalsIgnoreCase("submit")) {
+                if (submit.getText().toString().equalsIgnoreCase("submit")) {
                     if (answer.equalsIgnoreCase(animals.get(questionCount).getAnimalCommonName())) {
                         textViewAnswer.setText("Congratulations! Your answer is correct.");
                         textViewAnswer.setTextColor(getResources().getColor(R.color.colorAccentGreen));
@@ -119,7 +119,7 @@ public class LakeARQuizActivity extends AppCompatActivity {
                         textViewAnswer.setVisibility(View.VISIBLE);
                     }
                     submit.setText("Experience 3D " + animals.get(questionCount).getAnimalCommonName());
-                } else if(submit.getText().toString().equalsIgnoreCase("Experience 3D " + animals.get(questionCount).getAnimalCommonName())){
+                } else if (submit.getText().toString().equalsIgnoreCase("Experience 3D " + animals.get(questionCount).getAnimalCommonName())) {
                     Intent intent = new Intent(LakeARQuizActivity.this, LakeARActivity.class);
                     startActivity(intent);
                 }
@@ -139,7 +139,7 @@ public class LakeARQuizActivity extends AppCompatActivity {
             public void onClick(View v) {
                 questionCount = 0;
                 animals.clear();
-                Toast.makeText(getApplicationContext(),"See you soon!",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "See you soon!", Toast.LENGTH_SHORT).show();
                 try {
                     Thread.sleep(50);
                 } catch (InterruptedException ex) {
@@ -191,7 +191,7 @@ public class LakeARQuizActivity extends AppCompatActivity {
                             animal.setAnimalScale(0.03f);
 //                        else if (animal.getAnimalCommonName().equals("Black winged stilt"))
 //                            animal.setAnimalScale(0.05f);
-                        else if(animal.getAnimalCommonName().equalsIgnoreCase("Spotbilled Pelican"))
+                        else if (animal.getAnimalCommonName().equalsIgnoreCase("Spotbilled Pelican"))
                             animal.setAnimalScale(0.07f);
 
                         questionTextView.setText(animals.get(questionCount).getAssociatedQuestion());

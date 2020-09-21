@@ -10,30 +10,60 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".HomeActivity" android:screenOrientation="portrait">
-
-        </activity>
-        <activity android:name=".BestShotActivity" android:parentActivityName=".CitizenScienceActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".LakeARQuizActivity" android:parentActivityName=".HomeActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".LakeActivity" android:parentActivityName=".HomeActivity" android:screenOrientation="portrait" />
+        <activity android:name=".UserProfileActivity"></activity>
+        <activity
+            android:name=".HomeActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".BestShotActivity"
+            android:parentActivityName=".CitizenScienceActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".LakeARQuizActivity"
+            android:parentActivityName=".HomeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".LakeActivity"
+            android:parentActivityName=".HomeActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ARAnimalItemActivity"
-            android:parentActivityName=".HomeActivity" android:screenOrientation="portrait" />
-        <activity android:name=".LakeARActivity" android:parentActivityName=".HomeActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".InvasiveSpeciesWatchActivity" android:parentActivityName=".CitizenScienceActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".LakeHealthActivity" android:parentActivityName=".CitizenScienceActivity" android:screenOrientation="portrait" />
-        <activity android:name=".GeneralCitizenScienceActivity" android:parentActivityName=".CitizenScienceActivity" android:screenOrientation="portrait"/>
+            android:parentActivityName=".HomeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".LakeARActivity"
+            android:parentActivityName=".HomeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".InvasiveSpeciesWatchActivity"
+            android:parentActivityName=".CitizenScienceActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".LakeHealthActivity"
+            android:parentActivityName=".CitizenScienceActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".GeneralCitizenScienceActivity"
+            android:parentActivityName=".CitizenScienceActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".MacrophyteItemActivity"
-            android:parentActivityName=".MacrophyteListActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".MacrophyteListActivity" android:parentActivityName=".HomeActivity" android:screenOrientation="portrait"/>
+            android:parentActivityName=".MacrophyteListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".MacrophyteListActivity"
+            android:parentActivityName=".HomeActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".CitizenScienceActivity"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".HomeActivity"/>
-        <activity android:name=".MainActivity" android:screenOrientation="portrait">
+            android:parentActivityName=".HomeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -56,18 +86,18 @@
         </provider>
     </application>
     <uses-feature
-        android:name="android.hardware.camera.ar"
+        android:glEsVersion="0x00030000"
         android:required="true" />
 
     <uses-feature
-        android:glEsVersion="0x00030000"
+        android:name="android.hardware.camera.ar"
         android:required="true" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
     <uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
 </manifest>

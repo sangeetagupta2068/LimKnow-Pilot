@@ -9,7 +9,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -104,6 +103,18 @@ public class MacrophyteListActivity extends AppCompatActivity {
                     case R.id.share:
                         break;
                     case R.id.contact_us:
+                        Intent contactIntent = new Intent(Intent.ACTION_SEND);
+
+                        contactIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"limknow2020@gmail.com"});
+                        contactIntent.putExtra(Intent.EXTRA_SUBJECT, "Query from " + userName);
+
+                        contactIntent.setType("message/rfc822");
+                        contactIntent.setPackage("com.google.android.gm");
+
+                        if (contactIntent.resolveActivity(getPackageManager()) != null) {
+                            startActivity(contactIntent);
+                        }
+
                         break;
 
                 }
@@ -141,11 +152,11 @@ public class MacrophyteListActivity extends AppCompatActivity {
         }
     }
 
-    private void setFirebaseAuthorizedUser(){
+    private void setFirebaseAuthorizedUser() {
         firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
 
-        if(firebaseUser!=null){
+        if (firebaseUser != null) {
             userEmail = firebaseUser.getEmail();
             userName = firebaseUser.getDisplayName();
         }

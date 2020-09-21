@@ -28,7 +28,6 @@ import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.ar.core.Config;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -176,7 +175,7 @@ public class LakeHealthActivity extends AppCompatActivity {
         buttonLakeHealth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if( SystemClock.elapsedRealtime() - lastClickTime <1000)
+                if (SystemClock.elapsedRealtime() - lastClickTime < 1000)
                     return;
                 else {
                     getCurrentLocationSetup();
@@ -185,16 +184,16 @@ public class LakeHealthActivity extends AppCompatActivity {
                     lakeHealthProblem = "";
                     if (checkBoxes[4].isChecked()) {
                         lakeHealthProblem = editTextLakeHealthProblem.getText().toString();
-                        if(lakeHealthProblem.equals("")){
-                            Toast.makeText(getApplicationContext(),"Please share other lake health problem",Toast.LENGTH_SHORT).show();
+                        if (lakeHealthProblem.equals("")) {
+                            Toast.makeText(getApplicationContext(), "Please share other lake health problem", Toast.LENGTH_SHORT).show();
                             return;
                         }
                         lakeHealthProblem = lakeHealthProblem + ",";
                     }
                     if (checkBoxes[3].isChecked()) {
                         deadAnimalDescription = editTextDeadAnimalDescription.getText().toString();
-                        if(deadAnimalDescription.equals("") && currentPhotoPath.equals("")){
-                            Toast.makeText(getApplicationContext(),"Please share dead animal description/picture", Toast.LENGTH_SHORT).show();
+                        if (deadAnimalDescription.equals("") && currentPhotoPath.equals("")) {
+                            Toast.makeText(getApplicationContext(), "Please share dead animal description/picture", Toast.LENGTH_SHORT).show();
                             return;
                         }
                     }
@@ -204,16 +203,16 @@ public class LakeHealthActivity extends AppCompatActivity {
                         }
                     }
 
-                    if(lakeWaterColor.equals("") && lakeHealthProblem.equals("") && deadFish.equals("")) {
+                    if (lakeWaterColor.equals("") && lakeHealthProblem.equals("") && deadFish.equals("")) {
                         Toast.makeText(getApplicationContext(), "Can't submit empty form", Toast.LENGTH_SHORT).show();
                         return;
                     }
 
                     progressBar.setVisibility(View.VISIBLE);
 
-                    if (currentPhotoPath.equals("")){
+                    if (currentPhotoPath.equals("")) {
                         firebaseFirestoreTransaction(null);
-                    return;
+                        return;
                     }
 
                     File file = new File(currentPhotoPath);

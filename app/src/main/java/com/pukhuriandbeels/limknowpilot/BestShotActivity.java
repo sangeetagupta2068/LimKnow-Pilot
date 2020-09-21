@@ -28,7 +28,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -130,32 +129,32 @@ public class BestShotActivity extends AppCompatActivity {
                 observedOn = editTextObservedOn.getText().toString();
                 other = editTextOther.getText().toString();
 
-                if(name.equals("") && observedOn.equals("") && flag && type.equals("")){
-                    Toast.makeText(getApplicationContext(),"Can't submit empty form.",Toast.LENGTH_SHORT).show();
+                if (name.equals("") && observedOn.equals("") && flag && type.equals("")) {
+                    Toast.makeText(getApplicationContext(), "Can't submit empty form.", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                if(type.equals("")){
-                    Toast.makeText(getApplicationContext(),"Please select a type",Toast.LENGTH_SHORT).show();
+                if (type.equals("")) {
+                    Toast.makeText(getApplicationContext(), "Please select a type", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                if(type.equals("Other") && other.equals("")){
-                    Toast.makeText(getApplicationContext(),"Please mention other applicable type",Toast.LENGTH_SHORT).show();
+                if (type.equals("Other") && other.equals("")) {
+                    Toast.makeText(getApplicationContext(), "Please mention other applicable type", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                if(flag){
-                    Toast.makeText(getApplicationContext(),"Please upload picture",Toast.LENGTH_SHORT).show();
+                if (flag) {
+                    Toast.makeText(getApplicationContext(), "Please upload picture", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                if(name.equals("") && observedOn.equals("")){
-                    Toast.makeText(getApplicationContext(),"Please fill in both photographer and observed on field",Toast.LENGTH_SHORT).show();
+                if (name.equals("") && observedOn.equals("")) {
+                    Toast.makeText(getApplicationContext(), "Please fill in both photographer and observed on field", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                if( SystemClock.elapsedRealtime() - lastClickTime <1000)
+                if (SystemClock.elapsedRealtime() - lastClickTime < 1000)
                     return;
 
                 lastClickTime = SystemClock.elapsedRealtime();
@@ -187,7 +186,7 @@ public class BestShotActivity extends AppCompatActivity {
         radioButtons[7].setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked)
+                if (isChecked)
                     editTextOther.setVisibility(View.VISIBLE);
                 else
                     editTextOther.setVisibility(View.GONE);
@@ -250,17 +249,17 @@ public class BestShotActivity extends AppCompatActivity {
         userEmailId = firebaseUser.getEmail();
     }
 
-    private void firebaseFirestoreTransaction(@Nullable Object uri){
+    private void firebaseFirestoreTransaction(@Nullable Object uri) {
         final Map<String, Object> documentData = new HashMap<>();
         documentData.put("name", userName);
         documentData.put("email", userEmailId);
         documentData.put("observed_on", observedOn);
         documentData.put("photographed_by", name);
         documentData.put("type", type);
-        if(!other.equals(""))
-            documentData.put("other_type",other);
-        if(uri!=null)
-            documentData.put("uploaded_image_url",uri);
+        if (!other.equals(""))
+            documentData.put("other_type", other);
+        if (uri != null)
+            documentData.put("uploaded_image_url", uri);
 
         String id = collectionReference.document().getId();
 

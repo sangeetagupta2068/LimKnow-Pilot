@@ -205,8 +205,8 @@ public class InvasiveSpeciesWatchActivity extends AppCompatActivity {
                     return;
                 }
 
-                if(invasiveSpeciesName.equals("Other") && currentPhotoPath.equals("")){
-                    Toast.makeText(getApplicationContext(),"Please upload picture",Toast.LENGTH_SHORT).show();
+                if (invasiveSpeciesName.equals("Other") && currentPhotoPath.equals("")) {
+                    Toast.makeText(getApplicationContext(), "Please upload picture", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (SystemClock.elapsedRealtime() - lastClickTime < 1000)
