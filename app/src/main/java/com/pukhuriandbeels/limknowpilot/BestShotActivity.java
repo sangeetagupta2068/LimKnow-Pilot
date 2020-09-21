@@ -6,12 +6,14 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -45,6 +47,9 @@ public class BestShotActivity extends AppCompatActivity {
     private RadioButton[] radioButtons;
     private RadioGroup radioGroup;
     private EditText editTextOther, editTextName, editTextObservedOn;
+    private ProgressBar progressBar;
+    private Button buttonCancel;
+
     private String other, name, observedOn, type;
     private String userName, userEmailId;
     private FirebaseAuth firebaseAuth;
@@ -52,6 +57,8 @@ public class BestShotActivity extends AppCompatActivity {
     private Uri filePath;
     private CollectionReference collectionReference;
     private StorageReference firebaseStorageReference;
+    private boolean flag;
+    private long lastClickTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +70,11 @@ public class BestShotActivity extends AppCompatActivity {
     }
 
     private void initailize() {
+        name = "";
+        observedOn = "";
+        type = "";
+        flag = true;
+
         buttonUpload = findViewById(R.id.button_upload_shot);
         imageView = findViewById(R.id.sample_image_view_best_shot);
 
@@ -81,10 +93,14 @@ public class BestShotActivity extends AppCompatActivity {
         editTextName = findViewById(R.id.edit_text_best_shot_name);
         editTextObservedOn = findViewById(R.id.edit_text_best_shot_observed_on);
 
+        progressBar = findViewById(R.id.best_shot_connection_status);
+
         buttonSubmit = findViewById(R.id.button_best_shot);
+        buttonCancel = findViewById(R.id.button_best_shot_cancel);
 
         editTextOther.setVisibility(View.GONE);
         imageView.setVisibility(View.GONE);
+        progressBar.setVisibility(View.GONE);
     }
 
     private void setListeners() {
@@ -114,6 +130,36 @@ public class BestShotActivity extends AppCompatActivity {
                 observedOn = editTextObservedOn.getText().toString();
                 other = editTextOther.getText().toString();
 
+                if(name.equals("") && observedOn.equals("") && flag && type.equals("")){
+                    Toast.makeText(getApplicationContext(),"Can't submit empty form.",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if(flag){
+                    Toast.makeText(getApplicationContext(),"Please upload picture",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if(name.equals("Other") && other.equals("")){
+                    Toast.makeText(getApplicationContext(),"Please mention other applicable type",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if(type.equals("")){
+                    Toast.makeText(getApplicationContext(),"Please select a type",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if(name.equals("") && observedOn.equals("")){
+                    Toast.makeText(getApplicationContext(),"Please fill in both photographer and observed on field",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if( SystemClock.elapsedRealtime() - lastClickTime <1000)
+                    return;
+
+                lastClickTime = SystemClock.elapsedRealtime();
+                progressBar.setVisibility(View.VISIBLE);
                 final StorageReference storageReference = firebaseStorageReference.child("Reported Invasive Species").child(filePath.toString());
                 storageReference.putFile(filePath).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
@@ -122,21 +168,19 @@ public class BestShotActivity extends AppCompatActivity {
                             @Override
                             public void onSuccess(Uri uri) {
                                 firebaseFirestoreTransaction(uri.toString());
-                                Toast.makeText(BestShotActivity.this, "Uploaded image url : " + uri.toString(), Toast.LENGTH_SHORT).show();
+                                flag = true;
                             }
                         });
-                        Toast.makeText(BestShotActivity.this, "Uploaded", Toast.LENGTH_SHORT).show();
                     }
                 });
                 storageReference.putFile(filePath).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         firebaseFirestoreTransaction(null);
-                        Toast.makeText(BestShotActivity.this, "Upload failed", Toast.LENGTH_SHORT).show();
+                        flag = true;
                     }
                 });
 
-                Toast.makeText(getApplicationContext(), name + observedOn + other + type, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -147,6 +191,13 @@ public class BestShotActivity extends AppCompatActivity {
                     editTextOther.setVisibility(View.VISIBLE);
                 else
                     editTextOther.setVisibility(View.GONE);
+            }
+        });
+
+        buttonCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
     }
@@ -164,6 +215,7 @@ public class BestShotActivity extends AppCompatActivity {
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
                 && data != null && data.getData() != null) {
             filePath = data.getData();
+            flag = false;
 
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
@@ -180,7 +232,7 @@ public class BestShotActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == PICK_IMAGE_REQUEST) {
             if (grantResults.length <= 0 || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(getApplicationContext(), "Camera Permission denied", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Gallery Permission denied", Toast.LENGTH_SHORT).show();
             } else {
                 selectImage();
             }
@@ -215,6 +267,7 @@ public class BestShotActivity extends AppCompatActivity {
         collectionReference.document(id).set(documentData).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
+                progressBar.setVisibility(View.GONE);
                 Toast.makeText(getApplicationContext(), "Thank you for your response", Toast.LENGTH_LONG).show();
                 try {
                     Thread.sleep(50);
@@ -227,6 +280,7 @@ public class BestShotActivity extends AppCompatActivity {
         collectionReference.document(id).set(documentData).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
+                progressBar.setVisibility(View.GONE);
                 Toast.makeText(getApplicationContext(), "Couldn't add data! Try again!", Toast.LENGTH_LONG).show();
             }
         });

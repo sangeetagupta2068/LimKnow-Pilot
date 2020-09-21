@@ -133,15 +133,9 @@ public class GeneralCitizenScienceActivity extends AppCompatActivity {
         buttonGeneralCitizenScience.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(beelRelation.equals("")  && potentialFees.equals("") && potentialLake.equals("")){
-                    Toast.makeText(getApplicationContext(),"Can't submit empty form",Toast.LENGTH_SHORT).show();
-                    return;
-                }
                 if( SystemClock.elapsedRealtime() - lastClickTime <1000)
                     return;
-                progressBar.setVisibility(View.VISIBLE);
                 getCurrentLocationSetup();
-                lastClickTime = SystemClock.elapsedRealtime();
                 date = Calendar.getInstance().getTime();
                 beelRelation = "";
                 potentialFees = editTextFees.getText().toString();
@@ -154,7 +148,15 @@ public class GeneralCitizenScienceActivity extends AppCompatActivity {
                         beelRelation = beelRelation + checkBoxes[count].getText().toString() + ",";
                 }
                 potentialLake = editTextPotentialLakeName.getText().toString();
+
+                if(beelRelation.equals("")  && potentialFees.equals("") && potentialLake.equals("")){
+                    Toast.makeText(getApplicationContext(),"Can't submit empty form",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                lastClickTime = SystemClock.elapsedRealtime();
+                progressBar.setVisibility(View.VISIBLE);
                 firebaseFirestoreTransaction();
+
             }
         });
 

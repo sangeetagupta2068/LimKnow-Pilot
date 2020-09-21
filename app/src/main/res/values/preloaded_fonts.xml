@@ -1,23 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <array name="preloaded_fonts" translatable="false">
-        <item>@font/actor</item>
-        <item>@font/amaranth</item>
-        <item>@font/caveat</item>
-        <item>@font/give_you_glory</item>
         <item>@font/lato</item>
         <item>@font/lato_light_italic</item>
-        <item>@font/merienda</item>
         <item>@font/nunito</item>
         <item>@font/nunito_sans_bold</item>
         <item>@font/nunito_sans_light_italic</item>
         <item>@font/nunito_sans_semibold_italic</item>
-        <item>@font/paprika</item>
-        <item>@font/playfair_display</item>
-        <item>@font/playfair_display_black</item>
-        <item>@font/playfair_display_bold</item>
-        <item>@font/sacramento</item>
-        <item>@font/the_girl_next_door</item>
-        <item>@font/waiting_for_the_sunrise</item>
     </array>
 </resources>

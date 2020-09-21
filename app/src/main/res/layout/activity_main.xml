@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="32dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="68dp"
         android:background="@drawable/rounded_corners"
         android:drawableLeft="@drawable/login_button_style"
         android:elevation="50dp"
@@ -23,15 +23,17 @@
         android:text="Sign in with Google"
         android:textAllCaps="false"
         android:textColor="@color/design_default_color_background"
-        android:textSize="17sp"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        app:layout_constraintVertical_bias="0.012" />
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="224dp"
-        android:layout_height="220dp"
+        android:layout_width="309dp"
+        android:layout_height="294dp"
         android:layout_marginTop="48dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.401"

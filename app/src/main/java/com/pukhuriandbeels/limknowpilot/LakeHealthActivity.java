@@ -28,6 +28,7 @@ import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.ar.core.Config;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -164,43 +165,51 @@ public class LakeHealthActivity extends AppCompatActivity {
                     editTextDeadAnimalDescription.setVisibility(View.VISIBLE);
                     textViewDeadAnimalUploadImage.setVisibility(View.VISIBLE);
                     buttonUploadDeadAnimalImage.setVisibility(View.VISIBLE);
-                    imageViewSample.setVisibility(View.VISIBLE);
-
                 } else {
                     textViewDeadAnimalLabel.setVisibility(View.GONE);
                     editTextDeadAnimalDescription.setVisibility(View.GONE);
                     textViewDeadAnimalUploadImage.setVisibility(View.GONE);
                     buttonUploadDeadAnimalImage.setVisibility(View.GONE);
-                    imageViewSample.setVisibility(View.GONE);
                 }
             }
         });
         buttonLakeHealth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(lakeWaterColor.equals("") && lakeHealthProblem.equals("") && deadFish.equals("")) {
-                    Toast.makeText(getApplicationContext(), "Can't submit empty form", Toast.LENGTH_SHORT).show();
-                    return;
-                }
                 if( SystemClock.elapsedRealtime() - lastClickTime <1000)
                     return;
                 else {
-                    progressBar.setVisibility(View.VISIBLE);
                     getCurrentLocationSetup();
                     date = Calendar.getInstance().getTime();
                     deadFish = editTextDeadFish.getText().toString();
                     lakeHealthProblem = "";
                     if (checkBoxes[4].isChecked()) {
-                        lakeHealthProblem = editTextLakeHealthProblem.getText().toString() + ",";
+                        lakeHealthProblem = editTextLakeHealthProblem.getText().toString();
+                        if(lakeHealthProblem.equals("")){
+                            Toast.makeText(getApplicationContext(),"Please share other lake health problem",Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        lakeHealthProblem = lakeHealthProblem + ",";
                     }
                     if (checkBoxes[3].isChecked()) {
                         deadAnimalDescription = editTextDeadAnimalDescription.getText().toString();
+                        if(deadAnimalDescription.equals("") || currentPhotoPath.equals("")){
+                            Toast.makeText(getApplicationContext(),"Please share photo/dead animal description", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
                     }
                     for (int count = 0; count < 4; count++) {
                         if (checkBoxes[count].isChecked()) {
                             lakeHealthProblem = lakeHealthProblem + checkBoxes[count].getText().toString() + ",";
                         }
                     }
+
+                    if(lakeWaterColor.equals("") && lakeHealthProblem.equals("") && deadFish.equals("")) {
+                        Toast.makeText(getApplicationContext(), "Can't submit empty form", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    progressBar.setVisibility(View.VISIBLE);
 
                     if (currentPhotoPath.equals("")){
                         firebaseFirestoreTransaction(null);
@@ -209,13 +218,6 @@ public class LakeHealthActivity extends AppCompatActivity {
 
                     File file = new File(currentPhotoPath);
                     imageUri = Uri.fromFile(file);
-                    Toast.makeText(LakeHealthActivity.this,
-                            lakeHealthProblem
-                                    + " "
-                                    + deadFish
-                                    + " "
-                                    + lakeWaterColor + currentPhotoPath + String.valueOf(imageUri),
-                            Toast.LENGTH_SHORT).show();
 
                     final StorageReference storageReference = firebaseStorageReference.child("Dead Animals").child(imageUri.getLastPathSegment());
                     storageReference.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {

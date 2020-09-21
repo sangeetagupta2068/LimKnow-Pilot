@@ -15,7 +15,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/animal_ar_quiz_question"
+            android:id="@+id/invasive_species_question"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="22sp"
@@ -28,14 +28,14 @@
 
         <RadioGroup
             android:layout_width="match_parent"
-            android:id="@+id/animal_ar_radio_group"
+            android:id="@+id/invasive_species_radio_group"
             android:layout_height="wrap_content"
             android:layout_marginVertical="30dp"
-            app:layout_constraintTop_toBottomOf="@+id/animal_ar_quiz_question"
-            app:layout_constraintStart_toStartOf="@+id/animal_ar_quiz_question">
+            app:layout_constraintTop_toBottomOf="@+id/invasive_species_question"
+            app:layout_constraintStart_toStartOf="@+id/invasive_species_question">
 
             <RadioButton
-                android:id="@+id/animal_radio_1"
+                android:id="@+id/invasive_species_1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
@@ -116,8 +116,8 @@
             android:fontFamily="@font/nunito"
             android:layout_marginTop="10dp"
             android:id="@+id/invasive_species_other_label"
-            app:layout_constraintTop_toBottomOf="@+id/animal_ar_radio_group"
-            app:layout_constraintStart_toStartOf="@+id/animal_ar_radio_group"
+            app:layout_constraintTop_toBottomOf="@+id/invasive_species_radio_group"
+            app:layout_constraintStart_toStartOf="@+id/invasive_species_radio_group"
             android:textColor="@color/colorBlack"
             android:text="Please upload picture of the plant"
             android:layout_marginStart="32dp"/>
@@ -144,7 +144,7 @@
         <ImageView
             android:layout_width="350dp"
             app:layout_constraintTop_toBottomOf="@+id/button_invasive_species_upload"
-            app:layout_constraintStart_toStartOf="@+id/animal_ar_radio_group"
+            app:layout_constraintStart_toStartOf="@+id/invasive_species_radio_group"
             android:layout_height="350dp"
             android:layout_marginTop="5dp"
             android:id="@+id/sample_invasive_species_image_view"/>
@@ -158,7 +158,7 @@
             android:fontFamily="@font/nunito"
             android:id="@+id/invasive_species_spread_label"
             app:layout_constraintTop_toBottomOf="@+id/sample_invasive_species_image_view"
-            app:layout_constraintStart_toStartOf="@+id/animal_ar_radio_group"
+            app:layout_constraintStart_toStartOf="@+id/invasive_species_radio_group"
             android:text="How widespread is it in percentage (%)?"/>
 
         <SeekBar
@@ -182,7 +182,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="left"
+                android:layout_gravity="start"
                 android:textSize="12sp"
                 android:textColor="@color/colorBlack"
                 android:fontFamily="@font/nunito"
@@ -194,29 +194,43 @@
                 android:layout_height="wrap_content"
                 android:textAlignment="textEnd"
                 android:textSize="12sp"
+                android:layout_gravity="end"
                 android:textColor="@color/colorBlack"
                 android:fontFamily="@font/nunito"
                 android:layout_alignParentEnd="true"
                 android:text="100%(waterbody not visible)"/>
         </RelativeLayout>
 
-        <Button
-            android:id="@+id/button_invasive_species"
-            android:layout_marginTop="30dp"
-            android:layout_marginBottom="10dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linear_invasive_species_layout"
-            style="?attr/materialButtonOutlinedStyle"
-            android:layout_width="match_parent"
-            android:fontFamily="@font/lato"
+        <ProgressBar
+            android:id="@+id/invasive_species_connection_status"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:background = "@drawable/large_button_citizen_science_style"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linear_invasive_species_layout" />
+
+        <Button
+            android:id="@+id/button_invasive_species"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/large_button_citizen_science_style"
             android:elevation="20dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-            android:textSize="18sp"
+            android:fontFamily="@font/lato"
             android:text="Submit"
-            android:textColor="#fafafa" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textColor="#fafafa"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toTopOf="@+id/button_invasive_species_cancel"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/invasive_species_connection_status" />
         <Button
             android:id="@+id/button_invasive_species_cancel"
             style="?attr/materialButtonOutlinedStyle"

@@ -49,13 +49,13 @@
                     android:title='Edit Profile' />
                 <item
                     android:id="@+id/sign_out"
-                    android:fontFamily="@font/playfair_display"
+                    android:fontFamily="@font/nunito"
                     android:icon="@drawable/ic_baseline_person_24"
                     android:title='Sign Out' />
                 </group>
             </menu>
         </item>
-        <item android:title="Communicate" android:fontFamily="@font/playfair_display">
+        <item android:title="Communicate" android:fontFamily="@font/nunito">
             <menu>
                 <group android:checkableBehavior="single">
                 <item

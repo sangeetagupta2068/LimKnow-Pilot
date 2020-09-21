@@ -160,7 +160,7 @@ public class MacrophyteListActivity extends AppCompatActivity {
         collectionReference.get().addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(getApplicationContext(), "HELLO FAIL", Toast.LENGTH_SHORT).show();
+
             }
         });
     }

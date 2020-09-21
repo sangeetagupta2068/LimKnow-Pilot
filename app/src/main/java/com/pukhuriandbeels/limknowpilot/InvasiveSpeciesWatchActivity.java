@@ -8,14 +8,17 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Looper;
+import android.os.SystemClock;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -65,6 +68,11 @@ public class InvasiveSpeciesWatchActivity extends AppCompatActivity {
     private ImageView imageViewSampleInvasvieSpecies;
     private SeekBar seekBarWideSpread;
     private Button buttonSubmit;
+    private ProgressBar progressBar;
+    private Button buttonCancel;
+    private TextView textViewInvasiveSpeciesQuestion, textViewInvasiveSpeciesWidespreadQuestion;
+    private RelativeLayout relativeLayout;
+
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore firebaseFirestore;
     private StorageReference firebaseStorageReference;
@@ -77,7 +85,8 @@ public class InvasiveSpeciesWatchActivity extends AppCompatActivity {
     private int widespreadPercentage;
     private Date date;
     private String invasiveSpeciesName;
-    private Object lakeName;
+    private String lakeName;
+    private long lastClickTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,9 +99,13 @@ public class InvasiveSpeciesWatchActivity extends AppCompatActivity {
 
     private void initialize() {
         lakeName = "Deepor Beel";
-        radioGroupInvasiveSpecies = findViewById(R.id.animal_ar_radio_group);
+        invasiveSpeciesName = "";
+        widespreadPercentage = 0;
+        currentPhotoPath = "";
+
+        radioGroupInvasiveSpecies = findViewById(R.id.invasive_species_radio_group);
         radioButtons = new RadioButton[5];
-        radioButtons[0] = findViewById(R.id.animal_radio_1);
+        radioButtons[0] = findViewById(R.id.invasive_species_1);
         radioButtons[1] = findViewById(R.id.invasive_species_2);
         radioButtons[2] = findViewById(R.id.invasive_species_3);
         radioButtons[3] = findViewById(R.id.invasive_species_4);
@@ -111,10 +124,28 @@ public class InvasiveSpeciesWatchActivity extends AppCompatActivity {
         seekBarWideSpread = findViewById(R.id.invasive_species_spread_bar);
 
         buttonSubmit = findViewById(R.id.button_invasive_species);
+        buttonCancel = findViewById(R.id.button_invasive_species_cancel);
+
+        progressBar = findViewById(R.id.invasive_species_connection_status);
+
+        textViewInvasiveSpeciesQuestion = findViewById(R.id.invasive_species_question);
+        textViewInvasiveSpeciesWidespreadQuestion = findViewById(R.id.invasive_species_spread_label);
+        relativeLayout = findViewById(R.id.linear_invasive_species_layout);
 
         textViewinvasiveSpeciesOther.setVisibility(View.GONE);
         buttoninvasiveSpeciesOther.setVisibility(View.GONE);
         imageViewSampleInvasvieSpecies.setVisibility(View.GONE);
+
+        radioGroupInvasiveSpecies.setVisibility(View.GONE);
+        textViewInvasiveSpeciesWidespreadQuestion.setVisibility(View.GONE);
+        textViewInvasiveSpeciesQuestion.setVisibility(View.GONE);
+        relativeLayout.setVisibility(View.GONE);
+        seekBarWideSpread.setVisibility(View.GONE);
+        buttonSubmit.setVisibility(View.GONE);
+        buttonCancel.setVisibility(View.GONE);
+
+        progressBar.setVisibility(View.VISIBLE);
+
     }
 
     private void setListeners() {
@@ -169,11 +200,31 @@ public class InvasiveSpeciesWatchActivity extends AppCompatActivity {
         buttonSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (invasiveSpeciesName.equals("") && widespreadPercentage == 0) {
+                    Toast.makeText(getApplicationContext(), "Cam't submit empty form", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if(invasiveSpeciesName.equals("Other") && currentPhotoPath.equals("")){
+                    Toast.makeText(getApplicationContext(),"Please upload picture",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (SystemClock.elapsedRealtime() - lastClickTime < 1000)
+                    return;
+
+                progressBar.setVisibility(View.VISIBLE);
                 getCurrentLocationSetup();
                 date = Calendar.getInstance().getTime();
+                lastClickTime = SystemClock.elapsedRealtime();
+
+                if (currentPhotoPath.equals("")) {
+                    firebaseFirestoreTransaction(null);
+                    return;
+                }
 
                 File file = new File(currentPhotoPath);
                 imageUri = Uri.fromFile(file);
+
                 final StorageReference storageReference = firebaseStorageReference.child("Reported Invasive Species").child(imageUri.getLastPathSegment());
                 storageReference.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
@@ -182,19 +233,23 @@ public class InvasiveSpeciesWatchActivity extends AppCompatActivity {
                             @Override
                             public void onSuccess(Uri uri) {
                                 firebaseFirestoreTransaction(uri.toString());
-                                Toast.makeText(InvasiveSpeciesWatchActivity.this, "Uploaded image url : " + uri.toString(), Toast.LENGTH_SHORT).show();
                             }
                         });
-                        Toast.makeText(InvasiveSpeciesWatchActivity.this, "Uploaded", Toast.LENGTH_SHORT).show();
                     }
                 });
                 storageReference.putFile(imageUri).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         firebaseFirestoreTransaction(null);
-                        Toast.makeText(InvasiveSpeciesWatchActivity.this, "Upload failed", Toast.LENGTH_SHORT).show();
                     }
                 });
+            }
+        });
+
+        buttonCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
     }
@@ -221,6 +276,7 @@ public class InvasiveSpeciesWatchActivity extends AppCompatActivity {
         collectionReference.document(id).set(documentData).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
+                progressBar.setVisibility(View.GONE);
                 Toast.makeText(getApplicationContext(), "Thank you for your response", Toast.LENGTH_LONG).show();
                 try {
                     Thread.sleep(50);
@@ -233,6 +289,7 @@ public class InvasiveSpeciesWatchActivity extends AppCompatActivity {
         collectionReference.document(id).set(documentData).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
+                progressBar.setVisibility(View.GONE);
                 Toast.makeText(getApplicationContext(), "Couldn't add data! Try again!", Toast.LENGTH_LONG).show();
             }
         });
@@ -256,7 +313,6 @@ public class InvasiveSpeciesWatchActivity extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        Toast.makeText(getApplicationContext(), "Successful!", Toast.LENGTH_SHORT).show();
                         List<DocumentSnapshot> documentSnapshots = queryDocumentSnapshots.getDocuments();
 
                         for (int count = 0; count < imageViews.length; count++) {
@@ -272,6 +328,16 @@ public class InvasiveSpeciesWatchActivity extends AppCompatActivity {
                             }
                         }
 
+                        progressBar.setVisibility(View.GONE);
+
+                        radioGroupInvasiveSpecies.setVisibility(View.VISIBLE);
+                        textViewInvasiveSpeciesWidespreadQuestion.setVisibility(View.VISIBLE);
+                        textViewInvasiveSpeciesQuestion.setVisibility(View.VISIBLE);
+                        relativeLayout.setVisibility(View.VISIBLE);
+                        seekBarWideSpread.setVisibility(View.VISIBLE);
+                        buttonSubmit.setVisibility(View.VISIBLE);
+                        buttonCancel.setVisibility(View.VISIBLE);
+
                     }
                 });
 
@@ -282,7 +348,14 @@ public class InvasiveSpeciesWatchActivity extends AppCompatActivity {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_SHORT).show();
+                        progressBar.setVisibility(View.GONE);
+                        Toast.makeText(getApplicationContext(), "Failed to load questions", Toast.LENGTH_SHORT).show();
+                        try {
+                            Thread.sleep(50);
+                        } catch (InterruptedException ex) {
+                            ex.printStackTrace();
+                        }
+                        finish();
                     }
                 });
 
