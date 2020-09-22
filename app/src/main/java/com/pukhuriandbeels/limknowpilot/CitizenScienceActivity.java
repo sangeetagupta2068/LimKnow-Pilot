@@ -1,11 +1,15 @@
 package com.pukhuriandbeels.limknowpilot;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -26,6 +30,7 @@ public class CitizenScienceActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private String userEmail, userName;
     private FirebaseAuth firebaseAuth;
+    private Uri uriProfilePicture;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +45,9 @@ public class CitizenScienceActivity extends AppCompatActivity {
         View header = navigationView.getHeaderView(0);
         TextView userNameTextView = header.findViewById(R.id.user_name);
         TextView userEmailTextView = header.findViewById(R.id.user_email);
+        ImageView userImageView = header.findViewById(R.id.user_image);
+
+        Glide.with(this).load(uriProfilePicture).error(R.drawable.ic_baseline_person_24).apply(RequestOptions.circleCropTransform()).into(userImageView);
 
         userEmailTextView.setText(userEmail);
         userNameTextView.setText(userName);
@@ -166,6 +174,7 @@ public class CitizenScienceActivity extends AppCompatActivity {
         if (firebaseUser != null) {
             userEmail = firebaseUser.getEmail();
             userName = firebaseUser.getDisplayName();
+            uriProfilePicture = firebaseUser.getPhotoUrl();
         }
     }
 }

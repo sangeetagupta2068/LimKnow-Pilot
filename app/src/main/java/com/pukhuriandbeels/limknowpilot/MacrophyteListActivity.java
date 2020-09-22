@@ -1,15 +1,19 @@
 package com.pukhuriandbeels.limknowpilot;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
@@ -41,6 +45,7 @@ public class MacrophyteListActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private String userEmail, userName;
     private FirebaseAuth firebaseAuth;
+    private Uri uriProfilePicture;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,9 +60,11 @@ public class MacrophyteListActivity extends AppCompatActivity {
         View header = navigationView.getHeaderView(0);
         TextView userNameTextView = header.findViewById(R.id.user_name);
         TextView userEmailTextView = header.findViewById(R.id.user_email);
+        ImageView userImageView = header.findViewById(R.id.user_image);
 
         userEmailTextView.setText(userEmail);
         userNameTextView.setText(userName);
+        Glide.with(this).load(uriProfilePicture).error(R.drawable.ic_baseline_person_24).apply(RequestOptions.circleCropTransform()).into(userImageView);
 
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -96,6 +103,8 @@ public class MacrophyteListActivity extends AppCompatActivity {
                     case R.id.badges:
                         break;
                     case R.id.edit_profile:
+                        Intent editProfileIntent = new Intent(getApplicationContext(),UserProfileActivity.class);
+                        startActivity(editProfileIntent);
                         break;
                     case R.id.sign_out:
                         break;
@@ -159,6 +168,7 @@ public class MacrophyteListActivity extends AppCompatActivity {
         if (firebaseUser != null) {
             userEmail = firebaseUser.getEmail();
             userName = firebaseUser.getDisplayName();
+            uriProfilePicture = firebaseUser.getPhotoUrl();
         }
     }
 

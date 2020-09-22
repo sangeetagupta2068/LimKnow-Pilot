@@ -1,11 +1,15 @@
 package com.pukhuriandbeels.limknowpilot;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -25,9 +29,11 @@ public class HomeActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private CardView[] cardViews;
     private TextView userNameTextView, userEmailTextView;
+    private ImageView userImageView;
 
     private String userName, userEmail;
     private FirebaseAuth firebaseAuth;
+    private Uri uriProfilePicture;
     private View header;
 
     @Override
@@ -43,6 +49,9 @@ public class HomeActivity extends AppCompatActivity {
         header = navigationView.getHeaderView(0);
         userNameTextView = header.findViewById(R.id.user_name);
         userEmailTextView = header.findViewById(R.id.user_email);
+        userImageView = header.findViewById(R.id.user_image);
+        Glide.with(this).load(uriProfilePicture).error(R.drawable.ic_baseline_person_24).apply(RequestOptions.circleCropTransform()).into(userImageView);
+
 
         userEmailTextView.setText(userEmail);
         userNameTextView.setText(userName);
@@ -176,6 +185,7 @@ public class HomeActivity extends AppCompatActivity {
         if (firebaseUser != null) {
             userEmail = firebaseUser.getEmail();
             userName = firebaseUser.getDisplayName();
+            uriProfilePicture = firebaseUser.getPhotoUrl();
         }
     }
 }

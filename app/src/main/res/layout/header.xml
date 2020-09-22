@@ -9,11 +9,11 @@
     android:paddingVertical="25dp"
     android:gravity="bottom">
 
-<!--    <ImageView-->
-<!--        android:layout_width="45dp"-->
-<!--        android:layout_height="45dp"-->
-<!--        android:id="@+id/user_image"-->
-<!--        android:src="@drawable/ic_baseline_person_24" />-->
+    <ImageView
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:id="@+id/user_image"
+        android:src="@drawable/ic_baseline_person_24" />
 
     <TextView
         android:id="@+id/user_name"
