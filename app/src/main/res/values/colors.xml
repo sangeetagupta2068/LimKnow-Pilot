@@ -17,4 +17,6 @@
     <color name="colorKingFisherOrange">#fe5900</color>
     <color name="colorAccentGreen">#38F713</color>
     <color name="colorKingFisherYellow">#d1a42f</color>
+    <color name="solidCircle">#AAFFFFFF</color>
+    <color name="circleBorder">#50FFFFFF</color>
 </resources>

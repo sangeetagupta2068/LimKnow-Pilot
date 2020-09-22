@@ -13,39 +13,177 @@
         android:background="#f5f5f5"
         android:padding="20dp">
 
-        <ImageView
-            android:id="@+id/user_profile_picture"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginStart="32dp"
-            android:background="@drawable/cropped_circle"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.85"
-            tools:srcCompat="@tools:sample/avatars" />
-
         <TextView
             android:id="@+id/user_profile_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/nunito"
             android:text="TextView"
-            app:layout_constraintBottom_toBottomOf="@+id/user_profile_picture"
-            app:layout_constraintStart_toEndOf="@+id/user_profile_picture"
-            app:layout_constraintTop_toTopOf="@+id/user_profile_picture"
-            app:layout_constraintVertical_bias="0.506" />
+            android:textColor="@color/colorPrimary"
+            android:textSize="22sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/user_profile_picture" />
 
         <TextView
             android:id="@+id/user_profile_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/nunito_light"
             android:text="TextView"
-            app:layout_constraintEnd_toEndOf="@+id/user_profile_name"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/user_profile_name"
-            app:layout_constraintTop_toBottomOf="@id/user_profile_name"
-            tools:layout_editor_absoluteY="241dp" />
+            android:textColor="@color/colorPrimary"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/user_profile_name" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/user_profile_picture"
+            android:layout_width="136dp"
+            android:layout_height="138dp"
+            android:src="@drawable/ic_baseline_person_24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
+            app:strokeColor="@color/circleBorder"
+            app:strokeWidth="1dp" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floatingActionButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/user_profile_picture"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="80dp"
+            android:src="@drawable/ic_baseline_camera_alt_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.681"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/user_profile_picture" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/user_profile_about_layout"
+        android:textColorHint="@color/colorPrimary"
+        android:hint="About">
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/about"
+            android:text="New to LimKnow"
+            android:textSize="18sp"
+            android:textColor="@color/colorBlack"
+            android:fontFamily="@font/nunito_light"
+            android:drawableRight="@drawable/ic_baseline_create_24"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_marginHorizontal="20dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:id="@+id/user_profile_profession_layout"
+        android:textColorHint="@color/colorPrimary"
+        android:hint="Profession">
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Lake Enthusiast"
+            android:textSize="18sp"
+            android:id="@+id/profession"
+            android:textColor="@color/colorBlack"
+            android:fontFamily="@font/nunito_light"
+            android:drawableRight="@drawable/ic_baseline_create_24"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_marginHorizontal="20dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:id="@+id/user_profile_gender_layout"
+        android:textColorHint="@color/colorPrimary"
+        android:hint="Pronoun">
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="She/Her"
+            android:id="@+id/gender"
+            android:textSize="18sp"
+            android:textColor="@color/colorBlack"
+            android:fontFamily="@font/nunito_light"
+            android:drawableRight="@drawable/ic_baseline_create_24"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_marginHorizontal="20dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:id="@+id/user_profile_age_layout"
+        android:textColorHint="@color/colorPrimary"
+        android:hint="Age">
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="18"
+            android:inputType="numberSigned"
+            android:id="@+id/age"
+            android:textSize="18sp"
+            android:textColor="@color/colorBlack"
+            android:fontFamily="@font/nunito_light"
+            android:drawableRight="@drawable/ic_baseline_create_24"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/button_user_profile_cancel"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/small_button_corners_dark"
+            android:backgroundTint="@color/colorKingFisherLight"
+            android:elevation="10dp"
+            android:fontFamily="@font/lato"
+            android:paddingHorizontal="32dp"
+            android:text="Cancel"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textColor="@color/colorPrimary"
+            android:textSize="18sp" />
+        <Button
+            android:id="@+id/button_user_profile_save"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginStart="10dp"
+            android:background="@drawable/small_button_corners_dark"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:elevation="10dp"
+            android:fontFamily="@font/lato"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center_horizontal"
+            android:paddingHorizontal="40dp"
+            android:text="Save"
+            android:textColor="#fafafa"
+            android:textSize="18sp" />
+
+    </LinearLayout>
 </LinearLayout>
