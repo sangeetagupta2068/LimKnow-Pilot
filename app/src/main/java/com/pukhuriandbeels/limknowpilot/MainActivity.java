@@ -83,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
+                            //todo
                             FirebaseUser user = firebaseAuth.getCurrentUser();
                             Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
                             startActivity(intent);

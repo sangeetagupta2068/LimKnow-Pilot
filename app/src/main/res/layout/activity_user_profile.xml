@@ -146,10 +146,19 @@
             android:drawableRight="@drawable/ic_baseline_create_24"/>
     </com.google.android.material.textfield.TextInputLayout>
 
+    <ProgressBar
+        android:id="@+id/user_profile_connection_status"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:visibility="gone" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:layout_marginTop="20dp"
         android:orientation="horizontal">
 
         <Button
@@ -158,7 +167,6 @@
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp"
             android:background="@drawable/small_button_corners_dark"
             android:backgroundTint="@color/colorKingFisherLight"
             android:elevation="10dp"
@@ -178,7 +186,6 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
             android:elevation="10dp"
             android:fontFamily="@font/lato"
-            android:layout_marginTop="10dp"
             android:layout_gravity="center_horizontal"
             android:paddingHorizontal="40dp"
             android:text="Save"
