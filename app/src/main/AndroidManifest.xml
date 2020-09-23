@@ -3,6 +3,7 @@
     package="com.pukhuriandbeels.limknowpilot">
 
     <application
+        android:hardwareAccelerated="true"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -10,10 +11,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".UserProfileActivity"></activity>
+        <activity android:name=".UserProfileActivity"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".HomeActivity"/>
         <activity
             android:name=".HomeActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".BestShotActivity"
             android:parentActivityName=".CitizenScienceActivity"

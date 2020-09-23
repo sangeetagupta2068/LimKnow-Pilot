@@ -94,6 +94,8 @@ public class HomeActivity extends AppCompatActivity {
                     case R.id.badges:
                         break;
                     case R.id.edit_profile:
+                        Intent profileIntent = new Intent(getApplicationContext(), UserProfileActivity.class);
+                        startActivity(profileIntent);
                         break;
                     case R.id.sign_out:
                         FirebaseAuth.getInstance().signOut();

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -20,6 +21,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
+import java.util.zip.GZIPInputStream;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -31,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
 
     private Button signInButton;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,26 +44,18 @@ public class MainActivity extends AppCompatActivity {
 
         LakeARActivity.count = 0;
         signInButton = findViewById(R.id.sign_in_button);
+        progressBar = findViewById(R.id.login_connection_status);
+        progressBar.setVisibility(View.GONE);
         firebaseAuth = FirebaseAuth.getInstance();
 
         createRequest();
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                progressBar.setVisibility(View.VISIBLE);
                 signIn();
             }
         });
-
-//        FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
-//        StorageReference storageReference = firebaseStorage.getReference();
-//        StorageReference macrophyteStorageReference = storageReference.child("macrophytes");
-//        StorageReference sampleReference = macrophyteStorageReference.child("macrophytes/Nymphoides indica");
-//        sampleReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-//            @Override
-//            public void onSuccess(Uri uri) {
-//                Toast.makeText(getApplicationContext(),uri.toString(),Toast.LENGTH_SHORT).show();
-//            }
-//        });
 
     }
 
@@ -83,12 +79,13 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            //todo
                             FirebaseUser user = firebaseAuth.getCurrentUser();
+                            progressBar.setVisibility(View.GONE);
                             Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
                             startActivity(intent);
 
                         } else {
+                            progressBar.setVisibility(View.GONE);
                             Toast.makeText(MainActivity.this, "Sorry authentication failed.", Toast.LENGTH_SHORT).show();
                         }
 
@@ -104,11 +101,9 @@ public class MainActivity extends AppCompatActivity {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
                 GoogleSignInAccount account = task.getResult(ApiException.class);
-                Toast.makeText(this, account.toString(), Toast.LENGTH_SHORT).show();
                 firebaseAuthWithGoogle(account);
             } catch (ApiException e) {
                 e.printStackTrace();
-                Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }
     }

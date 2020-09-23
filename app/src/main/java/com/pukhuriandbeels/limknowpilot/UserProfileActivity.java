@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -15,13 +16,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -37,6 +41,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -49,6 +54,7 @@ public class UserProfileActivity extends AppCompatActivity {
     private TextInputEditText editTextAbout, editTextProfession, editTextAge, editTextGender;
     private Button buttonSave, buttonCancel;
     private ProgressBar progressBar;
+    private ConstraintLayout constraintLayout;
 
     private FirebaseAuth firebaseAuth;
     private String userEmail, userName, userProfession, userAbout, userGender;
@@ -59,6 +65,7 @@ public class UserProfileActivity extends AppCompatActivity {
     private String index;
     private CollectionReference collectionReference;
     private StorageReference firebaseStorageReference;
+    private FirebaseUser firebaseUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +82,7 @@ public class UserProfileActivity extends AppCompatActivity {
         textViewName = findViewById(R.id.user_profile_name);
         floatingActionButton = findViewById(R.id.floatingActionButton);
         progressBar = findViewById(R.id.user_profile_connection_status);
+        constraintLayout = findViewById(R.id.constraint_layout_profile);
 
         editTextAbout = findViewById(R.id.about);
         editTextProfession = findViewById(R.id.profession);
@@ -83,6 +91,16 @@ public class UserProfileActivity extends AppCompatActivity {
 
         buttonCancel = findViewById(R.id.button_user_profile_cancel);
         buttonSave = findViewById(R.id.button_user_profile_save);
+
+        editTextAbout.setVisibility(View.GONE);
+        editTextGender.setVisibility(View.GONE);
+        editTextProfession.setVisibility(View.GONE);
+        editTextAge.setVisibility(View.GONE);
+        buttonCancel.setVisibility(View.GONE);
+        buttonSave.setVisibility(View.GONE);
+        constraintLayout.setVisibility(View.GONE);
+
+        progressBar.setVisibility(View.VISIBLE);
     }
 
     private void setListeners() {
@@ -124,7 +142,7 @@ public class UserProfileActivity extends AppCompatActivity {
                     firebaseTransaction();
                 } else {
                     progressBar.setVisibility(View.VISIBLE);
-                    final StorageReference storageReference = firebaseStorageReference.child("User Profile").child(filePath.toString());
+                    final StorageReference storageReference = firebaseStorageReference.child("User Profile").child(filePath.getLastPathSegment());
                     storageReference.putFile(filePath).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -152,6 +170,9 @@ public class UserProfileActivity extends AppCompatActivity {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(UserProfileActivity.this);
         alertDialog.setTitle("Pronoun");
         String[] items = {"He/Him", "She/Her", "They/Them"};
+        if (index.equals("") || index == null) {
+            index = "0";
+        }
         int check = Integer.parseInt(index);
         alertDialog.setSingleChoiceItems(items, check, new DialogInterface.OnClickListener() {
             @Override
@@ -228,17 +249,17 @@ public class UserProfileActivity extends AppCompatActivity {
 
     private void setFirebaseAuthorizedUser() {
         firebaseAuth = FirebaseAuth.getInstance();
-        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+        firebaseUser = firebaseAuth.getCurrentUser();
 
         if (firebaseUser != null) {
             userEmail = firebaseUser.getEmail();
-        } else {
-            userEmail = "";
-            userName = "";
-            userGender = "";
-            userProfession = "";
-            userAbout = "";
-            userAge = "18";
+            userProfileUri = firebaseUser.getPhotoUrl();
+            userName = firebaseUser.getDisplayName();
+
+            textViewName.setText(userName);
+            textViewEmail.setText(userEmail);
+
+            Glide.with(getApplicationContext()).load(userProfileUri).error(R.drawable.ic_baseline_person_24).into(imageViewProfile);
         }
 
         FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
@@ -249,19 +270,19 @@ public class UserProfileActivity extends AppCompatActivity {
             collectionReference.document(firebaseUser.getEmail()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                 @Override
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
-                    userName = documentSnapshot.getString("name");
-                    userAbout = documentSnapshot.getString("about");
-                    userProfession = documentSnapshot.getString("profession");
-                    userGender = documentSnapshot.getString("pronoun");
-                    userAge = documentSnapshot.getString("age");
-                    index = documentSnapshot.getString("index");
-                    String url = documentSnapshot.getString("image_url");
-                    userProfileUri = Uri.parse(url);
-
-
-                    textViewName.setText(userName);
-                    textViewEmail.setText(userEmail);
-                    Toast.makeText(getApplicationContext(), userAbout + userProfession + userGender, Toast.LENGTH_SHORT).show();
+                    if (documentSnapshot.exists()) {
+                        userAbout = documentSnapshot.getString("about");
+                        userProfession = documentSnapshot.getString("profession");
+                        userGender = documentSnapshot.getString("pronoun");
+                        userAge = documentSnapshot.getString("age");
+                        index = documentSnapshot.getString("index");
+                    } else {
+                        userAbout = "";
+                        userProfession = "";
+                        userGender = "";
+                        userAge = "";
+                        index = "0";
+                    }
 
                     newUserAbout = userAbout;
                     newGender = userGender;
@@ -277,7 +298,53 @@ public class UserProfileActivity extends AppCompatActivity {
 
                     editTextGender.setFocusable(false);
                     editTextGender.setClickable(true);
-                    Glide.with(getApplicationContext()).load(userProfileUri).error(R.drawable.ic_baseline_person_24).into(imageViewProfile);
+
+                    editTextAbout.setVisibility(View.VISIBLE);
+                    editTextGender.setVisibility(View.VISIBLE);
+                    editTextProfession.setVisibility(View.VISIBLE);
+                    editTextAge.setVisibility(View.VISIBLE);
+                    buttonCancel.setVisibility(View.VISIBLE);
+                    buttonSave.setVisibility(View.VISIBLE);
+                    constraintLayout.setVisibility(View.VISIBLE);
+                    progressBar.setVisibility(View.GONE);
+                }
+            });
+
+            collectionReference.document(firebaseUser.getEmail()).get().addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    userAbout = "";
+                    userProfession = "";
+                    userGender = "";
+                    userAge = "";
+                    index = "0";
+
+                    newUserAbout = userAbout;
+                    newGender = userGender;
+                    newProfession = userProfession;
+                    newAge = userAge;
+                    newIndex = index;
+                    filePath = userProfileUri;
+
+                    editTextGender.setText(userGender);
+                    editTextAge.setText(userAge);
+                    editTextProfession.setText(userProfession);
+                    editTextAbout.setText(userAbout);
+
+                    editTextGender.setFocusable(false);
+                    editTextGender.setClickable(true);
+
+                    editTextAbout.setVisibility(View.VISIBLE);
+                    editTextGender.setVisibility(View.VISIBLE);
+                    editTextProfession.setVisibility(View.VISIBLE);
+                    editTextAge.setVisibility(View.VISIBLE);
+                    buttonCancel.setVisibility(View.VISIBLE);
+                    buttonSave.setVisibility(View.VISIBLE);
+                    constraintLayout.setVisibility(View.VISIBLE);
+                    progressBar.setVisibility(View.GONE);
+
+                    Toast.makeText(getApplicationContext(), "Failed to load details.", Toast.LENGTH_SHORT).show();
+
                 }
             });
         }
@@ -299,6 +366,22 @@ public class UserProfileActivity extends AppCompatActivity {
         user.put("index", newIndex);
         user.put("image_url", filePath.toString());
         user.put("name", userName);
+
+        if (filePath != userProfileUri) {
+            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                    .setPhotoUri(filePath)
+                    .build();
+
+            firebaseUser.updateProfile(profileUpdates)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                Log.d("PROFILE_UPDATE", "User profile updated.");
+                            }
+                        }
+                    });
+        }
 
 
         collectionReference.document(userEmail).update(user).addOnSuccessListener(new OnSuccessListener<Void>() {

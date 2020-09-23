@@ -65,6 +65,8 @@ public class CitizenScienceActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.home:
+                        Intent intent = new Intent(CitizenScienceActivity.this, HomeActivity.class);
+                        startActivity(intent);
                         finish();
                         break;
                     case R.id.about:
@@ -75,8 +77,9 @@ public class CitizenScienceActivity extends AppCompatActivity {
                         break;
 
                     case R.id.macrophytes:
-                        Intent intent = new Intent(CitizenScienceActivity.this, MacrophyteListActivity.class);
-                        startActivity(intent);
+                        Intent macrophyteIntent = new Intent(CitizenScienceActivity.this, MacrophyteListActivity.class);
+                        startActivity(macrophyteIntent);
+                        finish();
                         break;
                     case R.id.augmented_reality_game:
                         Intent lakeARIntent = new Intent(CitizenScienceActivity.this, LakeARQuizActivity.class);
@@ -88,6 +91,8 @@ public class CitizenScienceActivity extends AppCompatActivity {
                     case R.id.badges:
                         break;
                     case R.id.edit_profile:
+                        Intent profileIntent = new Intent(getApplicationContext(), UserProfileActivity.class);
+                        startActivity(profileIntent);
                         break;
                     case R.id.sign_out:
                         FirebaseAuth.getInstance().signOut();

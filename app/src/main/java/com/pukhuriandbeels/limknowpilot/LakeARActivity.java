@@ -5,7 +5,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.ar.core.Anchor;
 import com.google.ar.core.HitResult;
@@ -73,7 +72,6 @@ public class LakeARActivity extends AppCompatActivity {
         ).setRegistryId(MODEL_URL)
                 .build()
                 .thenAccept(renderable -> {
-                    Toast.makeText(LakeARActivity.this, "Reached here", Toast.LENGTH_SHORT).show();
                     addNodeToScene(renderable, anchor);
                 }).exceptionally(throwable -> {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);

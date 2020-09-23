@@ -159,7 +159,7 @@ public class BestShotActivity extends AppCompatActivity {
 
                 lastClickTime = SystemClock.elapsedRealtime();
                 progressBar.setVisibility(View.VISIBLE);
-                final StorageReference storageReference = firebaseStorageReference.child("Reported Invasive Species").child(filePath.toString());
+                final StorageReference storageReference = firebaseStorageReference.child("Best Shots").child(filePath.getLastPathSegment());
                 storageReference.putFile(filePath).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {

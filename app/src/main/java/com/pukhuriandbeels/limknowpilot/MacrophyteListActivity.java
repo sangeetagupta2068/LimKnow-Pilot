@@ -80,6 +80,8 @@ public class MacrophyteListActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.home:
+                        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                        startActivity(intent);
                         finish();
                         break;
                     case R.id.about:
@@ -96,14 +98,15 @@ public class MacrophyteListActivity extends AppCompatActivity {
                         startActivity(lakeARIntent);
                         break;
                     case R.id.reporting:
-                        Intent intent = new Intent(MacrophyteListActivity.this, CitizenScienceActivity.class);
-                        startActivity(intent);
+                        Intent citizenScienceIntent = new Intent(MacrophyteListActivity.this, CitizenScienceActivity.class);
+                        startActivity(citizenScienceIntent);
+                        finish();
                         break;
 
                     case R.id.badges:
                         break;
                     case R.id.edit_profile:
-                        Intent editProfileIntent = new Intent(getApplicationContext(),UserProfileActivity.class);
+                        Intent editProfileIntent = new Intent(getApplicationContext(), UserProfileActivity.class);
                         startActivity(editProfileIntent);
                         break;
                     case R.id.sign_out:
@@ -188,8 +191,6 @@ public class MacrophyteListActivity extends AppCompatActivity {
                     boolean invasiveSpecies = documentSnapshot.getBoolean("invasive_species");
                     String imageCredits = documentSnapshot.getString("image_credits");
                     String description = documentSnapshot.getString("about");
-
-                    Log.i("FIREBASE_DATA", name + "\n" + documentSnapshot.getString("image_url"));
 
                     Macrophyte macrophyte = new Macrophyte(name, type, commonName, description, imageURL, imageCredits, invasiveSpecies);
                     macrophytes.add(macrophyte);

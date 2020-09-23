@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    android:orientation="vertical"
     android:layout_height="match_parent"
+    android:layout_width="match_parent">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     tools:context=".UserProfileActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraint_layout_profile"
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:background="#f5f5f5"
@@ -39,6 +44,19 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/user_profile_name" />
 
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floatingActionButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/user_profile_picture"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="80dp"
+            android:src="@drawable/ic_baseline_camera_alt_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.681"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/user_profile_picture" />
+
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/user_profile_picture"
             android:layout_width="136dp"
@@ -52,19 +70,6 @@
             app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
             app:strokeColor="@color/circleBorder"
             app:strokeWidth="1dp" />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/floatingActionButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/user_profile_picture"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="80dp"
-            android:src="@drawable/ic_baseline_camera_alt_24"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.681"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/user_profile_picture" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -191,6 +196,6 @@
             android:text="Save"
             android:textColor="#fafafa"
             android:textSize="18sp" />
-
     </LinearLayout>
-</LinearLayout>
+    </LinearLayout>
+</ScrollView>

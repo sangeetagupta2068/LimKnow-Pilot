@@ -179,7 +179,6 @@ public class LakeARQuizActivity extends AppCompatActivity {
                         animal.setOptionThree(documentSnapshot.getString("option_three"));
 
                         animals.add(animal);
-                        Log.i("TAG", animal.getOptionOne() + animal.getOptionThree() + animal.getOptionTwo());
 
                         if (animal.getAnimalCommonName().equals("Indian elephant"))
                             animal.setAnimalScale(1.85f);

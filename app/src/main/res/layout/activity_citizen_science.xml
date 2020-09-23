@@ -63,10 +63,12 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#B2E2FC"
+                android:background="#f6bb0a"
                 android:gravity="center_horizontal"
-                android:fontFamily="@font/nunito"
-                android:textSize="18dp"
+                android:fontFamily="@font/lato"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:textColor="#fafafa"
                 android:paddingVertical="60dp"
                 android:text="General Feedback" />
 
@@ -88,11 +90,13 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#B5D2FB"
+                android:background="#f9d342"
                 android:gravity="center_horizontal"
                 android:paddingVertical="60dp"
-                android:fontFamily="@font/nunito"
-                android:textSize="18dp"
+                android:fontFamily="@font/lato"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:textColor="#fafafa"
                 android:text="Invasive Species Watch" />
         </androidx.cardview.widget.CardView>
 
@@ -112,9 +116,11 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#BAF4FE"
-                android:fontFamily="@font/nunito"
-                android:textSize="18dp"
+                android:background="#fbe551"
+                android:fontFamily="@font/lato"
+                android:textSize="22sp"
+                android:textColor="#fafafa"
+                android:textStyle="bold"
                 android:gravity="center_horizontal"
                 android:paddingVertical="60dp"
                 android:text="Lake Health Reporting" />
@@ -136,9 +142,11 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#FFFFB7"
-                android:fontFamily="@font/nunito"
-                android:textSize="18dp"
+                android:background="#f6bb0a"
+                android:fontFamily="@font/lato"
+                android:textStyle="bold"
+                android:textSize="22sp"
+                android:textColor="#fafafa"
                 android:gravity="center_horizontal"
                 android:paddingVertical="60dp"
                 android:text="Your Best Shot" />

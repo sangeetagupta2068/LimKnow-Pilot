@@ -20,12 +20,12 @@
         <item
             android:id="@+id/reporting"
             android:fontFamily="@font/nunito"
-            android:icon="@drawable/ic_baseline_create_24"
+            android:icon="@drawable/ic_baseline_people_24"
             android:title='Citizen Science' />
         <item
             android:id="@+id/about"
             android:fontFamily="@font/nunito"
-            android:icon="@drawable/ic_baseline_about_24"
+            android:icon="@drawable/ic_baseline_language_24"
             android:title='Beels and Pukhuris' />
         <item
             android:id="@+id/policy"
