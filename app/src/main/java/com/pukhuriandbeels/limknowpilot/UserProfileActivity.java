@@ -384,13 +384,16 @@ public class UserProfileActivity extends AppCompatActivity {
         }
 
 
-        collectionReference.document(userEmail).update(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+        collectionReference.document(userEmail).set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
                 progressBar.setVisibility(View.GONE);
                 Toast.makeText(getApplicationContext(), "Your profile has been updated.", Toast.LENGTH_SHORT).show();
                 try {
                     Thread.sleep(50);
+
+                    Intent intent = new Intent(getApplicationContext(),HomeActivity.class);
+                    startActivity(intent);
                     finish();
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -399,7 +402,7 @@ public class UserProfileActivity extends AppCompatActivity {
             }
         });
 
-        collectionReference.document(userEmail).update(user).addOnFailureListener(new OnFailureListener() {
+        collectionReference.document(userEmail).set(user).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
                 progressBar.setVisibility(View.GONE);

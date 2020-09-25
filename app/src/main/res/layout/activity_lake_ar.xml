@@ -11,20 +11,42 @@
         android:id="@+id/lake_ar_fragment"
         android:name="com.google.ar.sceneform.ux.ArFragment"
         android:layout_width="match_parent"
-        android:layout_weight="9"
+        android:layout_weight="8.7"
         android:layout_height="0dp">
     </fragment>
 
-    <TextView
-        android:id="@+id/lake_ar_guide"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:gravity="center"
-        android:paddingHorizontal="20dp"
-        android:fontFamily="@font/nunito"
-        android:textColor="@color/colorBlack"
-        android:textSize="18dp"
-        android:text="Find a plane to place the animal. Tap on animal to learn more!"
-        android:paddingTop="10dp"
-        android:layout_weight="1" />
+        android:layout_weight="1.3"
+        android:paddingVertical="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/lake_ar_guide"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:fontFamily="@font/nunito"
+            android:text="Find a plane to place the animal.\nTap on animal to learn more!"
+            android:textColor="@color/colorBlack"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.513" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/camera_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_baseline_camera_alt_24"
+            app:layout_constraintBottom_toBottomOf="@+id/lake_ar_guide"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.792"
+            app:layout_constraintStart_toEndOf="@+id/lake_ar_guide"
+            app:layout_constraintTop_toTopOf="@+id/lake_ar_guide"
+            app:layout_constraintVertical_bias="0.285" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </LinearLayout>
