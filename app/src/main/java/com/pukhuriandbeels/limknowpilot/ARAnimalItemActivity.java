@@ -10,7 +10,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.pukhuriandbeels.limknowpilot.model.Animal;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -20,6 +32,7 @@ public class ARAnimalItemActivity extends AppCompatActivity {
     private TextView textViewAnimalImageCredits, textViewAnimalWaterbodyAssociation, textViewAnimalThreats;
     private ImageView imageViewAnimal;
     private Button submit;
+    private Boolean isLakeObserver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +83,8 @@ public class ARAnimalItemActivity extends AppCompatActivity {
 
         imageViewAnimal.setVisibility(View.VISIBLE);
 
+        isLakeObserver = false;
+
     }
 
     private void setListeners() {
@@ -78,18 +93,57 @@ public class ARAnimalItemActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (LakeARQuizActivity.questionCount == LakeARQuizActivity.animals.size()) {
                     LakeARQuizActivity.animals.clear();
-                    Toast.makeText(getApplicationContext(), "You completed Lake 3D experience!", Toast.LENGTH_SHORT).show();
-                    try {
-                        Thread.sleep(50);
-                    } catch (InterruptedException ex) {
-                        ex.printStackTrace();
+
+                    FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+                    FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+
+                    FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+                    StorageReference firebaseStorageReference = FirebaseStorage.getInstance().getReference();
+                    CollectionReference collectionReference = firebaseFirestore.collection("User");
+
+                    if (firebaseUser != null) {
+                        collectionReference.document(firebaseUser.getEmail()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                            @Override
+                            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                if (documentSnapshot.exists()) {
+                                    if (documentSnapshot.contains("is_lake_observer")) {
+                                        isLakeObserver = documentSnapshot.getBoolean("is_lake_observer");
+                                    }
+                                    if (isLakeObserver) {
+                                        try {
+                                            Thread.sleep(200);
+                                        } catch (InterruptedException ex) {
+                                            ex.printStackTrace();
+                                        }
+                                        Intent intent = new Intent(ARAnimalItemActivity.this, HomeActivity.class);
+                                        startActivity(intent);
+                                        finish();
+                                    }
+                                    DocumentReference documentReference = collectionReference.document(firebaseUser.getEmail());
+                                    documentReference.update("is_lake_observer", true).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            Toast.makeText(getApplicationContext(), "Congratulations! You have earned the Lake Observer badge!", Toast.LENGTH_SHORT).show();
+                                            try {
+                                                Thread.sleep(50);
+                                            } catch (InterruptedException e) {
+                                                e.printStackTrace();
+                                            }
+                                            Intent intent = new Intent(ARAnimalItemActivity.this, HomeActivity.class);
+                                            startActivity(intent);
+                                            finish();
+                                        }
+                                    });
+
+                                }
+                            }
+                        });
                     }
-                    Intent intent = new Intent(ARAnimalItemActivity.this, HomeActivity.class);
-                    startActivity(intent);
-                    finish();
                 } else {
+                    Toast.makeText(getApplicationContext(), "You completed Lake 3D experience!", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(ARAnimalItemActivity.this, LakeARQuizActivity.class);
                     startActivity(intent);
+                    finish();
                 }
             }
         });

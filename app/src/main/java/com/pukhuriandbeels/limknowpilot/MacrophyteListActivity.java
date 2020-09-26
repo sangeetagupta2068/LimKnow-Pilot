@@ -105,6 +105,7 @@ public class MacrophyteListActivity extends AppCompatActivity {
                     case R.id.badges:
                         Intent userBadgeIntent = new Intent(getApplicationContext(),UserBadgeActivity.class);
                         startActivity(userBadgeIntent);
+                        finish();
                         break;
                     case R.id.edit_profile:
                         Intent editProfileIntent = new Intent(getApplicationContext(), UserProfileActivity.class);

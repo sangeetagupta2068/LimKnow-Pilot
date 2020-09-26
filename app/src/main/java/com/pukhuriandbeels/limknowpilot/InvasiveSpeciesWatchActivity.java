@@ -87,6 +87,9 @@ public class InvasiveSpeciesWatchActivity extends AppCompatActivity {
     private String invasiveSpeciesName;
     private String lakeName;
     private long lastClickTime;
+    private CollectionReference userCollectionReference;
+    private Boolean isLakeSaviour;
+    private FirebaseUser firebaseUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +105,8 @@ public class InvasiveSpeciesWatchActivity extends AppCompatActivity {
         invasiveSpeciesName = "";
         widespreadPercentage = 0;
         currentPhotoPath = "";
+
+        isLakeSaviour = false;
 
         radioGroupInvasiveSpecies = findViewById(R.id.invasive_species_radio_group);
         radioButtons = new RadioButton[5];
@@ -277,13 +282,29 @@ public class InvasiveSpeciesWatchActivity extends AppCompatActivity {
             @Override
             public void onSuccess(Void aVoid) {
                 progressBar.setVisibility(View.GONE);
-                Toast.makeText(getApplicationContext(), "Thank you for your response", Toast.LENGTH_LONG).show();
-                try {
-                    Thread.sleep(50);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                if (isLakeSaviour) {
+                    Toast.makeText(getApplicationContext(), "Thank you for your response", Toast.LENGTH_LONG).show();
+                    try {
+                        Thread.sleep(50);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    finish();
+                } else {
+                    userCollectionReference.document(firebaseUser.getEmail()).update("is_lake_saviour", true).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Toast.makeText(getApplicationContext(), "Congratulations!\n You have earned the Lake Saviour badge!", Toast.LENGTH_SHORT).show();
+                            try {
+                                Thread.sleep(50);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            finish();
+                        }
+                    });
                 }
-                finish();
+
             }
         });
         collectionReference.document(id).set(documentData).addOnFailureListener(new OnFailureListener() {
@@ -300,9 +321,24 @@ public class InvasiveSpeciesWatchActivity extends AppCompatActivity {
         firebaseFirestore = FirebaseFirestore.getInstance();
         firebaseStorageReference = FirebaseStorage.getInstance().getReference();
 
-        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+        firebaseUser = firebaseAuth.getCurrentUser();
         userName = firebaseUser.getDisplayName();
         userEmailId = firebaseUser.getEmail();
+
+        userCollectionReference = FirebaseFirestore.getInstance().collection("User");
+
+        if (firebaseUser != null) {
+            userCollectionReference.document(firebaseUser.getEmail()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    if (documentSnapshot.exists()) {
+                        if (documentSnapshot.contains("is_lake_saviour")) {
+                            isLakeSaviour = documentSnapshot.getBoolean("is_lake_saviour");
+                        }
+                    }
+                }
+            });
+        }
 
         collectionReference = firebaseFirestore.collection("Reported Invasive Species");
 

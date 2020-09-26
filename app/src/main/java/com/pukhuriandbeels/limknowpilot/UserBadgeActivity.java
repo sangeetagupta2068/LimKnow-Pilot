@@ -1,6 +1,8 @@
 package com.pukhuriandbeels.limknowpilot;
 
 import android.content.Intent;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -49,6 +51,7 @@ public class UserBadgeActivity extends AppCompatActivity {
     private View header;
     private TextView userEmailTextView;
     private ImageView userImageView;
+    private TextView userNameView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +61,7 @@ public class UserBadgeActivity extends AppCompatActivity {
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.navigation_view);
         header = navigationView.getHeaderView(0);
-        userNameTextView = header.findViewById(R.id.user_name);
+        userNameView = header.findViewById(R.id.user_name);
         userEmailTextView = header.findViewById(R.id.user_email);
         userImageView = header.findViewById(R.id.user_image);
 
@@ -171,6 +174,11 @@ public class UserBadgeActivity extends AppCompatActivity {
         lakeObserverTextView.setVisibility(View.GONE);
         lakeFinderImageView.setVisibility(View.GONE);
         lakeFinderTextView.setVisibility(View.GONE);
+
+        setImageColor(0, lakeFinderImageView.getId());
+        setImageColor(0, lakeObserverImageView.getId());
+        setImageColor(0, lakePhotographerImageView.getId());
+        setImageColor(0, lakeSaviourImageView.getId());
     }
 
     private void firebaseTransaction() {
@@ -182,14 +190,16 @@ public class UserBadgeActivity extends AppCompatActivity {
             userProfileUri = firebaseUser.getPhotoUrl();
             userName = firebaseUser.getDisplayName();
 
-            userNameTextView.setText(userName);
-            userProfileTextView.setText(userEmail);
+            userNameView.setText(userName);
+            userEmailTextView.setText(userEmail);
 
             Glide.with(getApplicationContext()).load(userProfileUri).error(R.drawable.ic_baseline_person_24).into(userProfileImageView);
             Glide.with(this).load(userProfileUri).error(R.drawable.ic_baseline_person_24).apply(RequestOptions.circleCropTransform()).into(userImageView);
 
-            userEmailTextView.setText(userEmail);
+            userProfileTextView.setText(userEmail);
             userNameTextView.setText(userName);
+
+            userNameTextView.setVisibility(View.VISIBLE);
         }
 
         FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
@@ -201,10 +211,19 @@ public class UserBadgeActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
                     if (documentSnapshot.exists()) {
-                        isLakeFinder = documentSnapshot.getBoolean("is_lake_finder");
-                        isLakeObserver = documentSnapshot.getBoolean("is_lake_observer");
-                        isLakePhotographer = documentSnapshot.getBoolean("is_lake_photographer");
-                        isLakeSaviour = documentSnapshot.getBoolean("is_lake_saviour");
+                        if(documentSnapshot.contains("is_lake_finder")) {
+                            isLakeFinder = documentSnapshot.getBoolean("is_lake_finder");
+                        }
+                        if(documentSnapshot.contains("is_lake_observer")){
+                            isLakeObserver = documentSnapshot.getBoolean("is_lake_observer");
+                        }
+                        if(documentSnapshot.contains("is_lake_photographer")){
+                            isLakePhotographer = documentSnapshot.getBoolean("is_lake_photographer");
+                        }
+                        if(documentSnapshot.contains("is_lake_saviour")){
+                            isLakeSaviour = documentSnapshot.getBoolean("is_lake_saviour");
+                        }
+
                     } else {
                         isLakeFinder = false;
                         isLakeObserver = false;
@@ -213,35 +232,40 @@ public class UserBadgeActivity extends AppCompatActivity {
                     }
 
                     if (isLakeFinder) {
-                        lakeFinderImageView.setVisibility(View.VISIBLE);
-                        lakeFinderTextView.setVisibility(View.VISIBLE);
+                        setImageColor(1, lakeFinderImageView.getId());
                     }
                     if (isLakeObserver) {
-                        lakeObserverImageView.setVisibility(View.VISIBLE);
-                        lakeObserverTextView.setVisibility(View.VISIBLE);
+                        setImageColor(1, lakeObserverImageView.getId());
                     }
                     if (isLakePhotographer) {
-                        lakePhotographerImageView.setVisibility(View.VISIBLE);
-                        lakePhotographerTextView.setVisibility(View.VISIBLE);
+                        setImageColor(1, lakePhotographerImageView.getId());
                     }
-                    if(isLakeSaviour){
-                        lakeSaviourImageView.setVisibility(View.VISIBLE);
-                        lakeSaviourTextView.setVisibility(View.VISIBLE);
+                    if (isLakeSaviour) {
+                        setImageColor(1, lakeSaviourImageView.getId());
                     }
+
+                    lakeFinderImageView.setVisibility(View.VISIBLE);
+                    lakeFinderTextView.setVisibility(View.VISIBLE);
+                    lakeObserverImageView.setVisibility(View.VISIBLE);
+                    lakeObserverTextView.setVisibility(View.VISIBLE);
+                    lakePhotographerImageView.setVisibility(View.VISIBLE);
+                    lakePhotographerTextView.setVisibility(View.VISIBLE);
+                    lakeSaviourImageView.setVisibility(View.VISIBLE);
+                    lakeSaviourTextView.setVisibility(View.VISIBLE);
                 }
             });
 
             collectionReference.document(firebaseUser.getEmail()).get().addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    lakePhotographerImageView.setVisibility(View.GONE);
-                    lakePhotographerTextView.setVisibility(View.GONE);
-                    lakeSaviourImageView.setVisibility(View.GONE);
-                    lakeSaviourTextView.setVisibility(View.GONE);
-                    lakeObserverImageView.setVisibility(View.GONE);
-                    lakeObserverTextView.setVisibility(View.GONE);
-                    lakeFinderImageView.setVisibility(View.GONE);
-                    lakeFinderTextView.setVisibility(View.GONE);
+                    lakeFinderImageView.setVisibility(View.VISIBLE);
+                    lakeFinderTextView.setVisibility(View.VISIBLE);
+                    lakeObserverImageView.setVisibility(View.VISIBLE);
+                    lakeObserverTextView.setVisibility(View.VISIBLE);
+                    lakePhotographerImageView.setVisibility(View.VISIBLE);
+                    lakePhotographerTextView.setVisibility(View.VISIBLE);
+                    lakeSaviourImageView.setVisibility(View.VISIBLE);
+                    lakeSaviourTextView.setVisibility(View.VISIBLE);
                     Toast.makeText(getApplicationContext(), "Failed to load details.", Toast.LENGTH_SHORT).show();
 
                 }
@@ -249,17 +273,25 @@ public class UserBadgeActivity extends AppCompatActivity {
         }
     }
 
-        @Override
-        public void onBackPressed () {
-            if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-                drawerLayout.closeDrawer(GravityCompat.START);
-            } else {
-                super.onBackPressed();
-                Intent intent = new Intent(Intent.ACTION_MAIN);
-                intent.addCategory(Intent.CATEGORY_HOME);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-                finish();
-            }
+    @Override
+    public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            finish();
         }
     }
+
+    private void setImageColor(int value, int id) {
+        ImageView imageview = findViewById(id);
+        ColorMatrix matrix = new ColorMatrix();
+        matrix.setSaturation(value);
+        ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
+        imageview.setColorFilter(filter);
+    }
+}

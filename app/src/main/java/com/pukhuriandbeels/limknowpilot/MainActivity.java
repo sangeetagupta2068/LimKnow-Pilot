@@ -14,12 +14,17 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -78,9 +83,32 @@ public class MainActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             FirebaseUser user = firebaseAuth.getCurrentUser();
-                            progressBar.setVisibility(View.GONE);
-                            Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-                            startActivity(intent);
+
+                            CollectionReference collectionReference = FirebaseFirestore.getInstance().collection("User");
+
+                            collectionReference.document(user.getEmail()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                @Override
+                                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                    progressBar.setVisibility(View.GONE);
+                                    if(documentSnapshot.exists()){
+                                        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                                        startActivity(intent);
+                                    } else {
+                                        Intent intent = new Intent(getApplicationContext(), UserProfileActivity.class);
+                                        intent.putExtra("KEY","value");
+                                        startActivity(intent);
+                                    }
+                                }
+                            });
+
+                            collectionReference.document(user.getEmail()).get().addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Intent intent = new Intent(getApplicationContext(), UserProfileActivity.class);
+                                    intent.putExtra("KEY",1);
+                                    startActivity(intent);
+                                }
+                            });
 
                         } else {
                             progressBar.setVisibility(View.GONE);

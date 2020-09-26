@@ -66,6 +66,8 @@ public class UserProfileActivity extends AppCompatActivity {
     private CollectionReference collectionReference;
     private StorageReference firebaseStorageReference;
     private FirebaseUser firebaseUser;
+    private boolean isLakeFinder, isLakeObserver, isLakeSaviour, isLakePhotographer;
+    private boolean flagCancel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +103,25 @@ public class UserProfileActivity extends AppCompatActivity {
         constraintLayout.setVisibility(View.GONE);
 
         progressBar.setVisibility(View.VISIBLE);
+
+
+        Intent intent = getIntent();
+        if(intent.getStringExtra("KEY")!=null){
+            flagCancel = false;
+        } else {
+            flagCancel = true;
+        }
+
+        isLakeFinder = false;
+        isLakeObserver = false;
+        isLakePhotographer = false;
+        isLakeSaviour = false;
+
+        userAbout = "";
+        userProfession = "";
+        userGender = "";
+        userAge = "";
+        index = "0";
     }
 
     private void setListeners() {
@@ -271,12 +292,41 @@ public class UserProfileActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
                     if (documentSnapshot.exists()) {
-                        userAbout = documentSnapshot.getString("about");
-                        userProfession = documentSnapshot.getString("profession");
-                        userGender = documentSnapshot.getString("pronoun");
-                        userAge = documentSnapshot.getString("age");
-                        index = documentSnapshot.getString("index");
+                        if(documentSnapshot.contains("about")) {
+                            userAbout = documentSnapshot.getString("about");
+                        }
+                        if(documentSnapshot.contains("profession")) {
+                            userProfession = documentSnapshot.getString("profession");
+                        }
+                        if(documentSnapshot.contains("pronoun")) {
+                            userGender = documentSnapshot.getString("pronoun");
+                        }
+                        if(documentSnapshot.contains("age")) {
+                            userAge = documentSnapshot.getString("age");
+                        }
+                        if(documentSnapshot.contains("index")) {
+                            index = documentSnapshot.getString("index");
+                        }
+
+                        if(documentSnapshot.contains("is_lake_finder")) {
+                            isLakeFinder = documentSnapshot.getBoolean("is_lake_finder");
+                        }
+                        if(documentSnapshot.contains("is_lake_observer")){
+                            isLakeObserver = documentSnapshot.getBoolean("is_lake_observer");
+                        }
+                        if(documentSnapshot.contains("is_lake_photographer")){
+                            isLakePhotographer = documentSnapshot.getBoolean("is_lake_photographer");
+                        }
+                        if(documentSnapshot.contains("is_lake_saviour")){
+                            isLakeSaviour = documentSnapshot.getBoolean("is_lake_saviour");
+                        }
+
                     } else {
+                        isLakeFinder = false;
+                        isLakeObserver = false;
+                        isLakePhotographer = false;
+                        isLakeSaviour = false;
+
                         userAbout = "";
                         userProfession = "";
                         userGender = "";
@@ -303,7 +353,9 @@ public class UserProfileActivity extends AppCompatActivity {
                     editTextGender.setVisibility(View.VISIBLE);
                     editTextProfession.setVisibility(View.VISIBLE);
                     editTextAge.setVisibility(View.VISIBLE);
-                    buttonCancel.setVisibility(View.VISIBLE);
+                    if(flagCancel) {
+                        buttonCancel.setVisibility(View.VISIBLE);
+                    }
                     buttonSave.setVisibility(View.VISIBLE);
                     constraintLayout.setVisibility(View.VISIBLE);
                     progressBar.setVisibility(View.GONE);
@@ -338,7 +390,10 @@ public class UserProfileActivity extends AppCompatActivity {
                     editTextGender.setVisibility(View.VISIBLE);
                     editTextProfession.setVisibility(View.VISIBLE);
                     editTextAge.setVisibility(View.VISIBLE);
-                    buttonCancel.setVisibility(View.VISIBLE);
+
+                    if(flagCancel) {
+                        buttonCancel.setVisibility(View.VISIBLE);
+                    }
                     buttonSave.setVisibility(View.VISIBLE);
                     constraintLayout.setVisibility(View.VISIBLE);
                     progressBar.setVisibility(View.GONE);
@@ -354,6 +409,9 @@ public class UserProfileActivity extends AppCompatActivity {
         if (newAge.equals(userAge) && newGender.equals(userGender) && newProfession.equals(userProfession) && newUserAbout.equals(userAbout) && userProfileUri == filePath) {
             progressBar.setVisibility(View.GONE);
             Toast.makeText(getApplicationContext(), "Nothing to change", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+            startActivity(intent);
+            finish();
             return;
         }
 
@@ -366,6 +424,10 @@ public class UserProfileActivity extends AppCompatActivity {
         user.put("index", newIndex);
         user.put("image_url", filePath.toString());
         user.put("name", userName);
+        user.put("is_lake_finder",isLakeFinder);
+        user.put("is_lake_observer",isLakeObserver);
+        user.put("is_lake_photographer",isLakePhotographer);
+        user.put("is_lake_saviour",isLakeSaviour);
 
         if (filePath != userProfileUri) {
             UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
@@ -382,7 +444,6 @@ public class UserProfileActivity extends AppCompatActivity {
                         }
                     });
         }
-
 
         collectionReference.document(userEmail).set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override

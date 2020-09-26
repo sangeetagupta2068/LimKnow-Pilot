@@ -23,6 +23,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -58,6 +59,9 @@ public class BestShotActivity extends AppCompatActivity {
     private StorageReference firebaseStorageReference;
     private boolean flag;
     private long lastClickTime;
+    private boolean isLakePhotographer;
+    private FirebaseUser firebaseUser;
+    private CollectionReference userCollectionReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +77,7 @@ public class BestShotActivity extends AppCompatActivity {
         observedOn = "";
         type = "";
         flag = true;
+        isLakePhotographer = false;
 
         buttonUpload = findViewById(R.id.button_upload_shot);
         imageView = findViewById(R.id.sample_image_view_best_shot);
@@ -243,10 +248,24 @@ public class BestShotActivity extends AppCompatActivity {
         firebaseFirestore = FirebaseFirestore.getInstance();
         firebaseStorageReference = FirebaseStorage.getInstance().getReference();
         collectionReference = firebaseFirestore.collection("User Shots");
+        userCollectionReference = firebaseFirestore.collection("User");
 
-        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+        firebaseUser = firebaseAuth.getCurrentUser();
         userName = firebaseUser.getDisplayName();
         userEmailId = firebaseUser.getEmail();
+
+        if (firebaseUser != null) {
+            userCollectionReference.document(firebaseUser.getEmail()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    if (documentSnapshot.exists()) {
+                        if (documentSnapshot.contains("is_lake_photographer")) {
+                            isLakePhotographer = documentSnapshot.getBoolean("is_lake_photographer");
+                        }
+                    }
+                }
+            });
+        }
     }
 
     private void firebaseFirestoreTransaction(@Nullable Object uri) {
@@ -267,13 +286,29 @@ public class BestShotActivity extends AppCompatActivity {
             @Override
             public void onSuccess(Void aVoid) {
                 progressBar.setVisibility(View.GONE);
-                Toast.makeText(getApplicationContext(), "Thank you for your response", Toast.LENGTH_LONG).show();
-                try {
-                    Thread.sleep(50);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                if (isLakePhotographer) {
+                    Toast.makeText(getApplicationContext(), "Thank you for your response", Toast.LENGTH_LONG).show();
+                    try {
+                        Thread.sleep(50);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    finish();
+                } else {
+                    userCollectionReference.document(firebaseUser.getEmail()).update("is_lake_photographer", true).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Toast.makeText(getApplicationContext(), "Congratulations! You have earned the Lake Photographer badge!", Toast.LENGTH_SHORT).show();
+                            try {
+                                Thread.sleep(50);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            finish();
+                        }
+                    });
                 }
-                finish();
+
             }
         });
         collectionReference.document(id).set(documentData).addOnFailureListener(new OnFailureListener() {
@@ -285,3 +320,4 @@ public class BestShotActivity extends AppCompatActivity {
         });
     }
 }
+

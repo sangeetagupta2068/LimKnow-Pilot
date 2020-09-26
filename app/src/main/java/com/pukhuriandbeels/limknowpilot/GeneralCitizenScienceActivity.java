@@ -23,6 +23,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Calendar;
@@ -51,6 +52,10 @@ public class GeneralCitizenScienceActivity extends AppCompatActivity {
     private String userName, userEmailId;
     private FirebaseFirestore firebaseFirestore;
     private long lastClickTime;
+    private CollectionReference userCollectionReference;
+
+    private Boolean isLakeFinder;
+    private FirebaseUser firebaseUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +90,7 @@ public class GeneralCitizenScienceActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.general_citizen_science_connection_status);
 
         progressBar.setVisibility(View.GONE);
+        isLakeFinder = false;
     }
 
     @SuppressLint("MissingPermission")
@@ -177,9 +183,24 @@ public class GeneralCitizenScienceActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseFirestore = FirebaseFirestore.getInstance();
 
-        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+        firebaseUser = firebaseAuth.getCurrentUser();
         userName = firebaseUser.getDisplayName();
         userEmailId = firebaseUser.getEmail();
+
+        userCollectionReference = FirebaseFirestore.getInstance().collection("User");
+
+        if (firebaseUser != null) {
+            userCollectionReference.document(firebaseUser.getEmail()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    if (documentSnapshot.exists()) {
+                        if (documentSnapshot.contains("is_lake_finder")) {
+                            isLakeFinder = documentSnapshot.getBoolean("is_lake_finder");
+                        }
+                    }
+                }
+            });
+        }
     }
 
     private void getCurrentLocationSetup() {
@@ -227,6 +248,8 @@ public class GeneralCitizenScienceActivity extends AppCompatActivity {
 
         if (!potentialLake.equals("")) {
             documentData.put("potential_lake", potentialLake);
+        } else {
+            isLakeFinder = true;
         }
 
         if (!beelRelation.equals("")) {
@@ -240,13 +263,28 @@ public class GeneralCitizenScienceActivity extends AppCompatActivity {
             @Override
             public void onSuccess(Void aVoid) {
                 progressBar.setVisibility(View.GONE);
-                Toast.makeText(getApplicationContext(), "Thank you for your response", Toast.LENGTH_LONG).show();
-                try {
-                    Thread.sleep(50);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                if (isLakeFinder) {
+                    Toast.makeText(getApplicationContext(), "Thank you for your response", Toast.LENGTH_LONG).show();
+                    try {
+                        Thread.sleep(50);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    finish();
+                } else {
+                    userCollectionReference.document(firebaseUser.getEmail()).update("is_lake_finder", true).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Toast.makeText(getApplicationContext(), "Congratulations!\n You have earned the Lake Photographer badge!", Toast.LENGTH_SHORT).show();
+                            try {
+                                Thread.sleep(50);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            finish();
+                        }
+                    });
                 }
-                finish();
             }
         });
         collectionReference.document(id).set(documentData).addOnFailureListener(new OnFailureListener() {
