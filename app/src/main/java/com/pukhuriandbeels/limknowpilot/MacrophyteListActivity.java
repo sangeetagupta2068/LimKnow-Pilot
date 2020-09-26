@@ -3,7 +3,6 @@ package com.pukhuriandbeels.limknowpilot;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -104,6 +103,8 @@ public class MacrophyteListActivity extends AppCompatActivity {
                         break;
 
                     case R.id.badges:
+                        Intent userBadgeIntent = new Intent(getApplicationContext(),UserBadgeActivity.class);
+                        startActivity(userBadgeIntent);
                         break;
                     case R.id.edit_profile:
                         Intent editProfileIntent = new Intent(getApplicationContext(), UserProfileActivity.class);

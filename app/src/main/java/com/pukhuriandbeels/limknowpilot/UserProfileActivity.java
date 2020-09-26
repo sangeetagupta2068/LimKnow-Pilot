@@ -392,7 +392,7 @@ public class UserProfileActivity extends AppCompatActivity {
                 try {
                     Thread.sleep(50);
 
-                    Intent intent = new Intent(getApplicationContext(),HomeActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
                     startActivity(intent);
                     finish();
                 } catch (Exception e) {

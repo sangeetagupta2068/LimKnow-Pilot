@@ -92,6 +92,8 @@ public class HomeActivity extends AppCompatActivity {
                         break;
 
                     case R.id.badges:
+                        Intent userBadgeIntent = new Intent(getApplicationContext(),UserBadgeActivity.class);
+                        startActivity(userBadgeIntent);
                         break;
                     case R.id.edit_profile:
                         Intent profileIntent = new Intent(getApplicationContext(), UserProfileActivity.class);
