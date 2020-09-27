@@ -74,6 +74,8 @@ public class CitizenScienceActivity extends AppCompatActivity {
                         startActivity(aboutIntent);
                         break;
                     case R.id.policy:
+                        Intent policyIntent = new Intent(CitizenScienceActivity.this, PrivacyPolicyActivity.class);
+                        startActivity(policyIntent);
                         break;
 
                     case R.id.macrophytes:
@@ -101,9 +103,6 @@ public class CitizenScienceActivity extends AppCompatActivity {
                         FirebaseAuth.getInstance().signOut();
                         Intent signOutIntent = new Intent(getApplicationContext(), MainActivity.class);
                         startActivity(signOutIntent);
-                        break;
-
-                    case R.id.share:
                         break;
                     case R.id.contact_us:
                         Intent contactIntent = new Intent(Intent.ACTION_SEND);

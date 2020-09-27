@@ -19,7 +19,6 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:paddingBottom="20dp"
@@ -64,12 +63,12 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#f6bb0a"
+                android:background="#DE9435"
                 android:gravity="center_horizontal"
                 android:fontFamily="@font/lato"
                 android:textSize="22sp"
-                android:textStyle="bold"
                 android:textColor="#fafafa"
+                android:textStyle="bold"
                 android:paddingVertical="60dp"
                 android:text="General Feedback" />
 
@@ -91,7 +90,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#f9d342"
+                android:background="#C77621"
                 android:gravity="center_horizontal"
                 android:paddingVertical="60dp"
                 android:fontFamily="@font/lato"
@@ -117,7 +116,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#fbe551"
+                android:background="#AD611F"
                 android:fontFamily="@font/lato"
                 android:textSize="22sp"
                 android:textColor="#fafafa"
@@ -143,7 +142,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#f6bb0a"
+                android:background="#9A541A"
                 android:fontFamily="@font/lato"
                 android:textStyle="bold"
                 android:textSize="22sp"

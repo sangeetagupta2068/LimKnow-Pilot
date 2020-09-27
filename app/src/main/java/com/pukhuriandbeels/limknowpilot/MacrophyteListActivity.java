@@ -88,6 +88,8 @@ public class MacrophyteListActivity extends AppCompatActivity {
                         startActivity(aboutIntent);
                         break;
                     case R.id.policy:
+                        Intent policyIntent = new Intent(getApplicationContext(),PrivacyPolicyActivity.class);
+                        startActivity(policyIntent);
                         break;
 
                     case R.id.macrophytes:
@@ -112,9 +114,6 @@ public class MacrophyteListActivity extends AppCompatActivity {
                         startActivity(editProfileIntent);
                         break;
                     case R.id.sign_out:
-                        break;
-
-                    case R.id.share:
                         break;
                     case R.id.contact_us:
                         Intent contactIntent = new Intent(Intent.ACTION_SEND);

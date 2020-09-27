@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
 
         LakeARActivity.count = 0;
         signInButton = findViewById(R.id.sign_in_button);
-        progressBar = findViewById(R.id.login_connection_status);
+        progressBar = findViewById(R.id.badge_connection_status);
         progressBar.setVisibility(View.GONE);
         firebaseAuth = FirebaseAuth.getInstance();
 

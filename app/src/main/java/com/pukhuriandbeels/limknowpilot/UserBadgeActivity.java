@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,6 +45,7 @@ public class UserBadgeActivity extends AppCompatActivity {
     private StorageReference firebaseStorageReference;
     private CollectionReference collectionReference;
     private boolean isLakeFinder, isLakeObserver, isLakePhotographer, isLakeSaviour;
+    private ProgressBar progressBar;
 
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
@@ -88,6 +90,8 @@ public class UserBadgeActivity extends AppCompatActivity {
                         startActivity(aboutIntent);
                         break;
                     case R.id.policy:
+                        Intent policyIntent = new Intent(getApplicationContext(),PrivacyPolicyActivity.class);
+                        startActivity(policyIntent);
                         break;
 
                     case R.id.macrophytes:
@@ -115,9 +119,6 @@ public class UserBadgeActivity extends AppCompatActivity {
                         FirebaseAuth.getInstance().signOut();
                         Intent signOutIntent = new Intent(getApplicationContext(), MainActivity.class);
                         startActivity(signOutIntent);
-                        break;
-
-                    case R.id.share:
                         break;
                     case R.id.contact_us:
                         Intent contactIntent = new Intent(Intent.ACTION_SEND);
@@ -160,6 +161,8 @@ public class UserBadgeActivity extends AppCompatActivity {
         userProfileTextView = findViewById(R.id.user_profile__badge_email);
 
         userProfileImageView = findViewById(R.id.user_profile__badge_picture);
+
+        progressBar = findViewById(R.id.badge_connection_status);
 
         isLakeFinder = false;
         isLakeObserver = false;
@@ -252,6 +255,8 @@ public class UserBadgeActivity extends AppCompatActivity {
                     lakePhotographerTextView.setVisibility(View.VISIBLE);
                     lakeSaviourImageView.setVisibility(View.VISIBLE);
                     lakeSaviourTextView.setVisibility(View.VISIBLE);
+
+                    progressBar.setVisibility(View.GONE);
                 }
             });
 
@@ -267,6 +272,8 @@ public class UserBadgeActivity extends AppCompatActivity {
                     lakeSaviourImageView.setVisibility(View.VISIBLE);
                     lakeSaviourTextView.setVisibility(View.VISIBLE);
                     Toast.makeText(getApplicationContext(), "Failed to load details.", Toast.LENGTH_SHORT).show();
+
+                    progressBar.setVisibility(View.GONE);
 
                 }
             });

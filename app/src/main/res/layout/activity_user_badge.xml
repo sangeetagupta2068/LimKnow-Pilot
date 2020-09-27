@@ -9,13 +9,13 @@
     tools:context=".HomeActivity"
     tools:openDrawer="start">
 
-    <com.google.android.material.navigation.NavigationView
-        android:layout_width="wrap_content"
-        android:id="@+id/navigation_view"
-        android:layout_height="match_parent"
-        app:menu="@menu/main_user_menu"
-        android:layout_gravity="start"
-        app:headerLayout="@layout/header"/>
+<!--    <com.google.android.material.navigation.NavigationView-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:id="@+id/navigation_view"-->
+<!--        android:layout_height="match_parent"-->
+<!--        app:menu="@menu/main_user_menu"-->
+<!--        android:layout_gravity="start"-->
+<!--        app:headerLayout="@layout/header"/>-->
 <ScrollView
     android:layout_width="match_parent"
     android:orientation="vertical"
@@ -92,6 +92,17 @@
             app:strokeWidth="1dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ProgressBar
+        android:id="@+id/badge_connection_status"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="120dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/badges_label" />
 
     <TextView
         android:layout_width="match_parent"

@@ -59,10 +59,6 @@
             <menu>
                 <group android:checkableBehavior="single">
                 <item
-                    android:id="@+id/share"
-                    android:icon="@drawable/ic_baseline_share_24"
-                    android:title='Share' />
-                <item
                     android:id="@+id/contact_us"
                     android:icon="@drawable/ic_baseline_call_24"
                     android:title='Contact' />
