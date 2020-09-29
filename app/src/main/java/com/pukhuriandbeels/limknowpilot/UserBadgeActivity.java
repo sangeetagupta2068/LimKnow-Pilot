@@ -135,7 +135,7 @@ public class UserBadgeActivity extends AppCompatActivity {
                         break;
 
                 }
-                navigationView.setCheckedItem(R.id.home);
+                navigationView.setCheckedItem(R.id.badges);
                 drawerLayout.closeDrawer(GravityCompat.START);
                 return true;
             }

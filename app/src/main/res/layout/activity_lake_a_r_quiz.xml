@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="#fafafa"
     tools:context=".LakeARQuizActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -30,6 +31,7 @@
             android:id="@+id/animal_ar_quiz_question"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:justificationMode="inter_word"
             android:text="Do you observe any invasive species?"
             android:textColor="@color/colorBlack"
             android:fontFamily="@font/nunito"

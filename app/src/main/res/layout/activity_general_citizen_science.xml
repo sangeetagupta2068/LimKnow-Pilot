@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:layout_height="match_parent"
+    android:background="#fafafa"
     tools:context=".GeneralCitizenScienceActivity">
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,6 +19,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/colorBlack"
             android:textSize="22sp"
+            android:justificationMode="inter_word"
             android:fontFamily="@font/nunito"
             android:text="@string/general_question_one"/>
         <EditText
@@ -25,6 +27,7 @@
             android:textColor="@color/colorBlack"
             android:id="@+id/edit_text_fees"
             android:textSize="18sp"
+            android:justificationMode="inter_word"
             android:fontFamily="@font/nunito"
             android:layout_height="wrap_content"/>
         <TextView
@@ -34,6 +37,7 @@
             android:layout_height="wrap_content"
             android:textSize="22sp"
             android:fontFamily="@font/nunito"
+            android:justificationMode="inter_word"
             android:text="@string/general_question_two"/>
         <CheckBox
             android:layout_width="wrap_content"
@@ -104,6 +108,7 @@
             android:textColor="@color/colorBlack"
             android:layout_marginTop="18dp"
             android:textSize="22sp"
+            android:justificationMode="inter_word"
             android:fontFamily="@font/nunito"
             android:text="@string/general_question_three"/>
         <EditText
@@ -112,6 +117,7 @@
             android:id="@+id/edit_text_lake"
             android:textSize="18sp"
             android:fontFamily="@font/nunito"
+            android:justificationMode="inter_word"
             android:layout_height="wrap_content"/>
         <ProgressBar
             android:id="@+id/general_citizen_science_connection_status"

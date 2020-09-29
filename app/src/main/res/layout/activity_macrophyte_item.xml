@@ -9,23 +9,23 @@
     <LinearLayout
         android:id="@+id/constraint_layout_end"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
         android:orientation="vertical"
         tools:context=".MacrophyteItemActivity">
 
-    <ImageView
-        android:id="@+id/macrophyte_image"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scaleType="fitStart"
-        android:adjustViewBounds="true"
-        app:srcCompat="@drawable/sample_macrophyte" />
+        <ImageView
+            android:id="@+id/macrophyte_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:scaleType="fitStart"
+            app:srcCompat="@drawable/sample_macrophyte" />
 
         <LinearLayout
             android:id="@+id/content_linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#fafafa"
             android:orientation="vertical"
             android:paddingHorizontal="20dp">
 
@@ -55,6 +55,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/nunito"
+                android:justificationMode="inter_word"
                 android:text="Emergent vegetation"
                 android:textColor="@color/colorBlack"
                 android:textSize="18sp" />
@@ -74,6 +75,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/nunito"
                 android:text="Alligator weed"
+                android:justificationMode="inter_word"
                 android:textColor="@color/colorBlack"
                 android:textSize="18sp" />
 
@@ -91,21 +93,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/nunito"
+                android:justificationMode="inter_word"
                 android:text="It is a major invasive species that grows in shallow water.It forms dense mats and can alter the distribution of native aquatic vegetation"
                 android:textColor="@color/colorBlack"
                 android:textSize="18sp" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="108dp" />
 
             <Button
                 android:id="@+id/button_submit_macrophyte"
                 style="?attr/materialButtonOutlinedStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="10dp"
+                android:layout_gravity="center_horizontal|bottom"
+                android:layout_marginTop="80dp"
                 android:background="@drawable/small_button_corners_dark"
                 android:backgroundTint="#0B7D6F"
                 android:elevation="10dp"
@@ -116,16 +115,13 @@
                 android:textColor="#fafafa"
                 android:textSize="18sp"
                 app:rippleColor="@color/colorBlue" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="30dp" />
-
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
                 android:fontFamily="@font/nunito"
                 android:text="Image source: "
+                android:layout_marginTop="20dp"
                 android:textColor="@color/colorBlack"
                 android:textSize="14sp"
                 android:textStyle="bold" />
@@ -134,15 +130,16 @@
                 android:id="@+id/macrophyte_picture_credits"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
                 android:fontFamily="@font/nunito_sans_light_italic"
+                android:justificationMode="inter_word"
                 android:text="Robert H. Mohlenbrock @ USDA-NRCS PLANTS Database / USDA SCS. 1991. Southern wetland flora: Field office guide to plant species. South National Technical Center, Fort Worth, TX."
                 android:textColor="@color/colorBlack"
                 android:textSize="10sp"
                 android:textStyle="italic" />
-
             <View
                 android:layout_width="match_parent"
-                android:layout_height="16dp" />
+                android:layout_height="30dp" />
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

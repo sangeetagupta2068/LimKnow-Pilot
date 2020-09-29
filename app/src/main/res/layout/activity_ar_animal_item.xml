@@ -1,32 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ARAnimalItemActivity">
+    tools:context=".MacrophyteItemActivity"
+    android:background="#fafafa"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/constraint_layout_end"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:orientation="vertical">
     <ImageView
         android:id="@+id/animal_image"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="2dp"
-        android:scaleType="fitXY"
-        app:layout_constraintBottom_toTopOf="@+id/content_linearLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:scaleType="fitStart"
         app:srcCompat="@drawable/sample_animal" />
 
     <LinearLayout
         android:id="@+id/content_linearLayout"
-        android:background="#FAFAFA"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingHorizontal="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        android:paddingHorizontal="20dp">
+
+        <TextView
+            android:id="@+id/animal_scientific_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:fontFamily="@font/nunito"
+            android:text="Pelecanus philippensis "
+            android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+            android:textColor="@color/colorBlack"
+            android:textSize="22sp"
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="match_parent"
@@ -62,6 +75,7 @@
             android:fontFamily="@font/nunito"
             android:id="@+id/animal_waterbody_association"
             android:textColor="@color/colorBlack"
+            android:justificationMode="inter_word"
             android:text="The black markings on its upper mandible gives this bird its name. Like most other pelicans, it catches fish in its huge bill pouch while swimming at the surface. They form colonies of nests on low trees near wetlands for breeding."/>
         <View
             android:layout_width="match_parent"
@@ -81,27 +95,10 @@
             android:fontFamily="@font/nunito"
             android:id="@+id/animal_threats"
             android:textColor="@color/colorBlack"
+            android:justificationMode="inter_word"
             android:text="It is a major invasive species that grows in shallow water.It forms dense mats and can alter the distribution of native aquatic vegetation"/>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="30dp"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="14sp"
-            android:fontFamily="@font/nunito"
-            android:textStyle="bold"
-            android:textColor="@color/colorBlack"
-            android:text="Image source: "/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="10sp"
-            android:textStyle="italic"
-            android:fontFamily="@font/nunito"
-            android:textColor="@color/colorBlack"
-            android:id="@+id/animal_picture_credits"
-            android:text="By arthur_chapman - https://www.flickr.com/photos/arthur_chapman/3014515838/, CC BY 2.0, https://commons.wikimedia.org/w/index.php?curid=5564489"/>
+
+
         <Button
             android:id="@+id/button_submit_animal"
             style="?attr/materialButtonOutlinedStyle"
@@ -113,39 +110,36 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
             android:elevation="10dp"
             android:fontFamily="@font/lato"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="80dp"
             android:layout_gravity="center_horizontal"
             android:paddingHorizontal="40dp"
             android:text="Next"
             android:textColor="#fafafa"
             android:textSize="18sp" />
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="10dp"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/title_linearLayout"
-        android:background="@drawable/macrophyte_item_background"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@id/content_linearLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.538"
-        app:layout_constraintStart_toStartOf="parent">
 
         <TextView
-            android:id="@+id/animal_scientific_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="20dp"
+            android:textSize="14sp"
             android:fontFamily="@font/nunito"
-            android:text="Pelecanus philippensis "
-            android:textAppearance="@style/TextAppearance.AppCompat.Display2"
-            android:textColor="#372222"
-            android:textSize="22sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:layout_marginTop="20dp"
+            android:textColor="@color/colorBlack"
+            android:text="Image source: "/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="10sp"
+            android:textStyle="italic"
+            android:fontFamily="@font/nunito"
+            android:textColor="@color/colorBlack"
+            android:id="@+id/animal_picture_credits"
+            android:justificationMode="inter_word"
+            android:text="By arthur_chapman - https://www.flickr.com/photos/arthur_chapman/3014515838/, CC BY 2.0, https://commons.wikimedia.org/w/index.php?curid=5564489"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="30dp"/>
     </LinearLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+</ScrollView>

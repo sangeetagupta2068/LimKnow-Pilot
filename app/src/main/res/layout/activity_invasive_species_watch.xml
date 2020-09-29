@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="#fafafa"
     tools:context=".InvasiveSpeciesWatchActivity">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -116,6 +117,7 @@
             android:fontFamily="@font/nunito"
             android:layout_marginTop="10dp"
             android:id="@+id/invasive_species_other_label"
+            android:justificationMode="inter_word"
             app:layout_constraintTop_toBottomOf="@+id/invasive_species_radio_group"
             app:layout_constraintStart_toStartOf="@+id/invasive_species_radio_group"
             android:textColor="@color/colorBlack"

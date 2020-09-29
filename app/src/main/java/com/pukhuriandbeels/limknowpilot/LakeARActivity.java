@@ -55,7 +55,6 @@ public class LakeARActivity extends AppCompatActivity {
     private ModelRenderable modelRenderable;
     private String MODEL_URL;
     private FirebaseAuth firebaseAuth;
-    private StorageReference firebaseStorageReference;
     private float scale;
     private FloatingActionButton floatingActionButton;
     private String filename;
@@ -65,6 +64,7 @@ public class LakeARActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lake_ar);
+        firebaseAuth = FirebaseAuth.getInstance();
         initialize();
         setListeners();
     }

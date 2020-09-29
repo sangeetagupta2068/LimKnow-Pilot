@@ -31,6 +31,7 @@
             android:text="Find a plane to place the animal.\nTap on animal to learn more!"
             android:textColor="@color/colorBlack"
             android:textSize="18sp"
+            android:justificationMode="inter_word"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
