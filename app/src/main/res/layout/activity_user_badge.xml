@@ -21,195 +21,204 @@
     android:orientation="vertical"
     android:layout_height="match_parent">
 
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingBottom="50dp"
-    tools:context=".UserBadgeActivity">
-
-
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraint_layout_profile"
         android:layout_width="match_parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_height="300dp"
-        android:background="#f5f5f5">
+        android:layout_height="wrap_content"
+        android:paddingBottom="50dp"
+        tools:context=".UserBadgeActivity">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="409dp"
-            android:layout_height="wrap_content"
-            android:background="#00EAC8CB"
-            android:minHeight="?attr/actionBarSize"
-            android:theme="?attr/actionBarTheme"
+
+        <ImageView
+            android:id="@+id/lake_photographer_badge"
+            android:layout_width="172dp"
+            android:layout_height="160dp"
+            android:layout_marginStart="32dp"
+            app:layout_constraintBottom_toBottomOf="@+id/lake_observer_badge"
+            app:layout_constraintEnd_toEndOf="@+id/badge_connection_status"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:title='' />
+            app:layout_constraintTop_toTopOf="@+id/lake_observer_badge"
+            app:layout_constraintVertical_bias="0.0"
+            app:srcCompat="@drawable/photographer_duck" />
 
-        <TextView
-            android:id="@+id/user_profile_badge_name"
+        <ImageView
+            android:id="@+id/lake_observer_badge"
+            android:layout_width="172dp"
+            android:layout_height="160dp"
+            android:layout_marginTop="32dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.228"
+            app:layout_constraintStart_toEndOf="@id/lake_photographer_badge"
+            app:layout_constraintTop_toBottomOf="@id/badges_label"
+            app:srcCompat="@drawable/observer_duck" />
+
+        <ImageView
+            android:id="@+id/lake_saviour_badge"
+            android:layout_width="172dp"
+            android:layout_height="160dp"
+            app:layout_constraintStart_toStartOf="@+id/lake_photographer_badge"
+            app:layout_constraintTop_toTopOf="@+id/lake_finder_badge"
+            app:srcCompat="@drawable/saviour_duck" />
+
+        <ImageView
+            android:id="@+id/lake_finder_badge"
+            android:layout_width="172dp"
+            android:layout_height="160dp"
+            android:layout_marginTop="52dp"
+            app:layout_constraintEnd_toEndOf="@+id/lake_observer_badge"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@+id/lake_saviour_badge"
+            app:layout_constraintTop_toBottomOf="@id/lake_observer_badge"
+            app:srcCompat="@drawable/duck_finder" />
+
+        <ProgressBar
+            android:id="@+id/badge_connection_status"
+            style="?android:attr/progressBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="120dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.53"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/badges_label" />
+
+        <TextView
+            android:id="@+id/badges_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
             android:fontFamily="@font/nunito"
-            android:text="TextView"
-            android:paddingHorizontal="20dp"
+            android:paddingHorizontal="32dp"
+            android:text="Badges"
             android:textColor="@color/colorPrimary"
             android:textSize="22sp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/user_profile__badge_picture" />
+            app:layout_constraintTop_toBottomOf="@+id/constraint_layout_profile" />
 
         <TextView
-            android:id="@+id/user_profile__badge_email"
+            android:id="@+id/lake_photographer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/nunito_light"
-            android:text="TextView"
-            android:paddingHorizontal="20dp"
-            android:textColor="@color/colorPrimary"
+            android:layout_marginTop="4dp"
+            android:fontFamily="@font/nunito"
+            android:text="Lake Photographer"
+            android:textAlignment="center"
+            android:textColor="@color/colorBlack"
             android:textSize="18sp"
-            android:paddingBottom="20dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/user_profile_badge_name" />
+            app:layout_constraintEnd_toEndOf="@+id/lake_photographer_badge"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/lake_photographer_badge"
+            app:layout_constraintTop_toBottomOf="@+id/lake_photographer_badge" />
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/user_profile__badge_picture"
-            android:layout_width="136dp"
-            android:layout_height="138dp"
-            android:src="@drawable/ic_baseline_person_24"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
-            app:strokeColor="@color/circleBorder"
-            app:strokeWidth="1dp" />
+        <TextView
+            android:id="@+id/lake_observer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:fontFamily="@font/nunito"
+            android:text="Lake Observer"
+            android:textColor="@color/colorBlack"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="@+id/lake_observer_badge"
+            app:layout_constraintHorizontal_bias="0.508"
+            app:layout_constraintStart_toStartOf="@+id/lake_observer_badge"
+            app:layout_constraintTop_toBottomOf="@+id/lake_observer_badge" />
 
+        <TextView
+            android:id="@+id/lake_saviour"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:fontFamily="@font/nunito"
+            android:text="Lake Saviour"
+            android:textColor="@color/colorBlack"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="@+id/lake_saviour_badge"
+            app:layout_constraintHorizontal_bias="0.508"
+            app:layout_constraintStart_toStartOf="@+id/lake_saviour_badge"
+            app:layout_constraintTop_toBottomOf="@+id/lake_saviour_badge" />
+
+        <TextView
+            android:id="@+id/lake_finder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:fontFamily="@font/nunito"
+            android:text="Lake Finder"
+            android:textColor="@color/colorBlack"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="@+id/lake_finder_badge"
+            app:layout_constraintHorizontal_bias="0.508"
+            app:layout_constraintStart_toStartOf="@+id/lake_finder_badge"
+            app:layout_constraintTop_toBottomOf="@+id/lake_finder_badge" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraint_layout_profile"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:background="#f5f5f5"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/user_profile_badge_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/nunito"
+                android:paddingHorizontal="20dp"
+                android:text="TextView"
+                android:textColor="@color/colorPrimary"
+                android:textSize="22sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/user_profile__badge_picture" />
+
+            <TextView
+                android:id="@+id/user_profile__badge_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/nunito_light"
+                android:paddingHorizontal="20dp"
+                android:paddingBottom="20dp"
+                android:text="TextView"
+                android:textColor="@color/colorPrimary"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.498"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/user_profile_badge_name" />
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="409dp"
+                android:layout_height="wrap_content"
+                android:background="#00EAC8CB"
+                android:minHeight="?attr/actionBarSize"
+                android:theme="?attr/actionBarTheme"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:title='' />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/user_profile__badge_picture"
+                android:layout_width="136dp"
+                android:layout_height="138dp"
+                android:src="@drawable/ic_baseline_person_24"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.498"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
+                app:strokeColor="@color/circleBorder"
+                app:strokeWidth="1dp" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <ProgressBar
-        android:id="@+id/badge_connection_status"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="120dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/badges_label" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:fontFamily="@font/nunito"
-        android:paddingHorizontal="32dp"
-        android:text="Badges"
-        android:textColor="@color/colorPrimary"
-        android:textSize="22sp"
-        android:id="@+id/badges_label"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraint_layout_profile" />
-
-    <ImageView
-        android:id="@+id/lake_photographer_badge"
-        android:layout_width="172dp"
-        android:layout_height="160dp"
-        android:layout_marginStart="32dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/lake_observer_badge"
-        app:srcCompat="@drawable/photographer_duck" />
-
-    <TextView
-        android:id="@+id/lake_photographer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:fontFamily="@font/nunito"
-        android:text="Lake Photographer"
-        android:textAlignment="center"
-        android:textColor="@color/colorBlack"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="@+id/lake_photographer_badge"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/lake_photographer_badge"
-        app:layout_constraintTop_toBottomOf="@+id/lake_photographer_badge" />
-
-    <ImageView
-        android:id="@+id/lake_observer_badge"
-        android:layout_width="172dp"
-        android:layout_height="160dp"
-        android:layout_marginTop="20dp"
-        app:layout_constraintStart_toEndOf="@id/lake_photographer_badge"
-        app:layout_constraintTop_toBottomOf="@id/badges_label"
-        app:srcCompat="@drawable/observer_duck" />
-
-    <TextView
-        android:id="@+id/lake_observer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
-        android:text="Lake Observer"
-        android:textSize="18sp"
-        android:fontFamily="@font/nunito"
-        android:textColor="@color/colorBlack"
-        app:layout_constraintEnd_toEndOf="@+id/lake_observer_badge"
-        app:layout_constraintHorizontal_bias="0.508"
-        app:layout_constraintStart_toStartOf="@+id/lake_observer_badge"
-        app:layout_constraintTop_toBottomOf="@+id/lake_observer_badge" />
-
-    <ImageView
-        android:id="@+id/lake_saviour_badge"
-        android:layout_width="172dp"
-        android:layout_height="160dp"
-        app:layout_constraintStart_toStartOf="@+id/lake_photographer_badge"
-        app:layout_constraintTop_toTopOf="@+id/lake_finder_badge"
-        app:srcCompat="@drawable/saviour_duck" />
-
-    <TextView
-        android:id="@+id/lake_saviour"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
-        android:text="Lake Saviour"
-        android:textSize="18sp"
-        android:fontFamily="@font/nunito"
-        android:textColor="@color/colorBlack"
-        app:layout_constraintEnd_toEndOf="@+id/lake_saviour_badge"
-        app:layout_constraintHorizontal_bias="0.508"
-        app:layout_constraintStart_toStartOf="@+id/lake_saviour_badge"
-        app:layout_constraintTop_toBottomOf="@+id/lake_saviour_badge" />
-
-    <ImageView
-        android:id="@+id/lake_finder_badge"
-        android:layout_width="172dp"
-        android:layout_height="160dp"
-        android:layout_marginTop="52dp"
-        app:layout_constraintEnd_toEndOf="@+id/lake_observer_badge"
-        app:layout_constraintTop_toBottomOf="@id/lake_observer_badge"
-        app:srcCompat="@drawable/duck_finder" />
-
-    <TextView
-        android:id="@+id/lake_finder"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
-        android:text="Lake Finder"
-        android:textSize="18sp"
-        android:fontFamily="@font/nunito"
-        android:textColor="@color/colorBlack"
-        app:layout_constraintEnd_toEndOf="@+id/lake_finder_badge"
-        app:layout_constraintHorizontal_bias="0.508"
-        app:layout_constraintStart_toStartOf="@+id/lake_finder_badge"
-        app:layout_constraintTop_toBottomOf="@+id/lake_finder_badge" />
-</androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
 </androidx.drawerlayout.widget.DrawerLayout>
