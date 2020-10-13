@@ -139,8 +139,10 @@ public class ARAnimalItemActivity extends AppCompatActivity {
                             }
                         });
                     }
+                    else {
+                        Toast.makeText(getApplicationContext(), "You completed Lake 3D experience!", Toast.LENGTH_SHORT).show();
+                    }
                 } else {
-                    Toast.makeText(getApplicationContext(), "You completed Lake 3D experience!", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(ARAnimalItemActivity.this, LakeARQuizActivity.class);
                     startActivity(intent);
                     finish();
