@@ -22,6 +22,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
@@ -31,6 +32,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -59,7 +61,7 @@ public class LakeHealthActivity extends AppCompatActivity {
     private RadioButton[] radioButtons;
     private RadioGroup radioGroup;
     private CheckBox[] checkBoxes;
-    private EditText editTextDeadFish, editTextLakeHealthProblem, editTextDeadAnimalDescription;
+    private EditText editTextDeadFish, editTextLakeHealthProblem, editTextDeadAnimalDescription, editTextWaterColor;
     private Button buttonLakeHealth, buttonUploadDeadAnimalImage;
     private TextView textViewDeadAnimalLabel, textViewDeadAnimalUploadImage;
     private ProgressBar progressBar;
@@ -85,6 +87,9 @@ public class LakeHealthActivity extends AppCompatActivity {
     private Uri imageUri;
     private CollectionReference collectionReference;
     private long lastClickTime;
+    private CollectionReference userCollectionReference;
+    private Boolean isLakeSaviour;
+    private FirebaseUser firebaseUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,13 +107,15 @@ public class LakeHealthActivity extends AppCompatActivity {
         lakeHealthProblem = "";
         deadAnimalDescription = "";
         deadFish = "";
+        isLakeSaviour = false;
 
         radioGroup = findViewById(R.id.radio_group_lake_health);
-        radioButtons = new RadioButton[4];
+        radioButtons = new RadioButton[5];
         radioButtons[0] = findViewById(R.id.radio_1);
         radioButtons[1] = findViewById(R.id.radio_2);
         radioButtons[2] = findViewById(R.id.radio_3);
         radioButtons[3] = findViewById(R.id.radio_4);
+        radioButtons[4] = findViewById(R.id.radio_5);
 
         checkBoxes = new CheckBox[5];
         checkBoxes[0] = findViewById(R.id.lake_health_checkbox_1);
@@ -120,6 +127,7 @@ public class LakeHealthActivity extends AppCompatActivity {
         editTextDeadFish = findViewById(R.id.edit_text_lake_health_dead_fish);
         editTextLakeHealthProblem = findViewById(R.id.edit_text_other_lake_health);
         editTextDeadAnimalDescription = findViewById(R.id.edit_text_dead_animal_text);
+        editTextWaterColor = findViewById(R.id.edit_text_lake_health_other);
 
         buttonUploadDeadAnimalImage = findViewById(R.id.button_dead_animal_upload);
         buttonLakeHealth = findViewById(R.id.button_lake_health);
@@ -145,6 +153,15 @@ public class LakeHealthActivity extends AppCompatActivity {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 RadioButton radioButton = findViewById(group.getCheckedRadioButtonId());
                 lakeWaterColor = radioButton.getText().toString();
+            }
+        });
+        radioButtons[4].setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked)
+                    editTextWaterColor.setVisibility(View.VISIBLE);
+                else
+                    editTextWaterColor.setVisibility(View.GONE);
             }
         });
         checkBoxes[4].setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -206,6 +223,27 @@ public class LakeHealthActivity extends AppCompatActivity {
                     if (lakeWaterColor.equals("") && lakeHealthProblem.equals("") && deadFish.equals("")) {
                         Toast.makeText(getApplicationContext(), "Can't submit empty form", Toast.LENGTH_SHORT).show();
                         return;
+                    }
+
+                    if (lakeWaterColor.equals("")) {
+                        Toast.makeText(getApplicationContext(), "Please select lake water colour", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    if (lakeWaterColor.equals("Other")) {
+                        String value = editTextWaterColor.getText().toString();
+                        if (value.equals("")) {
+                            Toast.makeText(getApplicationContext(), "Please add other observed lake water colour", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        lakeWaterColor = value;
+                    }
+
+                    if(lakeHealthProblem.equals("Dead Animal")){
+                        if(deadAnimalDescription.equals("") && currentPhotoPath.equals("")){
+                            Toast.makeText(getApplicationContext(), "Please add dead animal description/picture", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
                     }
 
                     progressBar.setVisibility(View.VISIBLE);
@@ -335,6 +373,7 @@ public class LakeHealthActivity extends AppCompatActivity {
     private void firebaseFirestoreSetup() {
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseFirestore = FirebaseFirestore.getInstance();
+        firebaseUser = firebaseAuth.getCurrentUser();
         firebaseStorageReference = FirebaseStorage.getInstance().getReference();
 
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
@@ -342,6 +381,21 @@ public class LakeHealthActivity extends AppCompatActivity {
         userEmailId = firebaseUser.getEmail();
 
         collectionReference = firebaseFirestore.collection("Lake Health");
+
+        userCollectionReference = FirebaseFirestore.getInstance().collection("User");
+
+        if (firebaseUser != null) {
+            userCollectionReference.document(firebaseUser.getEmail()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    if (documentSnapshot.exists()) {
+                        if (documentSnapshot.contains("is_lake_saviour")) {
+                            isLakeSaviour = documentSnapshot.getBoolean("is_lake_saviour");
+                        }
+                    }
+                }
+            });
+        }
 
     }
 
@@ -389,7 +443,28 @@ public class LakeHealthActivity extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Exception e) {
                 progressBar.setVisibility(View.GONE);
-                Toast.makeText(getApplicationContext(), "Couldn't add data! Try again!", Toast.LENGTH_LONG).show();
+                if (isLakeSaviour) {
+                    Toast.makeText(getApplicationContext(), "Thank you for your response", Toast.LENGTH_LONG).show();
+                    try {
+                        Thread.sleep(50);
+                    } catch (InterruptedException ex) {
+                        ex.printStackTrace();
+                    }
+                    finish();
+                } else {
+                    userCollectionReference.document(firebaseUser.getEmail()).update("is_lake_saviour", true).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Toast.makeText(getApplicationContext(), "Congratulations!\n You have earned the Lake Saviour badge!", Toast.LENGTH_SHORT).show();
+                            try {
+                                Thread.sleep(50);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            finish();
+                        }
+                    });
+                }
             }
         });
     }

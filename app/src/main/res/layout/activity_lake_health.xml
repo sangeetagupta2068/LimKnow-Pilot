@@ -168,7 +168,7 @@
             android:layout_gravity="left"
             android:backgroundTint="#FFDE8F"
             android:paddingHorizontal="20dp"
-            android:text="Upload picture(Optional)"
+            android:text="Upload picture"
             android:textColor="#A5633B"
             android:textSize="18sp" />
 

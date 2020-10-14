@@ -71,7 +71,6 @@ public class ARAnimalItemActivity extends AppCompatActivity {
 
         Glide.with(this)
                 .load(Uri.parse(animal.getAnimalImageURL()))
-                .placeholder(R.drawable.sample_animal)
                 .error(R.drawable.sample_animal)
                 .into(imageViewAnimal);
 

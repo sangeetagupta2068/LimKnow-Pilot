@@ -68,6 +68,7 @@ public class UserProfileActivity extends AppCompatActivity {
     private FirebaseUser firebaseUser;
     private boolean isLakeFinder, isLakeObserver, isLakeSaviour, isLakePhotographer;
     private boolean flagCancel;
+    private String cancelIndex;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -160,6 +161,14 @@ public class UserProfileActivity extends AppCompatActivity {
                 newAge = editTextAge.getText().toString();
                 newProfession = editTextProfession.getText().toString();
 
+                if(!newAge.equals("")){
+                    int age = Integer.valueOf(newAge);
+                    if(age > 100 || age < 1){
+                        Toast.makeText(getApplicationContext(),"Please add a valid age",Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                }
+
                 if (filePath == userProfileUri) {
                     firebaseTransaction();
                 } else {
@@ -191,7 +200,10 @@ public class UserProfileActivity extends AppCompatActivity {
     private void showAlertDialog() {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(UserProfileActivity.this);
         alertDialog.setTitle("Pronoun");
-        String[] items = {"He/Him", "She/Her", "They/Them"};
+        String[] items = {"None","He/Him", "She/Her", "They/Them"};
+        if(cancelIndex.equals("")|| cancelIndex == null){
+            cancelIndex = "0";
+        }
         if (index.equals("") || index == null) {
             index = "0";
         }
@@ -203,12 +215,19 @@ public class UserProfileActivity extends AppCompatActivity {
                 switch (which) {
                     case 0:
                         newGender = items[0];
+                        index = "0";
                         break;
                     case 1:
                         newGender = items[1];
+                        index = "1";
                         break;
                     case 2:
                         newGender = items[2];
+                        index = "2";
+                        break;
+                    case 3:
+                        newGender = items[3];
+                        index = "3";
                         break;
                 }
             }
@@ -216,7 +235,11 @@ public class UserProfileActivity extends AppCompatActivity {
         alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                editTextGender.setText(newGender);
+                if(!newGender.equals("None"))
+                    editTextGender.setText(newGender);
+                else
+                    editTextGender.setText("");
+                cancelIndex = index;
                 dialog.dismiss();
             }
         });
@@ -224,6 +247,7 @@ public class UserProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 newGender = editTextGender.getHint().toString();
+                index = cancelIndex;
                 dialog.dismiss();
             }
         });
@@ -307,6 +331,7 @@ public class UserProfileActivity extends AppCompatActivity {
                         }
                         if(documentSnapshot.contains("index")) {
                             index = documentSnapshot.getString("index");
+                            cancelIndex = index;
                         }
 
                         if(documentSnapshot.contains("is_lake_finder")) {
@@ -333,6 +358,7 @@ public class UserProfileActivity extends AppCompatActivity {
                         userGender = "";
                         userAge = "";
                         index = "0";
+                        cancelIndex = "0";
                     }
 
                     newUserAbout = userAbout;
@@ -342,7 +368,11 @@ public class UserProfileActivity extends AppCompatActivity {
                     newIndex = index;
                     filePath = userProfileUri;
 
-                    editTextGender.setText(userGender);
+                    if(!userGender.equals("None")) {
+                        editTextGender.setText(userGender);
+                    } else {
+                        editTextGender.setText("");
+                    }
                     editTextAge.setText(userAge);
                     editTextProfession.setText(userProfession);
                     editTextAbout.setText(userAbout);
@@ -371,6 +401,7 @@ public class UserProfileActivity extends AppCompatActivity {
                     userGender = "";
                     userAge = "";
                     index = "0";
+                    cancelIndex = "0";
 
                     newUserAbout = userAbout;
                     newGender = userGender;

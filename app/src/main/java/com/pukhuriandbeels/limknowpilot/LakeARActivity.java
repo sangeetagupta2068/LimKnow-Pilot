@@ -59,6 +59,7 @@ public class LakeARActivity extends AppCompatActivity {
     private FloatingActionButton floatingActionButton;
     private String filename;
     private boolean isSaved;
+    private boolean arAnimalIsPresent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +71,7 @@ public class LakeARActivity extends AppCompatActivity {
     }
 
     private void initialize() {
+        arAnimalIsPresent = false;
         isSaved = true;
         arFragment = (ArFragment) getSupportFragmentManager().findFragmentById(R.id.lake_ar_fragment);
         textViewGuide = findViewById(R.id.lake_ar_guide);
@@ -93,15 +95,19 @@ public class LakeARActivity extends AppCompatActivity {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (ContextCompat.checkSelfPermission(LakeARActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(LakeARActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, CAMERA_REQUEST_CODE);
+                if(arAnimalIsPresent) {
+                    if (ContextCompat.checkSelfPermission(LakeARActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions(LakeARActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, CAMERA_REQUEST_CODE);
+                    } else {
+                        takePhoto();
+                    }
+                    if (isSaved) {
+                        Toast.makeText(LakeARActivity.this, "Image is saved", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(LakeARActivity.this, "Couldn't save image", Toast.LENGTH_SHORT).show();
+                    }
                 } else {
-                    takePhoto();
-                }
-                if (isSaved) {
-                    Toast.makeText(LakeARActivity.this, "Image is saved", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(LakeARActivity.this, "Couldn't save image", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"Cannot find 3D animal", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -138,6 +144,7 @@ public class LakeARActivity extends AppCompatActivity {
         node.setRenderable(renderable);
         node.setParent(anchorNode);
         arFragment.getArSceneView().getScene().addChild(anchorNode);
+        arAnimalIsPresent = true;
         node.select();
     }
 

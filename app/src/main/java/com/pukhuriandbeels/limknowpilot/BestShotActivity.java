@@ -1,16 +1,20 @@
 package com.pukhuriandbeels.limknowpilot;
 
 import android.Manifest;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.icu.util.Calendar;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.provider.MediaStore;
+import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -30,6 +34,10 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -62,6 +70,7 @@ public class BestShotActivity extends AppCompatActivity {
     private boolean isLakePhotographer;
     private FirebaseUser firebaseUser;
     private CollectionReference userCollectionReference;
+    private DatePickerDialog datepicker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,6 +136,38 @@ public class BestShotActivity extends AppCompatActivity {
             }
         });
 
+        editTextObservedOn.setInputType(InputType.TYPE_NULL);
+        editTextObservedOn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Calendar cldr = Calendar.getInstance();
+                int day = cldr.get(Calendar.DAY_OF_MONTH);
+                int month = cldr.get(Calendar.MONTH);
+                int year = cldr.get(Calendar.YEAR);
+                datepicker = new DatePickerDialog(BestShotActivity.this,
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                                Date date = new Date();
+                                String selectedDate = String.valueOf(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+                                try {
+                                    Date datePicked = new SimpleDateFormat("dd/MM/yyyy").parse(selectedDate);
+                                    if(date.compareTo(datePicked)>=0){
+                                        editTextObservedOn.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+                                    } else {
+                                        editTextObservedOn.setText("");
+                                        Toast.makeText(BestShotActivity.this,"Observed on date cannot be after today's date",Toast.LENGTH_SHORT).show();
+                                    }
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
+
+                            }
+                        }, year, month, day);
+                datepicker.show();
+            }
+        });
+
         buttonSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -157,8 +198,13 @@ public class BestShotActivity extends AppCompatActivity {
                 if (name.equals("") && observedOn.equals("")) {
                     Toast.makeText(getApplicationContext(), "Please fill in both photographer and observed on field", Toast.LENGTH_SHORT).show();
                     return;
+                } else if(observedOn.equals("")){
+                    Toast.makeText(getApplicationContext(), "Please fill in observed on field", Toast.LENGTH_SHORT).show();
+                    return;
+                } else if(name.equals("")){
+                    Toast.makeText(getApplicationContext(), "Please add photographer name field", Toast.LENGTH_SHORT).show();
+                    return;
                 }
-
                 if (SystemClock.elapsedRealtime() - lastClickTime < 1000)
                     return;
 

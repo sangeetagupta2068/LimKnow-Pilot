@@ -6,6 +6,8 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Looper;
 import android.os.SystemClock;
+import android.text.InputType;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -164,6 +166,17 @@ public class GeneralCitizenScienceActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Can't submit empty form", Toast.LENGTH_SHORT).show();
                     return;
                 }
+
+                if(beelRelation.equals("")){
+                    Toast.makeText(getApplicationContext(), "Please select beel relation", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if(potentialFees.equals("") && potentialLake.equals("")){
+                    Toast.makeText(getApplicationContext(), "Please add fee amount / suggest a lake", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 lastClickTime = SystemClock.elapsedRealtime();
                 progressBar.setVisibility(View.VISIBLE);
                 firebaseFirestoreTransaction();
@@ -275,7 +288,7 @@ public class GeneralCitizenScienceActivity extends AppCompatActivity {
                     userCollectionReference.document(firebaseUser.getEmail()).update("is_lake_finder", true).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
-                            Toast.makeText(getApplicationContext(), "Congratulations!\n You have earned the Lake Photographer badge!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "Congratulations!\n You have earned the Lake Finder badge!", Toast.LENGTH_SHORT).show();
                             try {
                                 Thread.sleep(50);
                             } catch (InterruptedException e) {

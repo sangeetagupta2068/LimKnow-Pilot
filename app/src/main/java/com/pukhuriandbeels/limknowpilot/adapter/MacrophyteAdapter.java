@@ -58,7 +58,7 @@ public class MacrophyteAdapter extends BaseAdapter {
 
         if (macrophyteArrayList.get(position).getMacrophyteImageURL() != null) {
             Uri uri = Uri.parse(macrophyteArrayList.get(position).getMacrophyteImageURL());
-            Glide.with(context).load(uri).placeholder(R.drawable.sample_macrophyte).error(R.drawable.sample_macrophyte).into(macrophyteViewHolder.imageView);
+            Glide.with(context).load(uri).error(R.drawable.sample_macrophyte).into(macrophyteViewHolder.imageView);
         }
         return convertView;
     }

@@ -205,13 +205,21 @@ public class InvasiveSpeciesWatchActivity extends AppCompatActivity {
         buttonSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (invasiveSpeciesName.equals("") && widespreadPercentage == 0) {
+                if (invasiveSpeciesName.equals("") && widespreadPercentage < 2) {
                     Toast.makeText(getApplicationContext(), "Cam't submit empty form", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 if (invasiveSpeciesName.equals("Other") && currentPhotoPath.equals("")) {
                     Toast.makeText(getApplicationContext(), "Please upload picture", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (invasiveSpeciesName.equals("")) {
+                    Toast.makeText(getApplicationContext(), "Please select/add observed invasive species", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (widespreadPercentage < 2) {
+                    Toast.makeText(getApplicationContext(), "Please add widespread percentage of the observed invasive species", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (SystemClock.elapsedRealtime() - lastClickTime < 1000)

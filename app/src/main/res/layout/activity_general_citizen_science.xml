@@ -27,6 +27,7 @@
             android:textColor="@color/colorBlack"
             android:id="@+id/edit_text_fees"
             android:textSize="18sp"
+            android:inputType="numberDecimal"
             android:justificationMode="inter_word"
             android:fontFamily="@font/nunito"
             android:layout_height="wrap_content"/>
