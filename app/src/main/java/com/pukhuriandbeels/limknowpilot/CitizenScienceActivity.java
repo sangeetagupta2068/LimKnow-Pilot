@@ -70,11 +70,11 @@ public class CitizenScienceActivity extends AppCompatActivity {
                         finish();
                         break;
                     case R.id.about:
-                        Intent aboutIntent = new Intent(CitizenScienceActivity.this, LakeActivity.class);
+                        Intent aboutIntent = new Intent(CitizenScienceActivity.this, BeelsAndPukhurisActivity.class);
                         startActivity(aboutIntent);
                         break;
                     case R.id.policy:
-                        Intent policyIntent = new Intent(CitizenScienceActivity.this, PrivacyPolicyActivity.class);
+                        Intent policyIntent = new Intent(CitizenScienceActivity.this, PrivacyActivity.class);
                         startActivity(policyIntent);
                         break;
 

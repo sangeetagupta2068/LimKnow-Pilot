@@ -149,4 +149,10 @@ public class ARAnimalItemActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    protected void onStop() {
+        imageViewAnimal.setImageDrawable(null);
+        super.onStop();
+    }
 }

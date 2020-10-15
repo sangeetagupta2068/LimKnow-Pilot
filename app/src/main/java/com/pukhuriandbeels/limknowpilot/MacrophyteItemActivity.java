@@ -69,4 +69,10 @@ public class MacrophyteItemActivity extends AppCompatActivity {
         macrophyteImageView = findViewById(R.id.macrophyte_image);
         button = findViewById(R.id.button_submit_macrophyte);
     }
+
+    @Override
+    protected void onStop() {
+        macrophyteImageView.setImageDrawable(null);
+        super.onStop();
+    }
 }

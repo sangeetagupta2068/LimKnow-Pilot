@@ -86,11 +86,11 @@ public class UserBadgeActivity extends AppCompatActivity {
                         finish();
                         break;
                     case R.id.about:
-                        Intent aboutIntent = new Intent(getApplicationContext(), LakeActivity.class);
+                        Intent aboutIntent = new Intent(getApplicationContext(), BeelsAndPukhurisActivity.class);
                         startActivity(aboutIntent);
                         break;
                     case R.id.policy:
-                        Intent policyIntent = new Intent(getApplicationContext(),PrivacyPolicyActivity.class);
+                        Intent policyIntent = new Intent(getApplicationContext(),PrivacyActivity.class);
                         startActivity(policyIntent);
                         break;
 
@@ -300,5 +300,14 @@ public class UserBadgeActivity extends AppCompatActivity {
         matrix.setSaturation(value);
         ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
         imageview.setColorFilter(filter);
+    }
+
+    @Override
+    protected void onStop() {
+        lakeFinderImageView.setImageDrawable(null);
+        lakeObserverImageView.setImageDrawable(null);
+        lakeSaviourImageView.setImageDrawable(null);
+        lakePhotographerImageView.setImageDrawable(null);
+        super.onStop();
     }
 }

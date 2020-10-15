@@ -12,7 +12,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".PrivacyPolicyActivity" android:screenOrientation="portrait" android:parentActivityName=".HomeActivity" ></activity>
+        <activity android:name=".PrivacyActivity"></activity>
+        <activity android:name=".BeelsAndPukhurisActivity" />
         <activity
             android:name=".UserBadgeActivity"
             android:parentActivityName=".HomeActivity"
@@ -30,10 +31,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".LakeARQuizActivity"
-            android:parentActivityName=".HomeActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".LakeActivity"
             android:parentActivityName=".HomeActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -102,12 +99,12 @@
     <uses-feature
         android:name="android.hardware.camera.ar"
         android:required="true" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
 </manifest>

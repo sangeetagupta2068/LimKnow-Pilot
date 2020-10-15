@@ -366,8 +366,6 @@ public class InvasiveSpeciesWatchActivity extends AppCompatActivity {
                             if (uri != null) {
                                 Glide.with(InvasiveSpeciesWatchActivity.this)
                                         .load(uri)
-                                        .placeholder(R.drawable.sample_macrophyte)
-                                        .error(R.drawable.sample_macrophyte)
                                         .into(imageViews[count]);
                             }
                         }
@@ -520,4 +518,11 @@ public class InvasiveSpeciesWatchActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onStop() {
+        for(int count = 0; count < imageViews.length; count++){
+            imageViews[count].setImageDrawable(null);
+        }
+        super.onStop();
+    }
 }

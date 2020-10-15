@@ -25,61 +25,60 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="50dp"
-        android:background="#fafafa">
+        android:background="#fafafa"
+        android:paddingBottom="50dp">
 
 
         <ImageView
             android:id="@+id/lake_photographer_badge"
             android:layout_width="172dp"
             android:layout_height="160dp"
-            android:layout_marginStart="32dp"
-            app:layout_constraintBottom_toBottomOf="@+id/lake_observer_badge"
-            app:layout_constraintEnd_toEndOf="@+id/badge_connection_status"
-            app:layout_constraintHorizontal_bias="0.0"
+            android:layout_marginTop="32dp"
+            app:layout_constraintEnd_toStartOf="@+id/lake_observer_badge"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/lake_observer_badge"
-            app:layout_constraintVertical_bias="0.0"
+            app:layout_constraintTop_toBottomOf="@+id/badges_label"
             app:srcCompat="@drawable/photographer_duck" />
 
         <ImageView
             android:id="@+id/lake_observer_badge"
             android:layout_width="172dp"
             android:layout_height="160dp"
-            android:layout_marginTop="32dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.228"
-            app:layout_constraintStart_toEndOf="@id/lake_photographer_badge"
-            app:layout_constraintTop_toBottomOf="@id/badges_label"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/lake_photographer_badge"
+            app:layout_constraintTop_toTopOf="@+id/lake_photographer_badge"
             app:srcCompat="@drawable/observer_duck" />
 
         <ImageView
             android:id="@+id/lake_saviour_badge"
             android:layout_width="172dp"
             android:layout_height="160dp"
-            app:layout_constraintStart_toStartOf="@+id/lake_photographer_badge"
-            app:layout_constraintTop_toTopOf="@+id/lake_finder_badge"
+            android:layout_marginTop="48dp"
+            app:layout_constraintEnd_toStartOf="@+id/lake_finder_badge"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lake_photographer_badge"
             app:srcCompat="@drawable/saviour_duck" />
 
         <ImageView
             android:id="@+id/lake_finder_badge"
             android:layout_width="172dp"
             android:layout_height="160dp"
-            android:layout_marginTop="52dp"
-            app:layout_constraintEnd_toEndOf="@+id/lake_observer_badge"
-            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/lake_saviour_badge"
-            app:layout_constraintTop_toBottomOf="@id/lake_observer_badge"
-            app:srcCompat="@drawable/duck_finder" />
+            app:layout_constraintTop_toTopOf="@id/lake_saviour_badge"
+            app:srcCompat="@drawable/duck_finder"
+            tools:layout_editor_absoluteY="582dp" />
 
         <ProgressBar
             android:id="@+id/badge_connection_status"
             style="?android:attr/progressBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="120dp"
+            android:layout_marginTop="104dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.53"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/badges_label" />
 
@@ -109,7 +108,6 @@
             android:textColor="@color/colorBlack"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="@+id/lake_photographer_badge"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/lake_photographer_badge"
             app:layout_constraintTop_toBottomOf="@+id/lake_photographer_badge" />
 
@@ -117,13 +115,12 @@
             android:id="@+id/lake_observer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
+            android:layout_marginTop="4dp"
             android:fontFamily="@font/nunito"
             android:text="Lake Observer"
             android:textColor="@color/colorBlack"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="@+id/lake_observer_badge"
-            app:layout_constraintHorizontal_bias="0.508"
             app:layout_constraintStart_toStartOf="@+id/lake_observer_badge"
             app:layout_constraintTop_toBottomOf="@+id/lake_observer_badge" />
 
@@ -161,9 +158,19 @@
             android:layout_height="300dp"
             android:background="#f5f5f5"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="409dp"
+                android:layout_height="wrap_content"
+                android:background="#f5f5f5"
+                android:minHeight="?attr/actionBarSize"
+                android:theme="?attr/actionBarTheme"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:title='' />
 
             <TextView
                 android:id="@+id/user_profile_badge_name"
@@ -171,9 +178,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:fontFamily="@font/nunito"
+                android:gravity="center_horizontal"
                 android:paddingHorizontal="20dp"
                 android:text="TextView"
-                android:gravity="center_horizontal"
                 android:textColor="@color/colorPrimary"
                 android:textSize="22sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -185,10 +192,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/nunito_light"
+                android:gravity="center_horizontal"
                 android:paddingHorizontal="20dp"
                 android:paddingBottom="20dp"
                 android:text="TextView"
-                android:gravity="center_horizontal"
                 android:textColor="@color/colorPrimary"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -203,7 +210,7 @@
                 android:src="@drawable/ic_baseline_person_24"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.498"
+                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
@@ -211,16 +218,6 @@
                 app:strokeWidth="1dp" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="409dp"
-            android:layout_height="wrap_content"
-            android:background="#f5f5f5"
-            android:minHeight="?attr/actionBarSize"
-            android:theme="?attr/actionBarTheme"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:title='' />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
 </androidx.drawerlayout.widget.DrawerLayout>

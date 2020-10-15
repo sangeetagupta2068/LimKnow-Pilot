@@ -72,11 +72,11 @@ public class HomeActivity extends AppCompatActivity {
                     case R.id.home:
                         break;
                     case R.id.about:
-                        Intent aboutIntent = new Intent(HomeActivity.this, LakeActivity.class);
+                        Intent aboutIntent = new Intent(HomeActivity.this, BeelsAndPukhurisActivity.class);
                         startActivity(aboutIntent);
                         break;
                     case R.id.policy:
-                        Intent policyIntent = new Intent(getApplicationContext(),PrivacyPolicyActivity.class);
+                        Intent policyIntent = new Intent(getApplicationContext(),PrivacyActivity.class);
                         startActivity(policyIntent);
                         break;
 
@@ -161,7 +161,7 @@ public class HomeActivity extends AppCompatActivity {
         cardViews[3].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(HomeActivity.this, LakeActivity.class);
+                Intent intent = new Intent(HomeActivity.this, BeelsAndPukhurisActivity.class);
                 startActivity(intent);
             }
         });

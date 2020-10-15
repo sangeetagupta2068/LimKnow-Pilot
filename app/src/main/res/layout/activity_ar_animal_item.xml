@@ -39,7 +39,7 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Display2"
             android:textColor="@color/colorBlack"
             android:textSize="22sp"
-            android:textStyle="bold" />
+            android:textStyle="bold|italic" />
 
         <TextView
             android:layout_width="match_parent"

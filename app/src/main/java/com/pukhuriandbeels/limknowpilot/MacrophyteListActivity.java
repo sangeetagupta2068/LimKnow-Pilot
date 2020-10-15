@@ -84,11 +84,11 @@ public class MacrophyteListActivity extends AppCompatActivity {
                         finish();
                         break;
                     case R.id.about:
-                        Intent aboutIntent = new Intent(MacrophyteListActivity.this, LakeActivity.class);
+                        Intent aboutIntent = new Intent(MacrophyteListActivity.this, BeelsAndPukhurisActivity.class);
                         startActivity(aboutIntent);
                         break;
                     case R.id.policy:
-                        Intent policyIntent = new Intent(getApplicationContext(),PrivacyPolicyActivity.class);
+                        Intent policyIntent = new Intent(getApplicationContext(),PrivacyActivity.class);
                         startActivity(policyIntent);
                         break;
 

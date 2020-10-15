@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:fontFamily="@font/nunito"
-            android:text="Find a plane to place the animal.\nTap on animal to learn more!"
+            android:text="Find a flat surface\nTap on the dots when they appear\nTap on animal to Learn more"
             android:textColor="@color/colorBlack"
             android:textSize="18sp"
             android:justificationMode="inter_word"
