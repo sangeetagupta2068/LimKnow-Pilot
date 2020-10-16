@@ -29,40 +29,39 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class MainActivity extends AppCompatActivity {
-
+public class SignInActivity extends AppCompatActivity {
+    //Sign in flag declaration
     private static final int RC_SIGN_IN = 1001;
 
-    private GoogleSignInClient googleSignInClient;
-    private FirebaseAuth firebaseAuth;
-
+    //View declaration
     private Button signInButton;
     private ProgressBar progressBar;
+
+    //Firebase authentication declaration
+    private GoogleSignInClient googleSignInClient;
+    private FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_sign_in);
 
-        LakeARActivity.count = 0;
+        initialize();
+        setListners();
+    }
+
+    private void initialize(){
+        //Set views
         signInButton = findViewById(R.id.sign_in_button);
         progressBar = findViewById(R.id.badge_connection_status);
         progressBar.setVisibility(View.GONE);
         firebaseAuth = FirebaseAuth.getInstance();
 
-        createRequest();
-        signInButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                progressBar.setVisibility(View.VISIBLE);
-                signIn();
-            }
-        });
+        //Set Lake AR quiz to first question
+        LakeARActivity.count = 0;
 
-    }
-
-    private void createRequest() {
+        //Configure Google Sign In client
         GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .***REMOVED***
                 .requestEmail()
@@ -70,37 +69,45 @@ public class MainActivity extends AppCompatActivity {
         googleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions);
     }
 
+    private void setListners(){
+        //Attach on click listener to Sign In With Google button
+        signInButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                progressBar.setVisibility(View.VISIBLE);
+                signIn();
+            }
+        });
+    }
     private void signIn() {
+        //Launch intent for Google Sign in activity
         Intent intent = googleSignInClient.getSignInIntent();
         startActivityForResult(intent, RC_SIGN_IN);
     }
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount account) {
+        //Authenticate Firebase user based on result returned from Google Sign In Intent
         AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
         firebaseAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+                        //On successful user authentication
                         if (task.isSuccessful()) {
                             FirebaseUser user = firebaseAuth.getCurrentUser();
-
                             CollectionReference collectionReference = FirebaseFirestore.getInstance().collection("User");
 
+                            //If user already exists, launch Home Activity
                             collectionReference.document(user.getEmail()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                                 @Override
                                 public void onSuccess(DocumentSnapshot documentSnapshot) {
                                     progressBar.setVisibility(View.GONE);
-                                    if(documentSnapshot.exists()){
-                                        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-                                        startActivity(intent);
-                                    } else {
-                                        Intent intent = new Intent(getApplicationContext(), UserProfileActivity.class);
-                                        intent.putExtra("KEY","value");
-                                        startActivity(intent);
-                                    }
+                                    Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                                    startActivity(intent);
                                 }
                             });
 
+                            //If user signs in for the first time, launch User Profile Activity to collect user details
                             collectionReference.document(user.getEmail()).get().addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
@@ -111,8 +118,9 @@ public class MainActivity extends AppCompatActivity {
                             });
 
                         } else {
+                            //On failed user authentication
                             progressBar.setVisibility(View.GONE);
-                            Toast.makeText(MainActivity.this, "Sorry authentication failed.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SignInActivity.this, "Sorry authentication failed.", Toast.LENGTH_SHORT).show();
                         }
 
                     }
@@ -123,9 +131,11 @@ public class MainActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        //Check if result was returned from Google Sign In Activity
         if (requestCode == RC_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
+                //Authenticate user based on result returned from Google Sign In Activity
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 firebaseAuthWithGoogle(account);
             } catch (ApiException e) {
@@ -138,6 +148,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
+        //If user hasn't Signed out, go to Home Screen directly
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
         if (firebaseUser != null) {
             Intent intent = new Intent(this, HomeActivity.class);
@@ -145,3 +156,4 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 }
+
