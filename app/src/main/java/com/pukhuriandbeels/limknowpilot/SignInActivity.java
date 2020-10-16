@@ -157,7 +157,7 @@ public class SignInActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        //If user hasn't Signed out, go to Home Screen directly
+        //If user hasn't Signed out, go to Home Activity directly
         FirebaseUser firebaseUser = mFirebaseAuth.getCurrentUser();
         if (firebaseUser != null) {
             Intent intent = new Intent(this, HomeActivity.class);
