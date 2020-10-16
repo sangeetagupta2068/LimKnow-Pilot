@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -36,6 +37,7 @@ public class SignInActivity extends AppCompatActivity {
     //View declaration
     private Button signInButton;
     private ProgressBar progressBar;
+    private ImageView coverImageView;
 
     //Firebase authentication declaration
     private GoogleSignInClient googleSignInClient;
@@ -56,10 +58,13 @@ public class SignInActivity extends AppCompatActivity {
         signInButton = findViewById(R.id.sign_in_button);
         progressBar = findViewById(R.id.badge_connection_status);
         progressBar.setVisibility(View.GONE);
-        firebaseAuth = FirebaseAuth.getInstance();
+        coverImageView = findViewById(R.id.imageView);
 
         //Set Lake AR quiz to first question
         LakeARActivity.count = 0;
+
+        //instantiate Firebase Auth
+        firebaseAuth = FirebaseAuth.getInstance();
 
         //Configure Google Sign In client
         GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -154,6 +159,13 @@ public class SignInActivity extends AppCompatActivity {
             Intent intent = new Intent(this, HomeActivity.class);
             startActivity(intent);
         }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        //deallocate memory for bitmap
+        coverImageView.setImageDrawable(null);
     }
 }
 
