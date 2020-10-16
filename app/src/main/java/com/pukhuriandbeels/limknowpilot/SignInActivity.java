@@ -7,6 +7,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -35,13 +36,14 @@ public class SignInActivity extends AppCompatActivity {
     private static final int RC_SIGN_IN = 1001;
 
     //View declaration
-    private Button signInButton;
-    private ProgressBar progressBar;
-    private ImageView coverImageView;
+    private Button mGoogleSignInButton;
+    private ProgressBar mProgressBar;
+    private ImageView mLimKnowLogoImageView;
+    private TextView mKnowYourLakesTextView, mLimKnowTextView;
 
     //Firebase authentication declaration
-    private GoogleSignInClient googleSignInClient;
-    private FirebaseAuth firebaseAuth;
+    private GoogleSignInClient mGoogleSignInClient;
+    private FirebaseAuth mFirebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,58 +57,60 @@ public class SignInActivity extends AppCompatActivity {
 
     private void initialize(){
         //Set views
-        signInButton = findViewById(R.id.sign_in_button);
-        progressBar = findViewById(R.id.badge_connection_status);
-        progressBar.setVisibility(View.GONE);
-        coverImageView = findViewById(R.id.imageView);
+        mGoogleSignInButton = findViewById(R.id.sign_in_button);
+        mProgressBar = findViewById(R.id.badge_connection_status);
+        mProgressBar.setVisibility(View.GONE);
+        mLimKnowLogoImageView = findViewById(R.id.cover_image_view);
+        mKnowYourLakesTextView = findViewById(R.id.sub_heading_text_view);
+        mLimKnowTextView = findViewById(R.id.heading_text_view);
 
         //Set Lake AR quiz to first question
         LakeARActivity.count = 0;
 
         //instantiate Firebase Auth
-        firebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseAuth = FirebaseAuth.getInstance();
 
         //Configure Google Sign In client
         GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .***REMOVED***
                 .requestEmail()
                 .build();
-        googleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions);
+        mGoogleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions);
     }
 
     private void setListners(){
         //Attach on click listener to Sign In With Google button
-        signInButton.setOnClickListener(new View.OnClickListener() {
+        mGoogleSignInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                progressBar.setVisibility(View.VISIBLE);
+                mProgressBar.setVisibility(View.VISIBLE);
                 signIn();
             }
         });
     }
     private void signIn() {
         //Launch intent for Google Sign in activity
-        Intent intent = googleSignInClient.getSignInIntent();
+        Intent intent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(intent, RC_SIGN_IN);
     }
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount account) {
         //Authenticate Firebase user based on result returned from Google Sign In Intent
         AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
-        firebaseAuth.signInWithCredential(credential)
+        mFirebaseAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         //On successful user authentication
                         if (task.isSuccessful()) {
-                            FirebaseUser user = firebaseAuth.getCurrentUser();
+                            FirebaseUser user = mFirebaseAuth.getCurrentUser();
                             CollectionReference collectionReference = FirebaseFirestore.getInstance().collection("User");
 
                             //If user already exists, launch Home Activity
                             collectionReference.document(user.getEmail()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                                 @Override
                                 public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                    progressBar.setVisibility(View.GONE);
+                                    mProgressBar.setVisibility(View.GONE);
                                     Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
                                     startActivity(intent);
                                 }
@@ -124,7 +128,7 @@ public class SignInActivity extends AppCompatActivity {
 
                         } else {
                             //On failed user authentication
-                            progressBar.setVisibility(View.GONE);
+                            mProgressBar.setVisibility(View.GONE);
                             Toast.makeText(SignInActivity.this, "Sorry authentication failed.", Toast.LENGTH_SHORT).show();
                         }
 
@@ -154,7 +158,7 @@ public class SignInActivity extends AppCompatActivity {
         super.onStart();
 
         //If user hasn't Signed out, go to Home Screen directly
-        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+        FirebaseUser firebaseUser = mFirebaseAuth.getCurrentUser();
         if (firebaseUser != null) {
             Intent intent = new Intent(this, HomeActivity.class);
             startActivity(intent);
@@ -164,8 +168,11 @@ public class SignInActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        //deallocate memory for bitmap
-        coverImageView.setImageDrawable(null);
+        //deallocate memory once activity stops
+        mLimKnowLogoImageView.setImageDrawable(null);
+        mKnowYourLakesTextView.setText(null);
+        mLimKnowTextView.setText(null);
+        mGoogleSignInButton.setText(null);
     }
 }
 
