@@ -33,27 +33,36 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 public class UserBadgeActivity extends AppCompatActivity {
+    //view declaration for badges
     private TextView lakeFinderTextView, lakeObserverTextView, lakeSaviourTextView, lakePhotographerTextView;
     private ImageView lakeFinderImageView, lakeObserverImageView, lakeSaviourImageView, lakePhotographerImageView;
     private TextView userNameTextView, userProfileTextView;
     private ImageView userProfileImageView;
-    private FirebaseAuth firebaseAuth;
-    private FirebaseUser firebaseUser;
-    private String userEmail;
-    private Uri userProfileUri;
-    private String userName;
-    private StorageReference firebaseStorageReference;
-    private CollectionReference collectionReference;
-    private boolean isLakeFinder, isLakeObserver, isLakePhotographer, isLakeSaviour;
     private ProgressBar progressBar;
 
+    //drawer layout view declaration
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private Toolbar toolbar;
     private View header;
+
     private TextView userEmailTextView;
     private ImageView userImageView;
     private TextView userNameView;
+
+    // declaration
+    private FirebaseAuth firebaseAuth;
+    private FirebaseUser firebaseUser;
+    private StorageReference firebaseStorageReference;
+    private CollectionReference collectionReference;
+
+    //
+    private String userEmail;
+    private Uri userProfileUri;
+    private String userName;
+
+    private boolean isLakeFinder, isLakeObserver, isLakePhotographer, isLakeSaviour;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,7 +126,7 @@ public class UserBadgeActivity extends AppCompatActivity {
                         break;
                     case R.id.sign_out:
                         FirebaseAuth.getInstance().signOut();
-                        Intent signOutIntent = new Intent(getApplicationContext(), MainActivity.class);
+                        Intent signOutIntent = new Intent(getApplicationContext(), SignInActivity.class);
                         startActivity(signOutIntent);
                         break;
                     case R.id.contact_us:

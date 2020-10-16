@@ -15,7 +15,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        tools:context=".MainActivity">
+        tools:context=".SignInActivity">
 
         <Button
             android:id="@+id/sign_in_button"
@@ -36,10 +36,10 @@
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+            app:layout_constraintTop_toBottomOf="@+id/cover_image_view" />
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/cover_image_view"
             android:layout_width="309dp"
             android:layout_height="294dp"
             android:layout_marginTop="48dp"
@@ -47,7 +47,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/textView2"
+            app:layout_constraintTop_toTopOf="@+id/sub_heading_text_view"
             app:srcCompat="@drawable/cover_logo" />
 
         <ProgressBar
@@ -62,7 +62,7 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/sub_heading_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/nunito_sans_light_italic"
@@ -71,11 +71,11 @@
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView"
+            app:layout_constraintTop_toBottomOf="@+id/heading_text_view"
             tools:text="Know Your Lakes" />
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/heading_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="100dp"

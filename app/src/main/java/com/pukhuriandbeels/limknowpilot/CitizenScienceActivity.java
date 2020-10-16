@@ -101,7 +101,7 @@ public class CitizenScienceActivity extends AppCompatActivity {
                         break;
                     case R.id.sign_out:
                         FirebaseAuth.getInstance().signOut();
-                        Intent signOutIntent = new Intent(getApplicationContext(), MainActivity.class);
+                        Intent signOutIntent = new Intent(getApplicationContext(), SignInActivity.class);
                         startActivity(signOutIntent);
                         break;
                     case R.id.contact_us:

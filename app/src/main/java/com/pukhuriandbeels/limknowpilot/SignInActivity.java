@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -29,78 +31,92 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class MainActivity extends AppCompatActivity {
-
+public class SignInActivity extends AppCompatActivity {
+    //Sign in flag declaration
     private static final int RC_SIGN_IN = 1001;
 
-    private GoogleSignInClient googleSignInClient;
-    private FirebaseAuth firebaseAuth;
+    //View declaration
+    private Button mGoogleSignInButton;
+    private ProgressBar mProgressBar;
+    private ImageView mLimKnowLogoImageView;
+    private TextView mKnowYourLakesTextView, mLimKnowTextView;
 
-    private Button signInButton;
-    private ProgressBar progressBar;
+    //Firebase authentication declaration
+    private GoogleSignInClient mGoogleSignInClient;
+    private FirebaseAuth mFirebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_sign_in);
 
-        LakeARActivity.count = 0;
-        signInButton = findViewById(R.id.sign_in_button);
-        progressBar = findViewById(R.id.badge_connection_status);
-        progressBar.setVisibility(View.GONE);
-        firebaseAuth = FirebaseAuth.getInstance();
-
-        createRequest();
-        signInButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                progressBar.setVisibility(View.VISIBLE);
-                signIn();
-            }
-        });
-
+        initialize();
+        setListners();
     }
 
-    private void createRequest() {
+    private void initialize(){
+        //Set views
+        mGoogleSignInButton = findViewById(R.id.sign_in_button);
+        mProgressBar = findViewById(R.id.badge_connection_status);
+        mProgressBar.setVisibility(View.GONE);
+        mLimKnowLogoImageView = findViewById(R.id.cover_image_view);
+        mKnowYourLakesTextView = findViewById(R.id.sub_heading_text_view);
+        mLimKnowTextView = findViewById(R.id.heading_text_view);
+
+        //Set Lake AR quiz to first question
+        LakeARActivity.count = 0;
+
+        //instantiate Firebase Auth
+        mFirebaseAuth = FirebaseAuth.getInstance();
+
+        //Configure Google Sign In client
         GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .***REMOVED***
                 .requestEmail()
                 .build();
-        googleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions);
+        mGoogleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions);
     }
 
+    private void setListners(){
+        //Attach on click listener to Sign In With Google button
+        mGoogleSignInButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mProgressBar.setVisibility(View.VISIBLE);
+                signIn();
+            }
+        });
+    }
     private void signIn() {
-        Intent intent = googleSignInClient.getSignInIntent();
+        //Launch intent for Google Sign in activity
+        Intent intent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(intent, RC_SIGN_IN);
     }
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount account) {
+        //Authenticate Firebase user based on result returned from Google Sign In Intent
         AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
-        firebaseAuth.signInWithCredential(credential)
+        mFirebaseAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+                        //On successful user authentication
                         if (task.isSuccessful()) {
-                            FirebaseUser user = firebaseAuth.getCurrentUser();
-
+                            FirebaseUser user = mFirebaseAuth.getCurrentUser();
                             CollectionReference collectionReference = FirebaseFirestore.getInstance().collection("User");
 
+                            //If user already exists, launch Home Activity
                             collectionReference.document(user.getEmail()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                                 @Override
                                 public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                    progressBar.setVisibility(View.GONE);
-                                    if(documentSnapshot.exists()){
-                                        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-                                        startActivity(intent);
-                                    } else {
-                                        Intent intent = new Intent(getApplicationContext(), UserProfileActivity.class);
-                                        intent.putExtra("KEY","value");
-                                        startActivity(intent);
-                                    }
+                                    mProgressBar.setVisibility(View.GONE);
+                                    Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                                    startActivity(intent);
                                 }
                             });
 
+                            //If user signs in for the first time, launch User Profile Activity to collect user details
                             collectionReference.document(user.getEmail()).get().addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
@@ -111,8 +127,9 @@ public class MainActivity extends AppCompatActivity {
                             });
 
                         } else {
-                            progressBar.setVisibility(View.GONE);
-                            Toast.makeText(MainActivity.this, "Sorry authentication failed.", Toast.LENGTH_SHORT).show();
+                            //On failed user authentication
+                            mProgressBar.setVisibility(View.GONE);
+                            Toast.makeText(SignInActivity.this, "Sorry authentication failed.", Toast.LENGTH_SHORT).show();
                         }
 
                     }
@@ -123,9 +140,11 @@ public class MainActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        //Check if result was returned from Google Sign In Activity
         if (requestCode == RC_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
+                //Authenticate user based on result returned from Google Sign In Activity
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 firebaseAuthWithGoogle(account);
             } catch (ApiException e) {
@@ -138,10 +157,22 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+        //If user hasn't Signed out, go to Home Activity directly
+        FirebaseUser firebaseUser = mFirebaseAuth.getCurrentUser();
         if (firebaseUser != null) {
             Intent intent = new Intent(this, HomeActivity.class);
             startActivity(intent);
         }
     }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        //deallocate memory once activity stops
+        mLimKnowLogoImageView.setImageDrawable(null);
+        mKnowYourLakesTextView.setText(null);
+        mLimKnowTextView.setText(null);
+        mGoogleSignInButton.setText(null);
+    }
 }
+
