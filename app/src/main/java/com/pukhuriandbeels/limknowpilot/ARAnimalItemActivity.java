@@ -39,7 +39,7 @@ public class ARAnimalItemActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ar_animal_item);
         initialize();
-        setListeners(); //lesser ad,ele,
+        setListeners();
     }
 
     private void initialize() {

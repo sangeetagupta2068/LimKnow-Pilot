@@ -36,7 +36,7 @@
             android:textSize="18sp" />
 
         <TextView
-            android:id="@+id/Information_Collection_and_Use_label"
+            android:id="@+id/information_collection_and_use_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
@@ -46,7 +46,7 @@
             android:textSize="22sp" />
 
         <TextView
-            android:id="@+id/Information_Collection_and_Use"
+            android:id="@+id/information_collection_and_use"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
@@ -58,7 +58,7 @@
             android:textSize="18sp" />
 
         <TextView
-            android:id="@+id/Log_Data_label"
+            android:id="@+id/log_data_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
@@ -68,7 +68,7 @@
             android:textSize="22sp" />
 
         <TextView
-            android:id="@+id/Log_Data"
+            android:id="@+id/log_data"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
@@ -80,7 +80,7 @@
             android:textSize="18sp" />
 
         <TextView
-            android:id="@+id/Cookies_label"
+            android:id="@+id/cookies_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
@@ -90,7 +90,7 @@
             android:textSize="22sp" />
 
         <TextView
-            android:id="@+id/Cookies"
+            android:id="@+id/cookies"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
@@ -102,7 +102,7 @@
             android:textSize="18sp" />
 
         <TextView
-            android:id="@+id/Service_Provider_label"
+            android:id="@+id/service_provider_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
@@ -112,7 +112,7 @@
             android:textSize="22sp" />
 
         <TextView
-            android:id="@+id/Service_Provider"
+            android:id="@+id/service_provider"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
@@ -124,7 +124,7 @@
             android:textSize="18sp" />
 
         <TextView
-            android:id="@+id/Security_label"
+            android:id="@+id/security_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
@@ -134,7 +134,7 @@
             android:textSize="22sp" />
 
         <TextView
-            android:id="@+id/Security"
+            android:id="@+id/security"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
@@ -146,7 +146,7 @@
             android:textSize="18sp" />
 
         <TextView
-            android:id="@+id/Children_Privacy_label"
+            android:id="@+id/children_privacy_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
@@ -156,7 +156,7 @@
             android:textSize="22sp" />
 
         <TextView
-            android:id="@+id/Children_Privacy"
+            android:id="@+id/children_privacy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
@@ -168,7 +168,7 @@
             android:textSize="18sp" />
 
         <TextView
-            android:id="@+id/Changes_to_This_Privacy_Policy_label"
+            android:id="@+id/changes_to_privacy_policy_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
@@ -178,7 +178,7 @@
             android:textSize="22sp" />
 
         <TextView
-            android:id="@+id/Changes_to_This_Privacy_Policy"
+            android:id="@+id/changes_to_privacy_policy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
@@ -190,7 +190,7 @@
             android:textSize="18sp" />
 
         <TextView
-            android:id="@+id/Contact_Us_Label"
+            android:id="@+id/contact_us_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
@@ -200,7 +200,7 @@
             android:textSize="22sp" />
 
         <TextView
-            android:id="@+id/Contact_Us"
+            android:id="@+id/contact_us"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"

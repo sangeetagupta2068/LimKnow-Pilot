@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".PrivacyActivity"></activity>
+        <activity android:name=".PrivacyPolicyActivity"></activity>
         <activity android:name=".BeelsAndPukhurisActivity" />
         <activity
             android:name=".UserBadgeActivity"

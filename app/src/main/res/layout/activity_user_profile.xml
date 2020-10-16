@@ -178,6 +178,7 @@
             android:fontFamily="@font/lato"
             android:paddingHorizontal="32dp"
             android:text="Cancel"
+            android:layout_marginBottom="30dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
             android:textColor="@color/colorPrimary"
             android:textSize="18sp" />
@@ -194,6 +195,7 @@
             android:layout_gravity="center_horizontal"
             android:paddingHorizontal="40dp"
             android:text="Save"
+            android:layout_marginBottom="30dp"
             android:textColor="#fafafa"
             android:textSize="18sp" />
     </LinearLayout>

@@ -74,7 +74,7 @@ public class CitizenScienceActivity extends AppCompatActivity {
                         startActivity(aboutIntent);
                         break;
                     case R.id.policy:
-                        Intent policyIntent = new Intent(CitizenScienceActivity.this, PrivacyActivity.class);
+                        Intent policyIntent = new Intent(CitizenScienceActivity.this, PrivacyPolicyActivity.class);
                         startActivity(policyIntent);
                         break;
 
@@ -91,7 +91,7 @@ public class CitizenScienceActivity extends AppCompatActivity {
                         break;
 
                     case R.id.badges:
-                        Intent userBadgeIntent = new Intent(getApplicationContext(),UserBadgeActivity.class);
+                        Intent userBadgeIntent = new Intent(getApplicationContext(), UserBadgeActivity.class);
                         startActivity(userBadgeIntent);
                         finish();
                         break;
@@ -171,7 +171,16 @@ public class CitizenScienceActivity extends AppCompatActivity {
             drawerLayout.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
+            Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+            startActivity(intent);
+            finish();
         }
+    }
+
+    @Override
+    protected void onStop() {
+        navigationView.setCheckedItem(R.id.reporting);
+        super.onStop();
     }
 
     private void setFirebaseAuthorizedUser() {
@@ -184,4 +193,5 @@ public class CitizenScienceActivity extends AppCompatActivity {
             uriProfilePicture = firebaseUser.getPhotoUrl();
         }
     }
+
 }

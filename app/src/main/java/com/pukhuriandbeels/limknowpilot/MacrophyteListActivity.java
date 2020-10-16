@@ -38,6 +38,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 public class MacrophyteListActivity extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
+    private NavigationView navigationView;
     private List<Macrophyte> macrophytes = new ArrayList<>();
     private MacrophyteAdapter macrophyteAdapter;
     private ListView listView;
@@ -55,7 +56,7 @@ public class MacrophyteListActivity extends AppCompatActivity {
         setFirebaseAuthorizedUser();
 
         drawerLayout = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.navigation_view);
+        navigationView = findViewById(R.id.navigation_view);
         View header = navigationView.getHeaderView(0);
         TextView userNameTextView = header.findViewById(R.id.user_name);
         TextView userEmailTextView = header.findViewById(R.id.user_email);
@@ -88,7 +89,7 @@ public class MacrophyteListActivity extends AppCompatActivity {
                         startActivity(aboutIntent);
                         break;
                     case R.id.policy:
-                        Intent policyIntent = new Intent(getApplicationContext(),PrivacyActivity.class);
+                        Intent policyIntent = new Intent(getApplicationContext(), PrivacyPolicyActivity.class);
                         startActivity(policyIntent);
                         break;
 
@@ -162,6 +163,7 @@ public class MacrophyteListActivity extends AppCompatActivity {
             drawerLayout.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
+            finish();
         }
     }
 
@@ -209,5 +211,11 @@ public class MacrophyteListActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    protected void onStop() {
+        navigationView.setCheckedItem(R.id.macrophytes);
+        super.onStop();
     }
 }

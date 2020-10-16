@@ -76,7 +76,7 @@ public class HomeActivity extends AppCompatActivity {
                         startActivity(aboutIntent);
                         break;
                     case R.id.policy:
-                        Intent policyIntent = new Intent(getApplicationContext(),PrivacyActivity.class);
+                        Intent policyIntent = new Intent(getApplicationContext(), PrivacyPolicyActivity.class);
                         startActivity(policyIntent);
                         break;
 
@@ -107,6 +107,7 @@ public class HomeActivity extends AppCompatActivity {
                         startActivity(signOutIntent);
                         break;
                     case R.id.contact_us:
+                        navigationView.setCheckedItem(R.id.home);
                         Intent contactIntent = new Intent(Intent.ACTION_SEND);
 
                         contactIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"limknow2020@gmail.com"});
@@ -179,6 +180,12 @@ public class HomeActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         }
+    }
+
+    @Override
+    protected void onStop() {
+        navigationView.setCheckedItem(R.id.home);
+        super.onStop();
     }
 
     private void setFirebaseAuthorizedUser() {

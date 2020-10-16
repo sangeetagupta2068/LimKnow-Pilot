@@ -38,8 +38,6 @@ public class SignInActivity extends AppCompatActivity {
     //View declaration
     private Button mGoogleSignInButton;
     private ProgressBar mProgressBar;
-    private ImageView mLimKnowLogoImageView;
-    private TextView mKnowYourLakesTextView, mLimKnowTextView;
 
     //Firebase authentication declaration
     private GoogleSignInClient mGoogleSignInClient;
@@ -56,13 +54,10 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     private void initialize(){
-        //Set views
+        //View initialization
         mGoogleSignInButton = findViewById(R.id.sign_in_button);
         mProgressBar = findViewById(R.id.badge_connection_status);
         mProgressBar.setVisibility(View.GONE);
-        mLimKnowLogoImageView = findViewById(R.id.cover_image_view);
-        mKnowYourLakesTextView = findViewById(R.id.sub_heading_text_view);
-        mLimKnowTextView = findViewById(R.id.heading_text_view);
 
         //Set Lake AR quiz to first question
         LakeARActivity.count = 0;
@@ -113,6 +108,7 @@ public class SignInActivity extends AppCompatActivity {
                                     mProgressBar.setVisibility(View.GONE);
                                     Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
                                     startActivity(intent);
+                                    Toast.makeText(getApplicationContext(),"Welcome back to LimKnow, " + user.getDisplayName(),Toast.LENGTH_SHORT).show();
                                 }
                             });
 
@@ -123,6 +119,7 @@ public class SignInActivity extends AppCompatActivity {
                                     Intent intent = new Intent(getApplicationContext(), UserProfileActivity.class);
                                     intent.putExtra("KEY",1);
                                     startActivity(intent);
+                                    Toast.makeText(getApplicationContext(),"Welcome to LimKnow, " + user.getDisplayName(),Toast.LENGTH_SHORT).show();
                                 }
                             });
 
@@ -166,13 +163,13 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
-        //deallocate memory once activity stops
-        mLimKnowLogoImageView.setImageDrawable(null);
-        mKnowYourLakesTextView.setText(null);
-        mLimKnowTextView.setText(null);
-        mGoogleSignInButton.setText(null);
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish();
     }
 }
 
