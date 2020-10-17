@@ -13,8 +13,7 @@ The name LimKnow is derived from two words, 'Lim' is from Limnology and 'Know' s
 ## Features : 
 1. Macrophyte identification keys
 2. Learning about wetland species through AR Experience
-3. Wetland surveys
-4. Lake Health and Invasive Species Reporting
+3. Lake Health and Invasive Species Reporting
 
 <i>The pilot study of the app is on Deepor Beel. In future, we plan to extend the app for all wetlands of Guwahati.</i>
 
