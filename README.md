@@ -19,12 +19,20 @@ The name LimKnow is derived from two words, 'Lim' is from Limnology and 'Know' s
 <i>The pilot study of the app is on Deepor Beel. In future, we plan to extend the app for all wetlands of Guwahati.</i>
 
 ## Creators
-<a href="https://github.com/sudeshnaG">
-  Sudeshna Gupta
-</a>
-<a href="https://github.com/sangeetagupta2068/">
-  Sangeeta Gupta
-</a>
-<a href="https://github.com/shriaas2898">
-  Aastha Shrivastava
-</a>
+<ul>
+  <li>
+    <a href="https://github.com/sudeshnaG">
+      Sudeshna Gupta
+    </a>
+  </li>
+  <li> 
+    <a href="https://github.com/sangeetagupta2068/">
+      Sangeeta Gupta
+    </a>
+  </li>
+  <li>
+    <a href="https://github.com/shriaas2898">
+      Aastha Shrivastava
+    </a>
+  <li>
+</ul>
