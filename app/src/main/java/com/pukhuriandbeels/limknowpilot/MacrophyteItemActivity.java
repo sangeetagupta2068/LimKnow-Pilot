@@ -21,58 +21,63 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MacrophyteItemActivity extends AppCompatActivity {
-
-    private TextView macrophyteNameTextView, macrophyteCommonNameTextView, macrophyteTypeTextView;
-    private TextView macrophyteDescriptionTextView, macrophytePictureCreditTextView;
-    private ImageView macrophyteImageView;
-    private Button button;
+    //View declaration
+    private TextView mMacrophyteNameTextView, mMacrophyteCommonNameTextView, mMacrophyteTypeTextView;
+    private TextView mMacrophyteDescriptionTextView, mMacrophytePictureCreditTextView;
+    private ImageView mMacrophyteImageView;
+    private Button mBackButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_macrophyte_item);
+
         initialize();
+        setListeners();
+    }
+
+    private void initialize() {
+        //View initialization
+        mMacrophyteNameTextView = findViewById(R.id.macrophyte_scientific_name);
+        mMacrophyteCommonNameTextView = findViewById(R.id.macrophyte_common_name);
+        mMacrophyteDescriptionTextView = findViewById(R.id.macrophyte_about);
+        mMacrophyteTypeTextView = findViewById(R.id.macrophyte_type);
+        mMacrophytePictureCreditTextView = findViewById(R.id.macrophyte_picture_credits);
+        mMacrophyteImageView = findViewById(R.id.macrophyte_image);
+        mBackButton = findViewById(R.id.button_submit_macrophyte);
 
         Intent intent = getIntent();
+        //On successful retrieval of macrophyte data, set view values
         if (intent.getSerializableExtra("MACROPHYTE_ITEM") != null) {
             Macrophyte macrophyte = (Macrophyte) intent.getSerializableExtra("MACROPHYTE_ITEM");
+            //Add invasive species to the name of every invasive species macrophyte
             if (macrophyte.isInvasiveSpecies()) {
-                macrophyteNameTextView.setText(macrophyte.getMacrophyteName() + " " + "\n(Invasive Species)");
+                mMacrophyteNameTextView.setText(macrophyte.getMacrophyteName()
+                        + " " + "\n(Invasive Species)");
             } else {
-                macrophyteNameTextView.setText(macrophyte.getMacrophyteName());
+                mMacrophyteNameTextView.setText(macrophyte.getMacrophyteName());
             }
-            macrophyteTypeTextView.setText(macrophyte.getMacrophyteType());
-            macrophytePictureCreditTextView.setText(macrophyte.getMacrophyteImageCredit());
-            macrophyteDescriptionTextView.setText(macrophyte.getMacrophyteDescription());
-            macrophyteCommonNameTextView.setText(macrophyte.getCommonName());
+            mMacrophyteTypeTextView.setText(macrophyte.getMacrophyteType());
+            mMacrophytePictureCreditTextView.setText(macrophyte.getMacrophyteImageCredit());
+            mMacrophyteDescriptionTextView.setText(macrophyte.getMacrophyteDescription());
+            mMacrophyteCommonNameTextView.setText(macrophyte.getCommonName());
             if (macrophyte.getMacrophyteImageURL() != null) {
-                Glide.with(this).load(Uri.parse(macrophyte.getMacrophyteImageURL())).into(macrophyteImageView);
+                //Load macrophyte image
+                Glide.with(this).load(Uri.parse
+                        (macrophyte.getMacrophyteImageURL())).into(mMacrophyteImageView);
             } else {
-                macrophyteImageView.setImageResource(R.drawable.sample_macrophyte);
+                //Set macrophyte to sample image if image load failed
+                mMacrophyteImageView.setImageResource(R.drawable.sample_macrophyte);
             }
         }
-
-        button.setOnClickListener(new View.OnClickListener() {
+    }
+    private void setListeners(){
+        //Attaching listener to Back button
+        mBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
-    }
-
-    private void initialize() {
-        macrophyteNameTextView = findViewById(R.id.macrophyte_scientific_name);
-        macrophyteCommonNameTextView = findViewById(R.id.macrophyte_common_name);
-        macrophyteDescriptionTextView = findViewById(R.id.macrophyte_about);
-        macrophyteTypeTextView = findViewById(R.id.macrophyte_type);
-        macrophytePictureCreditTextView = findViewById(R.id.macrophyte_picture_credits);
-        macrophyteImageView = findViewById(R.id.macrophyte_image);
-        button = findViewById(R.id.button_submit_macrophyte);
-    }
-
-    @Override
-    protected void onStop() {
-        macrophyteImageView.setImageDrawable(null);
-        super.onStop();
     }
 }

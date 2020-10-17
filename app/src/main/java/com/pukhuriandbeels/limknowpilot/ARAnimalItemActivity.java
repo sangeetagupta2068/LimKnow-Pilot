@@ -3,6 +3,7 @@ package com.pukhuriandbeels.limknowpilot;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -27,108 +28,136 @@ import java.util.Map;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class ARAnimalItemActivity extends AppCompatActivity {
+    //View declaration
+    private TextView mAnimalCommonNameTextView, mAnimalScientificNameTextView;
+    private TextView mAnimalImageCreditTextView, mAnimalWaterbodyAssociationTextView,
+            mAnimalThreatTextView;
+    private ImageView mAnimalImageView;
+    private Button mNextButton;
 
-    private TextView textViewAnimalCommonName, textViewAnimalScientificName;
-    private TextView textViewAnimalImageCredits, textViewAnimalWaterbodyAssociation, textViewAnimalThreats;
-    private ImageView imageViewAnimal;
-    private Button submit;
-    private Boolean isLakeObserver;
+    //Lake observer badge flag declaration
+    private Boolean mIsLakeObserver;
+    private long lastClickTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ar_animal_item);
+
         initialize();
         setListeners();
     }
 
     private void initialize() {
-        textViewAnimalCommonName = findViewById(R.id.animal_common_name);
-        textViewAnimalScientificName = findViewById(R.id.animal_scientific_name);
-        textViewAnimalImageCredits = findViewById(R.id.animal_picture_credits);
-        textViewAnimalWaterbodyAssociation = findViewById(R.id.animal_waterbody_association);
-        textViewAnimalThreats = findViewById(R.id.animal_threats);
-        submit = findViewById(R.id.button_submit_animal);
+        //View initialization
+        mAnimalCommonNameTextView = findViewById(R.id.animal_common_name);
+        mAnimalScientificNameTextView = findViewById(R.id.animal_scientific_name);
+        mAnimalImageCreditTextView = findViewById(R.id.animal_picture_credits);
+        mAnimalWaterbodyAssociationTextView = findViewById(R.id.animal_waterbody_association);
+        mAnimalThreatTextView = findViewById(R.id.animal_threats);
+        mNextButton = findViewById(R.id.button_submit_animal);
+        mAnimalImageView = findViewById(R.id.animal_image);
 
-        imageViewAnimal = findViewById(R.id.animal_image);
+        //Set views to gone until view data is loaded
+        mAnimalCommonNameTextView.setVisibility(View.GONE);
+        mAnimalScientificNameTextView.setVisibility(View.GONE);
+        mAnimalWaterbodyAssociationTextView.setVisibility(View.GONE);
+        mAnimalImageCreditTextView.setVisibility(View.GONE);
+        mAnimalThreatTextView.setVisibility(View.GONE);
+        mAnimalImageView.setVisibility(View.GONE);
 
-        textViewAnimalCommonName.setVisibility(View.GONE);
-        textViewAnimalScientificName.setVisibility(View.GONE);
-        textViewAnimalWaterbodyAssociation.setVisibility(View.GONE);
-        textViewAnimalImageCredits.setVisibility(View.GONE);
-        textViewAnimalThreats.setVisibility(View.GONE);
-
-        imageViewAnimal.setVisibility(View.GONE);
-
+        //Store current Animal object and increment question count
         Animal animal = LakeARQuizActivity.animals.get(LakeARQuizActivity.questionCount);
         LakeARQuizActivity.questionCount = LakeARQuizActivity.questionCount + 1;
 
-        textViewAnimalCommonName.setText(animal.getAnimalCommonName());
-        textViewAnimalThreats.setText(animal.getAnimalThreat());
-        textViewAnimalImageCredits.setText(animal.getAnimalImageCredits());
-        textViewAnimalWaterbodyAssociation.setText(animal.getAnimalWaterbodyAssociation());
-        textViewAnimalScientificName.setText(animal.getAnimalName());
-
+        //load values to views from Animal object
+        mAnimalCommonNameTextView.setText(animal.getAnimalCommonName());
+        mAnimalThreatTextView.setText(animal.getAnimalThreat());
+        mAnimalImageCreditTextView.setText(animal.getAnimalImageCredits());
+        mAnimalWaterbodyAssociationTextView.setText(animal.getAnimalWaterbodyAssociation());
+        mAnimalScientificNameTextView.setText(animal.getAnimalName());
         Glide.with(this)
                 .load(Uri.parse(animal.getAnimalImageURL()))
                 .error(R.drawable.sample_animal)
-                .into(imageViewAnimal);
+                .into(mAnimalImageView);
 
-        textViewAnimalCommonName.setVisibility(View.VISIBLE);
-        textViewAnimalScientificName.setVisibility(View.VISIBLE);
-        textViewAnimalWaterbodyAssociation.setVisibility(View.VISIBLE);
-        textViewAnimalImageCredits.setVisibility(View.VISIBLE);
-        textViewAnimalThreats.setVisibility(View.VISIBLE);
+        //Upon successful loading, make views visible
+        mAnimalCommonNameTextView.setVisibility(View.VISIBLE);
+        mAnimalScientificNameTextView.setVisibility(View.VISIBLE);
+        mAnimalWaterbodyAssociationTextView.setVisibility(View.VISIBLE);
+        mAnimalImageCreditTextView.setVisibility(View.VISIBLE);
+        mAnimalThreatTextView.setVisibility(View.VISIBLE);
+        mAnimalImageView.setVisibility(View.VISIBLE);
 
-        imageViewAnimal.setVisibility(View.VISIBLE);
+        //Set badge flag to false
+        mIsLakeObserver = false;
 
-        isLakeObserver = false;
+        lastClickTime = SystemClock.elapsedRealtime();
 
     }
 
     private void setListeners() {
-        submit.setOnClickListener(new View.OnClickListener() {
+        mNextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                //If all questions have been visited
                 if (LakeARQuizActivity.questionCount == LakeARQuizActivity.animals.size()) {
+                    //Clear static Animal collection
                     LakeARQuizActivity.animals.clear();
 
+
+                    //Create Firebase User
                     FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
                     FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
 
+                    //Create request for checking if user has previously earned Lake Observer badge
                     FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
-                    StorageReference firebaseStorageReference = FirebaseStorage.getInstance().getReference();
-                    CollectionReference collectionReference = firebaseFirestore.collection("User");
+                    StorageReference firebaseStorageReference = FirebaseStorage.getInstance()
+                            .getReference();
+                    CollectionReference collectionReference = firebaseFirestore
+                            .collection("User");
 
                     if (firebaseUser != null) {
-                        collectionReference.document(firebaseUser.getEmail()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                        collectionReference.document(firebaseUser.getEmail())
+                                .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                             @Override
                             public void onSuccess(DocumentSnapshot documentSnapshot) {
                                 if (documentSnapshot.exists()) {
                                     if (documentSnapshot.contains("is_lake_observer")) {
-                                        isLakeObserver = documentSnapshot.getBoolean("is_lake_observer");
+                                        mIsLakeObserver = documentSnapshot
+                                                .getBoolean("is_lake_observer");
                                     }
-                                    if (isLakeObserver) {
-                                        try {
-                                            Thread.sleep(200);
-                                        } catch (InterruptedException ex) {
-                                            ex.printStackTrace();
-                                        }
-                                        Intent intent = new Intent(ARAnimalItemActivity.this, HomeActivity.class);
+                                    if (mIsLakeObserver) {
+                                        //If user has earned Lake Observer badge previously
+                                        Toast.makeText(getApplicationContext(),
+                                                "You completed Lake 3D experience!", Toast.LENGTH_SHORT).show();
+                                        Intent intent = new Intent(
+                                                ARAnimalItemActivity.this,
+                                                HomeActivity.class);
                                         startActivity(intent);
                                         finish();
+                                        return;
                                     }
-                                    DocumentReference documentReference = collectionReference.document(firebaseUser.getEmail());
-                                    documentReference.update("is_lake_observer", true).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    DocumentReference documentReference = collectionReference
+                                            .document(firebaseUser.getEmail());
+                                    documentReference.update("is_lake_observer",
+                                            true).addOnSuccessListener(
+                                                    new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void aVoid) {
-                                            Toast.makeText(getApplicationContext(), "Congratulations! You have earned the Lake Observer badge!", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(getApplicationContext(),
+                                                    "Congratulations! You have earned " +
+                                                            "the Lake Observer badge!",
+                                                    Toast.LENGTH_SHORT).show();
                                             try {
                                                 Thread.sleep(50);
                                             } catch (InterruptedException e) {
                                                 e.printStackTrace();
                                             }
-                                            Intent intent = new Intent(ARAnimalItemActivity.this, HomeActivity.class);
+                                            Intent intent = new Intent(
+                                                    ARAnimalItemActivity.this,
+                                                    HomeActivity.class);
                                             startActivity(intent);
                                             finish();
                                         }
@@ -139,10 +168,13 @@ public class ARAnimalItemActivity extends AppCompatActivity {
                         });
                     }
                     else {
-                        Toast.makeText(getApplicationContext(), "You completed Lake 3D experience!", Toast.LENGTH_SHORT).show();
+                        //If user couldn't be found
+                        Toast.makeText(getApplicationContext(),
+                                "You completed Lake 3D experience!", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Intent intent = new Intent(ARAnimalItemActivity.this, LakeARQuizActivity.class);
+                    Intent intent = new Intent(ARAnimalItemActivity.this,
+                            LakeARQuizActivity.class);
                     startActivity(intent);
                     finish();
                 }
@@ -150,9 +182,4 @@ public class ARAnimalItemActivity extends AppCompatActivity {
         });
     }
 
-    @Override
-    protected void onStop() {
-        imageViewAnimal.setImageDrawable(null);
-        super.onStop();
-    }
 }

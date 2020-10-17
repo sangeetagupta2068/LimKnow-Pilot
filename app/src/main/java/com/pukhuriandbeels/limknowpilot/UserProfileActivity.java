@@ -54,28 +54,28 @@ public class UserProfileActivity extends AppCompatActivity {
     private TextView mNameTextView, mEmailTextView;
     private FloatingActionButton mCameraFloatingActionButton;
     private TextInputEditText mAboutEditText, mProfessionEditText, mAgeEditText, mPronounEditText;
-    private Button buttonSave, buttonCancel;
-    private ProgressBar progressBar;
-    private ConstraintLayout constraintLayout;
+    private Button mSaveButton, mCancelButton;
+    private ProgressBar mProgressBar;
+    private ConstraintLayout mConstraintLayout;
 
     //Firebase Auth declaration
-    private FirebaseAuth firebaseAuth;
-    private CollectionReference collectionReference;
-    private StorageReference firebaseStorageReference;
-    private FirebaseUser firebaseUser;
+    private FirebaseAuth mFirebaseAuth;
+    private CollectionReference mCollectionReference;
+    private StorageReference mFirebaseStorageReference;
+    private FirebaseUser mFirebaseUser;
 
     //Field declaration
-    private String userEmail, userName, userProfession, userAbout, userGender;
-    private String newUserAbout, newGender, newProfession, newAge, newIndex;
-    private String userAge;
-    private Uri userProfileUri;
-    private Uri filePath;
-    private String index;
-    private String cancelIndex;
+    private String mUserEmail, mUserName, mUserProfession, mUserAbout,
+            mUserPronoun, mUserAge, mUserPronounIndex;
+    private String mNewUserAbout, mNewUserPronoun, mNewUserProfession,
+            mNewUserAge, mNewUserPronounIndex;
+    private Uri mUserProfileUri;
+    private Uri mFilePath;
+    private String mUserCancelIndex;
 
     //Profile flag declaration
-    private boolean isLakeFinder, isLakeObserver, isLakeSaviour, isLakePhotographer;
-    private boolean flagCancel;
+    private boolean mIsLakeFinder, mIsLakeObserver, mIsLakeSaviour, mIsLakePhotographer;
+    private boolean mScreenflagForCancel;
 
 
     @Override
@@ -93,41 +93,41 @@ public class UserProfileActivity extends AppCompatActivity {
         mEmailTextView = findViewById(R.id.user_profile_email);
         mNameTextView = findViewById(R.id.user_profile_name);
         mCameraFloatingActionButton = findViewById(R.id.floatingActionButton);
-        progressBar = findViewById(R.id.user_profile_connection_status);
-        constraintLayout = findViewById(R.id.constraint_layout_profile);
+        mProgressBar = findViewById(R.id.user_profile_connection_status);
+        mConstraintLayout = findViewById(R.id.constraint_layout_profile);
 
         mAboutEditText = findViewById(R.id.about);
         mProfessionEditText = findViewById(R.id.profession);
         mAgeEditText = findViewById(R.id.age);
         mPronounEditText = findViewById(R.id.gender);
 
-        buttonCancel = findViewById(R.id.button_user_profile_cancel);
-        buttonSave = findViewById(R.id.button_user_profile_save);
+        mCancelButton = findViewById(R.id.button_user_profile_cancel);
+        mSaveButton = findViewById(R.id.button_user_profile_save);
 
         //Set view visibility
         mAboutEditText.setVisibility(View.GONE);
         mPronounEditText.setVisibility(View.GONE);
         mProfessionEditText.setVisibility(View.GONE);
         mAgeEditText.setVisibility(View.GONE);
-        buttonCancel.setVisibility(View.GONE);
-        buttonSave.setVisibility(View.GONE);
-        constraintLayout.setVisibility(View.GONE);
+        mCancelButton.setVisibility(View.GONE);
+        mSaveButton.setVisibility(View.GONE);
+        mConstraintLayout.setVisibility(View.GONE);
 
-        progressBar.setVisibility(View.VISIBLE);
+        mProgressBar.setVisibility(View.VISIBLE);
 
         //If parent activity is Sign in, don't display Cancel Button
         Intent intent = getIntent();
-        if(intent.getStringExtra("KEY")!=null){
-            flagCancel = false;
+        if (intent.getStringExtra("KEY") != null) {
+            mScreenflagForCancel = false;
         } else {
-            flagCancel = true;
+            mScreenflagForCancel = true;
         }
 
         //Set badge flag values to false until data is loaded
-        isLakeFinder = false;
-        isLakeObserver = false;
-        isLakePhotographer = false;
-        isLakeSaviour = false;
+        mIsLakeFinder = false;
+        mIsLakeObserver = false;
+        mIsLakePhotographer = false;
+        mIsLakeSaviour = false;
 
     }
 
@@ -136,8 +136,11 @@ public class UserProfileActivity extends AppCompatActivity {
         mCameraFloatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (ContextCompat.checkSelfPermission(UserProfileActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(UserProfileActivity.this, new String[]{Manifest.permission.CAMERA}, PICK_IMAGE_REQUEST);
+                if (ContextCompat.checkSelfPermission(UserProfileActivity.this,
+                        Manifest.permission.READ_EXTERNAL_STORAGE)
+                        != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(UserProfileActivity.this,
+                            new String[]{Manifest.permission.CAMERA}, PICK_IMAGE_REQUEST);
                 } else {
                     selectImage();
                 }
@@ -153,63 +156,66 @@ public class UserProfileActivity extends AppCompatActivity {
         });
 
         //Attaching listener when Activity is cancelled
-        buttonCancel.setOnClickListener(new View.OnClickListener() {
+        mCancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Nothing to change", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-                startActivity(intent);
                 finish();
             }
         });
 
         //Attaching listener to Save Button to create Firebase Auth request
-        buttonSave.setOnClickListener(new View.OnClickListener() {
+        mSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Retriving values for user fields
-                newUserAbout = mAboutEditText.getText().toString();
-                newAge = mAgeEditText.getText().toString();
-                newProfession = mProfessionEditText.getText().toString();
+                mNewUserAbout = mAboutEditText.getText().toString();
+                mNewUserAge = mAgeEditText.getText().toString();
+                mNewUserProfession = mProfessionEditText.getText().toString();
 
                 //Age validation
-                if(!newAge.equals("")){
-                    int age = Integer.valueOf(newAge);
-                    if(age > 100 || age < 1){
-                        Toast.makeText(getApplicationContext(),"Please add a valid age",Toast.LENGTH_SHORT).show();
+                if (!mNewUserAge.equals("")) {
+                    int age = Integer.valueOf(mNewUserAge);
+                    if (age > 100 || age < 1) {
+                        Toast.makeText(getApplicationContext(), "Please add a valid age",
+                                Toast.LENGTH_SHORT).show();
                         return;
                     }
                 }
 
-                if (filePath == userProfileUri) {
+                if (mFilePath == mUserProfileUri) {
                     //If profile photo wasn't changed, create firebase request to upload other details of user
                     firebaseTransaction();
                 } else {
-                    progressBar.setVisibility(View.VISIBLE);
+                    mProgressBar.setVisibility(View.VISIBLE);
                     //Upload user profile picture to Cloud Storage if profile photo was changed
-                    final StorageReference storageReference = firebaseStorageReference.child("User Profile").child(filePath.getLastPathSegment());
+                    final StorageReference storageReference =
+                            mFirebaseStorageReference.child("User Profile")
+                                    .child(mFilePath.getLastPathSegment());
                     //On Successful upload of user profile picture
-                    storageReference.putFile(filePath).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    storageReference.putFile(mFilePath)
+                            .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                                 @Override
-                                public void onSuccess(Uri uri) {
-                                    filePath = uri;
+                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                    storageReference.getDownloadUrl()
+                                            .addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                                @Override
+                                                public void onSuccess(Uri uri) {
+                                                    mFilePath = uri;
+                                                    //Create request to upload other details of user
+                                                    firebaseTransaction();
+                                                }
+                                            });
+                                }
+                            });
+                    //On failed upload of user profile picture
+                    storageReference.putFile(mFilePath)
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
                                     //Create request to upload other details of user
                                     firebaseTransaction();
                                 }
                             });
-                        }
-                    });
-                    //On failed upload of user profile picture
-                    storageReference.putFile(filePath).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            //Create request to upload other details of user
-                            firebaseTransaction();
-                        }
-                    });
                 }
             }
         });
@@ -219,34 +225,34 @@ public class UserProfileActivity extends AppCompatActivity {
         //Display Dialog for selecting user pronoun
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(UserProfileActivity.this);
         alertDialog.setTitle("Pronoun");
-        String[] items = {"None","He/Him", "She/Her", "They/Them"};
-        if(cancelIndex.equals("")|| cancelIndex == null){
-            cancelIndex = "0";
+        String[] items = {"None", "He/Him", "She/Her", "They/Them"};
+        if (mUserCancelIndex.equals("") || mUserCancelIndex == null) {
+            mUserCancelIndex = "0";
         }
-        if (index.equals("") || index == null) {
-            index = "0";
+        if (mUserPronounIndex.equals("") || mUserPronounIndex == null) {
+            mUserPronounIndex = "0";
         }
-        int check = Integer.parseInt(index);
+        int check = Integer.parseInt(mUserPronounIndex);
         alertDialog.setSingleChoiceItems(items, check, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                newIndex = Integer.toString(which);
+                mNewUserPronounIndex = Integer.toString(which);
                 switch (which) {
                     case 0:
-                        newGender = items[0];
-                        index = "0";
+                        mNewUserPronoun = items[0];
+                        mUserPronounIndex = "0";
                         break;
                     case 1:
-                        newGender = items[1];
-                        index = "1";
+                        mNewUserPronoun = items[1];
+                        mUserPronounIndex = "1";
                         break;
                     case 2:
-                        newGender = items[2];
-                        index = "2";
+                        mNewUserPronoun = items[2];
+                        mUserPronounIndex = "2";
                         break;
                     case 3:
-                        newGender = items[3];
-                        index = "3";
+                        mNewUserPronoun = items[3];
+                        mUserPronounIndex = "3";
                         break;
                 }
             }
@@ -255,11 +261,11 @@ public class UserProfileActivity extends AppCompatActivity {
         alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if(!newGender.equals("None"))
-                    mPronounEditText.setText(newGender);
+                if (!mNewUserPronoun.equals("None"))
+                    mPronounEditText.setText(mNewUserPronoun);
                 else
                     mPronounEditText.setText("");
-                cancelIndex = index;
+                mUserCancelIndex = mUserPronounIndex;
                 dialog.dismiss();
             }
         });
@@ -267,8 +273,8 @@ public class UserProfileActivity extends AppCompatActivity {
         alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                newGender = mPronounEditText.getHint().toString();
-                index = cancelIndex;
+                mNewUserPronoun = mPronounEditText.getHint().toString();
+                mUserPronounIndex = mUserCancelIndex;
                 dialog.dismiss();
             }
         });
@@ -283,7 +289,8 @@ public class UserProfileActivity extends AppCompatActivity {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture")
+                , PICK_IMAGE_REQUEST);
     }
 
     @Override
@@ -292,11 +299,11 @@ public class UserProfileActivity extends AppCompatActivity {
         //Check if app has permission to pick image from user gallery
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
                 && data != null && data.getData() != null) {
-            filePath = data.getData();
+            mFilePath = data.getData();
 
             try {
                 //Preview selected image in user profile pic
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), mFilePath);
                 mProfilePictureImageView.setVisibility(View.VISIBLE);
                 mProfilePictureImageView.setImageBitmap(bitmap);
             } catch (IOException e) {
@@ -306,12 +313,15 @@ public class UserProfileActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         //Check if app has been granted permission to pick image from user gallery after requesting
         if (requestCode == PICK_IMAGE_REQUEST) {
             if (grantResults.length <= 0 || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(getApplicationContext(), "Gallery Permission denied", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),
+                        "Gallery Permission denied", Toast.LENGTH_SHORT).show();
             } else {
                 selectImage();
             }
@@ -320,90 +330,95 @@ public class UserProfileActivity extends AppCompatActivity {
 
     private void setFirebaseAuthorizedUser() {
         //Firebase Auth instantiation
-        firebaseAuth = FirebaseAuth.getInstance();
-        firebaseUser = firebaseAuth.getCurrentUser();
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseUser = mFirebaseAuth.getCurrentUser();
 
         //If firebase user exists, load user details
-        if (firebaseUser != null) {
-            userEmail = firebaseUser.getEmail();
-            userProfileUri = firebaseUser.getPhotoUrl();
-            userName = firebaseUser.getDisplayName();
+        if (mFirebaseUser != null) {
+            mUserEmail = mFirebaseUser.getEmail();
+            mUserProfileUri = mFirebaseUser.getPhotoUrl();
+            mUserName = mFirebaseUser.getDisplayName();
 
-            mNameTextView.setText(userName);
-            mEmailTextView.setText(userEmail);
+            mNameTextView.setText(mUserName);
+            mEmailTextView.setText(mUserEmail);
 
-            Glide.with(getApplicationContext()).load(userProfileUri).error(R.drawable.ic_baseline_person_24).into(mProfilePictureImageView);
+            Glide.with(getApplicationContext())
+                    .load(mUserProfileUri)
+                    .error(R.drawable.ic_baseline_person_24)
+                    .into(mProfilePictureImageView);
         }
 
         FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
-        firebaseStorageReference = FirebaseStorage.getInstance().getReference();
-        collectionReference = firebaseFirestore.collection("User");
+        mFirebaseStorageReference = FirebaseStorage.getInstance().getReference();
+        mCollectionReference = firebaseFirestore.collection("User");
 
-        if (firebaseUser != null) {
+        if (mFirebaseUser != null) {
             //On successful retrieval of user details, set fields to loaded values
-            collectionReference.document(firebaseUser.getEmail()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            mCollectionReference.document(mFirebaseUser.getEmail())
+                    .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                 @Override
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
                     if (documentSnapshot.exists()) {
-                        if(documentSnapshot.contains("about")) {
-                            userAbout = documentSnapshot.getString("about");
+                        if (documentSnapshot.contains("about")) {
+                            mUserAbout = documentSnapshot.getString("about");
                         }
-                        if(documentSnapshot.contains("profession")) {
-                            userProfession = documentSnapshot.getString("profession");
+                        if (documentSnapshot.contains("profession")) {
+                            mUserProfession = documentSnapshot.getString("profession");
                         }
-                        if(documentSnapshot.contains("pronoun")) {
-                            userGender = documentSnapshot.getString("pronoun");
+                        if (documentSnapshot.contains("pronoun")) {
+                            mUserPronoun = documentSnapshot.getString("pronoun");
                         }
-                        if(documentSnapshot.contains("age")) {
-                            userAge = documentSnapshot.getString("age");
+                        if (documentSnapshot.contains("age")) {
+                            mUserAge = documentSnapshot.getString("age");
                         }
-                        if(documentSnapshot.contains("index")) {
-                            index = documentSnapshot.getString("index");
-                            cancelIndex = index;
+                        if (documentSnapshot.contains("index")) {
+                            mUserPronounIndex = documentSnapshot.getString("index");
+                            mUserCancelIndex = mUserPronounIndex;
                         }
 
-                        if(documentSnapshot.contains("is_lake_finder")) {
-                            isLakeFinder = documentSnapshot.getBoolean("is_lake_finder");
+                        if (documentSnapshot.contains("is_lake_finder")) {
+                            mIsLakeFinder = documentSnapshot.getBoolean("is_lake_finder");
                         }
-                        if(documentSnapshot.contains("is_lake_observer")){
-                            isLakeObserver = documentSnapshot.getBoolean("is_lake_observer");
+                        if (documentSnapshot.contains("is_lake_observer")) {
+                            mIsLakeObserver = documentSnapshot.getBoolean("is_lake_observer");
                         }
-                        if(documentSnapshot.contains("is_lake_photographer")){
-                            isLakePhotographer = documentSnapshot.getBoolean("is_lake_photographer");
+                        if (documentSnapshot.contains("is_lake_photographer")) {
+                            mIsLakePhotographer = documentSnapshot
+                                    .getBoolean("is_lake_photographer");
                         }
-                        if(documentSnapshot.contains("is_lake_saviour")){
-                            isLakeSaviour = documentSnapshot.getBoolean("is_lake_saviour");
+                        if (documentSnapshot.contains("is_lake_saviour")) {
+                            mIsLakeSaviour = documentSnapshot.getBoolean("is_lake_saviour");
                         }
 
                     } else {
-                        isLakeFinder = false;
-                        isLakeObserver = false;
-                        isLakePhotographer = false;
-                        isLakeSaviour = false;
+                        mIsLakeFinder = false;
+                        mIsLakeObserver = false;
+                        mIsLakePhotographer = false;
+                        mIsLakeSaviour = false;
 
-                        userAbout = "";
-                        userProfession = "";
-                        userGender = "";
-                        userAge = "";
-                        index = "0";
-                        cancelIndex = "0";
+                        mUserAbout = "";
+                        mUserProfession = "";
+                        mUserPronoun = "";
+                        mUserAge = "";
+                        mUserPronounIndex = "0";
+                        mUserCancelIndex = "0";
                     }
 
-                    newUserAbout = userAbout;
-                    newGender = userGender;
-                    newProfession = userProfession;
-                    newAge = userAge;
-                    newIndex = index;
-                    filePath = userProfileUri;
+                    mNewUserAbout = mUserAbout;
+                    mNewUserPronoun = mUserPronoun;
+                    mNewUserProfession = mUserProfession;
+                    mNewUserAge = mUserAge;
+                    mNewUserPronounIndex = mUserPronounIndex;
+                    mFilePath = mUserProfileUri;
 
-                    if(!userGender.equals("None")) {
-                        mPronounEditText.setText(userGender);
+                    if (!mUserPronoun.equals("None")) {
+                        mPronounEditText.setText(mUserPronoun);
                     } else {
                         mPronounEditText.setText("");
                     }
-                    mAgeEditText.setText(userAge);
-                    mProfessionEditText.setText(userProfession);
-                    mAboutEditText.setText(userAbout);
+                    mAgeEditText.setText(mUserAge);
+                    mProfessionEditText.setText(mUserProfession);
+                    mAboutEditText.setText(mUserAbout);
 
                     mPronounEditText.setFocusable(false);
                     mPronounEditText.setClickable(true);
@@ -412,37 +427,38 @@ public class UserProfileActivity extends AppCompatActivity {
                     mPronounEditText.setVisibility(View.VISIBLE);
                     mProfessionEditText.setVisibility(View.VISIBLE);
                     mAgeEditText.setVisibility(View.VISIBLE);
-                    if(flagCancel) {
-                        buttonCancel.setVisibility(View.VISIBLE);
+                    if (mScreenflagForCancel) {
+                        mCancelButton.setVisibility(View.VISIBLE);
                     }
-                    buttonSave.setVisibility(View.VISIBLE);
-                    constraintLayout.setVisibility(View.VISIBLE);
-                    progressBar.setVisibility(View.GONE);
+                    mSaveButton.setVisibility(View.VISIBLE);
+                    mConstraintLayout.setVisibility(View.VISIBLE);
+                    mProgressBar.setVisibility(View.GONE);
                 }
             });
 
             //On failed retrieval of user details, set fields to default values
-            collectionReference.document(firebaseUser.getEmail()).get().addOnFailureListener(new OnFailureListener() {
+            mCollectionReference.document(mFirebaseUser.getEmail()).
+                    get().addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    userAbout = "";
-                    userProfession = "";
-                    userGender = "";
-                    userAge = "";
-                    index = "0";
-                    cancelIndex = "0";
+                    mUserAbout = "";
+                    mUserProfession = "";
+                    mUserPronoun = "";
+                    mUserAge = "";
+                    mUserPronounIndex = "0";
+                    mUserCancelIndex = "0";
 
-                    newUserAbout = userAbout;
-                    newGender = userGender;
-                    newProfession = userProfession;
-                    newAge = userAge;
-                    newIndex = index;
-                    filePath = userProfileUri;
+                    mNewUserAbout = mUserAbout;
+                    mNewUserPronoun = mUserPronoun;
+                    mNewUserProfession = mUserProfession;
+                    mNewUserAge = mUserAge;
+                    mNewUserPronounIndex = mUserPronounIndex;
+                    mFilePath = mUserProfileUri;
 
-                    mPronounEditText.setText(userGender);
-                    mAgeEditText.setText(userAge);
-                    mProfessionEditText.setText(userProfession);
-                    mAboutEditText.setText(userAbout);
+                    mPronounEditText.setText(mUserPronoun);
+                    mAgeEditText.setText(mUserAge);
+                    mProfessionEditText.setText(mUserProfession);
+                    mAboutEditText.setText(mUserAbout);
 
                     mPronounEditText.setFocusable(false);
                     mPronounEditText.setClickable(true);
@@ -452,14 +468,15 @@ public class UserProfileActivity extends AppCompatActivity {
                     mProfessionEditText.setVisibility(View.VISIBLE);
                     mAgeEditText.setVisibility(View.VISIBLE);
 
-                    if(flagCancel) {
-                        buttonCancel.setVisibility(View.VISIBLE);
+                    if (mScreenflagForCancel) {
+                        mCancelButton.setVisibility(View.VISIBLE);
                     }
-                    buttonSave.setVisibility(View.VISIBLE);
-                    constraintLayout.setVisibility(View.VISIBLE);
-                    progressBar.setVisibility(View.GONE);
+                    mSaveButton.setVisibility(View.VISIBLE);
+                    mConstraintLayout.setVisibility(View.VISIBLE);
+                    mProgressBar.setVisibility(View.GONE);
 
-                    Toast.makeText(getApplicationContext(), "Failed to load details.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),
+                            "Failed to load details.", Toast.LENGTH_SHORT).show();
 
                 }
             });
@@ -468,9 +485,13 @@ public class UserProfileActivity extends AppCompatActivity {
 
     private void firebaseTransaction() {
         //If field values weren't changed, cancel user details upload request
-        if (newAge.equals(userAge) && newGender.equals(userGender) && newProfession.equals(userProfession) && newUserAbout.equals(userAbout) && userProfileUri == filePath) {
-            progressBar.setVisibility(View.GONE);
-            Toast.makeText(getApplicationContext(), "Nothing to change", Toast.LENGTH_SHORT).show();
+        if (mNewUserAge.equals(mUserAge) && mNewUserPronoun.equals(mUserPronoun) &&
+                mNewUserProfession.equals(mUserProfession) &&
+                mNewUserAbout.equals(mUserAbout) &&
+                mUserProfileUri == mFilePath) {
+            mProgressBar.setVisibility(View.GONE);
+            Toast.makeText(getApplicationContext(),
+                    "Nothing to change", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
             startActivity(intent);
             finish();
@@ -478,70 +499,72 @@ public class UserProfileActivity extends AppCompatActivity {
         }
 
         //On changed user field values, create request to upload user details
-        progressBar.setVisibility(View.VISIBLE);
+        mProgressBar.setVisibility(View.VISIBLE);
         Map<String, Object> user = new HashMap<>();
-        user.put("about", newUserAbout);
-        user.put("pronoun", newGender);
-        user.put("profession", newProfession);
-        user.put("age", newAge);
-        user.put("index", newIndex);
-        user.put("image_url", filePath.toString());
-        user.put("name", userName);
-        user.put("is_lake_finder",isLakeFinder);
-        user.put("is_lake_observer",isLakeObserver);
-        user.put("is_lake_photographer",isLakePhotographer);
-        user.put("is_lake_saviour",isLakeSaviour);
+        user.put("about", mNewUserAbout);
+        user.put("pronoun", mNewUserPronoun);
+        user.put("profession", mNewUserProfession);
+        user.put("age", mNewUserAge);
+        user.put("index", mNewUserPronounIndex);
+        user.put("image_url", mFilePath.toString());
+        user.put("name", mUserName);
+        user.put("is_lake_finder", mIsLakeFinder);
+        user.put("is_lake_observer", mIsLakeObserver);
+        user.put("is_lake_photographer", mIsLakePhotographer);
+        user.put("is_lake_saviour", mIsLakeSaviour);
 
-        if (filePath != userProfileUri) {
+        if (mFilePath != mUserProfileUri) {
             //Change profile picture of user
             UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                    .setPhotoUri(filePath)
+                    .setPhotoUri(mFilePath)
                     .build();
 
-            firebaseUser.updateProfile(profileUpdates)
+            mFirebaseUser.updateProfile(profileUpdates)
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
-                           Log.i("PROFILE_PHOTO_UPDATED","Updates profile photo");
+                            Log.i("PROFILE_PHOTO_UPDATED", "Updates profile photo");
                         }
                     });
         }
 
         //On success of adding user details to User collection
-        collectionReference.document(userEmail).set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                progressBar.setVisibility(View.GONE);
-                Toast.makeText(getApplicationContext(), "Your profile has been updated.", Toast.LENGTH_SHORT).show();
-                try {
-                    Thread.sleep(50);
+        mCollectionReference.document(mUserEmail).set(user)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        mProgressBar.setVisibility(View.GONE);
+                        Toast.makeText(getApplicationContext(),
+                                "Your profile has been updated.", Toast.LENGTH_SHORT).show();
+                        try {
+                            Thread.sleep(50);
 
-                    Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-                    startActivity(intent);
-                    finish();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    Toast.makeText(getApplicationContext(), "Unexpected error occured", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+                            Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                            startActivity(intent);
+                            finish();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            Toast.makeText(getApplicationContext(),
+                                    "Unexpected error occured", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
 
         //On Failed of adding user details to User collection
-        collectionReference.document(userEmail).set(user).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                progressBar.setVisibility(View.GONE);
-                Toast.makeText(getApplicationContext(), "Failed to update profile.", Toast.LENGTH_SHORT).show();
-            }
-        });
+        mCollectionReference.document(mUserEmail).set(user)
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        mProgressBar.setVisibility(View.GONE);
+                        Toast.makeText(getApplicationContext(),
+                                "Failed to update profile.", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     @Override
     public void onBackPressed() {
-        //Display default Home Activity on press of back button
         super.onBackPressed();
-        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-        startActivity(intent);
         finish();
     }
 }

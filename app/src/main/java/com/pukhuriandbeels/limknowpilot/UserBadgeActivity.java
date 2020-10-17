@@ -34,8 +34,10 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 public class UserBadgeActivity extends AppCompatActivity {
     //Badge view declaration
-    private TextView mLakeFinderTextView, mLakeObserverTextView, mLakeSaviourTextView, mLakePhotographerTextView;
-    private ImageView mLakeFinderImageView, mLakeObserverImageView, mLakeSaviourImageView, mLakePhotographerImageView;
+    private TextView mLakeFinderTextView, mLakeObserverTextView,
+            mLakeSaviourTextView, mLakePhotographerTextView;
+    private ImageView mLakeFinderImageView, mLakeObserverImageView,
+            mLakeSaviourImageView, mLakePhotographerImageView;
 
     //User view declaration
     private TextView mUserNameTextView, mUserProfileTextView;
@@ -92,7 +94,9 @@ public class UserBadgeActivity extends AppCompatActivity {
         mToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this,
+                mDrawerLayout, mToolbar, R.string.navigation_drawer_open,
+                R.string.navigation_drawer_close);
         mDrawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
         mNavigationView.bringToFront();
@@ -142,84 +146,94 @@ public class UserBadgeActivity extends AppCompatActivity {
 
     private void setListeners() {
         //Attaching listener to drawer navigation
-        mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+        mNavigationView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
 
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.home:
-                        //Launch Home Activity
-                        Intent homeIntent = new Intent(getApplicationContext(), HomeActivity.class);
-                        startActivity(homeIntent);
-                        finish();
-                        break;
-                    case R.id.about:
-                        //Launch Beels and Pukhuris Activity
-                        Intent aboutIntent = new Intent(getApplicationContext(), BeelsAndPukhurisActivity.class);
-                        startActivity(aboutIntent);
-                        break;
-                    case R.id.policy:
-                        //Launch Privacy Policy Activity
-                        Intent policyIntent = new Intent(getApplicationContext(), PrivacyPolicyActivity.class);
-                        startActivity(policyIntent);
-                        break;
+                    @Override
+                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.home:
+                                //Launch Home Activity
+                                Intent homeIntent = new Intent(getApplicationContext(), HomeActivity.class);
+                                startActivity(homeIntent);
+                                finish();
+                                break;
+                            case R.id.about:
+                                //Launch Beels and Pukhuris Activity
+                                Intent aboutIntent = new Intent(getApplicationContext(),
+                                        BeelsAndPukhurisActivity.class);
+                                startActivity(aboutIntent);
+                                break;
+                            case R.id.policy:
+                                //Launch Privacy Policy Activity
+                                Intent policyIntent = new Intent(getApplicationContext(),
+                                        PrivacyPolicyActivity.class);
+                                startActivity(policyIntent);
+                                break;
 
-                    case R.id.macrophytes:
-                        //Launch Macrophyte List Activity (Aquatic plants)
-                        Intent intent = new Intent(getApplicationContext(), MacrophyteListActivity.class);
-                        startActivity(intent);
-                        break;
-                    case R.id.augmented_reality_game:
-                        //Launch Lake AR Quiz Activity (Lake AR)
-                        Intent lakeARIntent = new Intent(getApplicationContext(), LakeARQuizActivity.class);
-                        startActivity(lakeARIntent);
-                        break;
-                    case R.id.reporting:
-                        //Launch Citizen Science Menu Activity
-                        Intent intentCitizenScience = new Intent(getApplicationContext(), CitizenScienceActivity.class);
-                        startActivity(intentCitizenScience);
-                        break;
+                            case R.id.macrophytes:
+                                //Launch Macrophyte List Activity (Aquatic plants)
+                                Intent intent = new Intent(getApplicationContext(),
+                                        MacrophyteListActivity.class);
+                                startActivity(intent);
+                                break;
+                            case R.id.augmented_reality_game:
+                                //Launch Lake AR Quiz Activity (Lake AR)
+                                Intent lakeARIntent = new Intent(getApplicationContext(),
+                                        LakeARQuizActivity.class);
+                                startActivity(lakeARIntent);
+                                break;
+                            case R.id.reporting:
+                                //Launch Citizen Science Menu Activity
+                                Intent intentCitizenScience = new Intent(getApplicationContext(),
+                                        CitizenScienceActivity.class);
+                                startActivity(intentCitizenScience);
+                                break;
 
-                    case R.id.badges:
-                        Intent userBadgeIntent = new Intent(getApplicationContext(), UserBadgeActivity.class);
-                        startActivity(userBadgeIntent);
-                        break;
-                    case R.id.edit_profile:
-                        //Launch User Profile Activity
-                        Intent profileIntent = new Intent(getApplicationContext(), UserProfileActivity.class);
-                        startActivity(profileIntent);
-                        break;
-                    case R.id.sign_out:
-                        //Sign out User
-                        FirebaseAuth.getInstance().signOut();
-                        Intent signOutIntent = new Intent(getApplicationContext(), SignInActivity.class);
-                        startActivity(signOutIntent);
-                        break;
-                    case R.id.contact_us:
-                        //Set mail field values
-                        String contactEmail = getResources().getString(R.string.contact);
-                        String messageType = getResources().getString(R.string.message_type);
-                        String packageName = getResources().getString(R.string.package_name);
+                            case R.id.badges:
+                                Intent userBadgeIntent = new Intent(getApplicationContext(),
+                                        UserBadgeActivity.class);
+                                startActivity(userBadgeIntent);
+                                break;
+                            case R.id.edit_profile:
+                                //Launch User Profile Activity
+                                Intent profileIntent = new Intent(getApplicationContext(),
+                                        UserProfileActivity.class);
+                                startActivity(profileIntent);
+                                break;
+                            case R.id.sign_out:
+                                //Sign out User
+                                FirebaseAuth.getInstance().signOut();
+                                Intent signOutIntent = new Intent(getApplicationContext(),
+                                        SignInActivity.class);
+                                startActivity(signOutIntent);
+                                break;
+                            case R.id.contact_us:
+                                //Set mail field values
+                                String contactEmail = getResources().getString(R.string.contact);
+                                String messageType = getResources().getString(R.string.message_type);
+                                String packageName = getResources().getString(R.string.package_name);
 
-                        //Launch Gmail Compose email
-                        Intent contactIntent = new Intent(Intent.ACTION_SEND);
+                                //Launch Gmail Compose email
+                                Intent contactIntent = new Intent(Intent.ACTION_SEND);
 
-                        contactIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{contactEmail});
-                        contactIntent.putExtra(Intent.EXTRA_SUBJECT, "Query from " + mUserName);
-                        contactIntent.setType(messageType);
-                        contactIntent.setPackage(packageName);
+                                contactIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{contactEmail});
+                                contactIntent.putExtra(Intent.EXTRA_SUBJECT,
+                                        "Query from " + mUserName);
+                                contactIntent.setType(messageType);
+                                contactIntent.setPackage(packageName);
 
-                        if (contactIntent.resolveActivity(getPackageManager()) != null) {
-                            startActivity(contactIntent);
+                                if (contactIntent.resolveActivity(getPackageManager()) != null) {
+                                    startActivity(contactIntent);
+                                }
+                                break;
+
                         }
-                        break;
-
-                }
-                mNavigationView.setCheckedItem(R.id.badges);
-                mDrawerLayout.closeDrawer(GravityCompat.START);
-                return true;
-            }
-        });
+                        mNavigationView.setCheckedItem(R.id.badges);
+                        mDrawerLayout.closeDrawer(GravityCompat.START);
+                        return true;
+                    }
+                });
 
         mNavigationView.setCheckedItem(R.id.badges);
     }
@@ -238,12 +252,15 @@ public class UserBadgeActivity extends AppCompatActivity {
             //User header view initialization
             mUserNameView.setText(mUserName);
             mUserEmailTextView.setText(mUserEmail);
-            Glide.with(this).load(mUserProfileUri).error(R.drawable.ic_baseline_person_24).apply(RequestOptions.circleCropTransform()).into(mUserImageView);
+            Glide.with(this).load(mUserProfileUri)
+                    .error(R.drawable.ic_baseline_person_24)
+                    .apply(RequestOptions.circleCropTransform()).into(mUserImageView);
 
             //User view initialization
             mUserProfileTextView.setText(mUserEmail);
             mUserNameTextView.setText(mUserName);
-            Glide.with(getApplicationContext()).load(mUserProfileUri).error(R.drawable.ic_baseline_person_24).into(mUserProfileImageView);
+            Glide.with(getApplicationContext()).load(mUserProfileUri)
+                    .error(R.drawable.ic_baseline_person_24).into(mUserProfileImageView);
         }
 
         //Cloud Firestore initialization
@@ -253,61 +270,64 @@ public class UserBadgeActivity extends AppCompatActivity {
 
         //If user exists, fetch badge details for user
         if (mFirebaseUser != null) {
-            mCollectionReference.document(mFirebaseUser.getEmail()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                @Override
-                public void onSuccess(DocumentSnapshot documentSnapshot) {
-                    if (documentSnapshot.exists()) {
-                        if (documentSnapshot.contains("is_lake_finder")) {
-                            mIsLakeFinder = documentSnapshot.getBoolean("is_lake_finder");
-                        }
-                        if (documentSnapshot.contains("is_lake_observer")) {
-                            mIsLakeObserver = documentSnapshot.getBoolean("is_lake_observer");
-                        }
-                        if (documentSnapshot.contains("is_lake_photographer")) {
-                            mIsLakePhotographer = documentSnapshot.getBoolean("is_lake_photographer");
-                        }
-                        if (documentSnapshot.contains("is_lake_saviour")) {
-                            mIsLakeSaviour = documentSnapshot.getBoolean("is_lake_saviour");
-                        }
+            mCollectionReference.document(mFirebaseUser.getEmail()).get()
+                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                        @Override
+                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+                            if (documentSnapshot.exists()) {
+                                if (documentSnapshot.contains("is_lake_finder")) {
+                                    mIsLakeFinder = documentSnapshot.getBoolean("is_lake_finder");
+                                }
+                                if (documentSnapshot.contains("is_lake_observer")) {
+                                    mIsLakeObserver = documentSnapshot.getBoolean("is_lake_observer");
+                                }
+                                if (documentSnapshot.contains("is_lake_photographer")) {
+                                    mIsLakePhotographer = documentSnapshot
+                                            .getBoolean("is_lake_photographer");
+                                }
+                                if (documentSnapshot.contains("is_lake_saviour")) {
+                                    mIsLakeSaviour = documentSnapshot.getBoolean("is_lake_saviour");
+                                }
 
-                    } else {
-                        mIsLakeFinder = false;
-                        mIsLakeObserver = false;
-                        mIsLakePhotographer = false;
-                        mIsLakeSaviour = false;
-                    }
+                            } else {
+                                mIsLakeFinder = false;
+                                mIsLakeObserver = false;
+                                mIsLakePhotographer = false;
+                                mIsLakeSaviour = false;
+                            }
 
-                    //If user has earned badges, set badge colors to colored
-                    if (mIsLakeFinder) {
-                        setImageColor(1, mLakeFinderImageView.getId());
-                    }
-                    if (mIsLakeObserver) {
-                        setImageColor(1, mLakeObserverImageView.getId());
-                    }
-                    if (mIsLakePhotographer) {
-                        setImageColor(1, mLakePhotographerImageView.getId());
-                    }
-                    if (mIsLakeSaviour) {
-                        setImageColor(1, mLakeSaviourImageView.getId());
-                    }
+                            //If user has earned badges, set badge colors to colored
+                            if (mIsLakeFinder) {
+                                setImageColor(1, mLakeFinderImageView.getId());
+                            }
+                            if (mIsLakeObserver) {
+                                setImageColor(1, mLakeObserverImageView.getId());
+                            }
+                            if (mIsLakePhotographer) {
+                                setImageColor(1, mLakePhotographerImageView.getId());
+                            }
+                            if (mIsLakeSaviour) {
+                                setImageColor(1, mLakeSaviourImageView.getId());
+                            }
 
-                    //Set visibility of badges to true once user badge details are loaded
-                    mLakeFinderImageView.setVisibility(View.VISIBLE);
-                    mLakeFinderTextView.setVisibility(View.VISIBLE);
-                    mLakeObserverImageView.setVisibility(View.VISIBLE);
-                    mLakeObserverTextView.setVisibility(View.VISIBLE);
-                    mLakePhotographerImageView.setVisibility(View.VISIBLE);
-                    mLakePhotographerTextView.setVisibility(View.VISIBLE);
-                    mLakeSaviourImageView.setVisibility(View.VISIBLE);
-                    mLakeSaviourTextView.setVisibility(View.VISIBLE);
+                            //Set visibility of badges to true once user badge details are loaded
+                            mLakeFinderImageView.setVisibility(View.VISIBLE);
+                            mLakeFinderTextView.setVisibility(View.VISIBLE);
+                            mLakeObserverImageView.setVisibility(View.VISIBLE);
+                            mLakeObserverTextView.setVisibility(View.VISIBLE);
+                            mLakePhotographerImageView.setVisibility(View.VISIBLE);
+                            mLakePhotographerTextView.setVisibility(View.VISIBLE);
+                            mLakeSaviourImageView.setVisibility(View.VISIBLE);
+                            mLakeSaviourTextView.setVisibility(View.VISIBLE);
 
-                    //Hide progress bar on completion of transaction
-                    mProgressBar.setVisibility(View.GONE);
-                }
-            });
+                            //Hide progress bar on completion of transaction
+                            mProgressBar.setVisibility(View.GONE);
+                        }
+                    });
 
             //If User badge details couldn't be loaded
-            mCollectionReference.document(mFirebaseUser.getEmail()).get().addOnFailureListener(new OnFailureListener() {
+            mCollectionReference.document(mFirebaseUser.getEmail())
+                    .get().addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
                     //Display badges in monochrome
@@ -321,7 +341,8 @@ public class UserBadgeActivity extends AppCompatActivity {
                     mLakeSaviourTextView.setVisibility(View.VISIBLE);
 
                     //Display Toast message that badges couldn't be loaded
-                    Toast.makeText(getApplicationContext(), "Failed to load details.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),
+                            "Failed to load details.", Toast.LENGTH_SHORT).show();
 
                     //Hide progress bar on completion of transaction
                     mProgressBar.setVisibility(View.GONE);

@@ -38,6 +38,7 @@ public class LakeARQuizActivity extends AppCompatActivity {
     private TextView textViewAnswer;
 
     private String answer;
+    private String mScale;
 
     private FirebaseAuth firebaseAuth;
     private Button buttonCancel;
@@ -52,6 +53,7 @@ public class LakeARQuizActivity extends AppCompatActivity {
 
     private void initialize() {
         answer = "";
+        mScale = "";
 
         questionTextView = findViewById(R.id.animal_ar_quiz_question);
         questionRadioGroup = findViewById(R.id.animal_ar_radio_group);
@@ -162,7 +164,10 @@ public class LakeARQuizActivity extends AppCompatActivity {
                 public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                     for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots.getDocuments()) {
                         Animal animal = new Animal();
-
+                        if (documentSnapshot.contains("scale")) {
+                            mScale = documentSnapshot.getString("scale");
+                            animal.setAnimalScale(Float.valueOf(mScale));
+                        }
                         animal.setAnimalCommonName(documentSnapshot.getString("common_name"));
                         animal.setAnimalName(documentSnapshot.getString("name"));
                         animal.setAnimalWaterbodyAssociation(documentSnapshot.getString("waterbody_association"));
@@ -178,20 +183,7 @@ public class LakeARQuizActivity extends AppCompatActivity {
                         animal.setOptionThree(documentSnapshot.getString("option_three"));
 
                         animals.add(animal);
-
-                        if (animal.getAnimalCommonName().equals("Indian elephant"))
-                            animal.setAnimalScale(1.85f);
-                        else if (animal.getAnimalCommonName().equals("Greater Adjutant stork"))
-                            animal.setAnimalScale(0.5f);
-                        else if (animal.getAnimalCommonName().equals("Lesser Adjutant Stork"))
-                            animal.setAnimalScale(0.5f);
-                        else if (animal.getAnimalCommonName().equals("Sambar Deer"))
-                            animal.setAnimalScale(0.03f);
-//                        else if (animal.getAnimalCommonName().equals("Black winged stilt"))
-//                            animal.setAnimalScale(0.05f);
-                        else if (animal.getAnimalCommonName().equalsIgnoreCase("Spotbilled Pelican"))
-                            animal.setAnimalScale(0.07f);
-
+                    }
                         questionTextView.setText(animals.get(questionCount).getAssociatedQuestion());
                         radioButtons[0].setText(animals.get(questionCount).getOptionOne());
                         radioButtons[1].setText(animals.get(questionCount).getOptionTwo());
@@ -207,7 +199,6 @@ public class LakeARQuizActivity extends AppCompatActivity {
                         submit.setVisibility(View.VISIBLE);
                         buttonCancel.setVisibility(View.VISIBLE);
                         progressBar.setVisibility(View.GONE);
-                    }
 
                 }
             });

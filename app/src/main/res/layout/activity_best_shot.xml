@@ -146,7 +146,7 @@
             android:layout_width="match_parent"
             android:textColor="@color/colorBlack"
             android:layout_height="wrap_content"
-            android:text="Observed on:"/>
+            android:text="Observed on: (Approx)"/>
 
         <EditText
             android:layout_width="match_parent"

@@ -5,9 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -46,14 +44,15 @@ public class SignInActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_sign_in);
 
         initialize();
         setListners();
     }
 
-    private void initialize(){
+    private void initialize() {
         //View initialization
         mGoogleSignInButton = findViewById(R.id.sign_in_button);
         mProgressBar = findViewById(R.id.badge_connection_status);
@@ -66,14 +65,15 @@ public class SignInActivity extends AppCompatActivity {
         mFirebaseAuth = FirebaseAuth.getInstance();
 
         //Configure Google Sign In client
-        GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+        GoogleSignInOptions googleSignInOptions = new
+                GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .***REMOVED***
                 .requestEmail()
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions);
     }
 
-    private void setListners(){
+    private void setListners() {
         //Attach on click listener to Sign In With Google button
         mGoogleSignInButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,6 +83,7 @@ public class SignInActivity extends AppCompatActivity {
             }
         });
     }
+
     private void signIn() {
         //Launch intent for Google Sign in activity
         Intent intent = mGoogleSignInClient.getSignInIntent();
@@ -91,7 +92,8 @@ public class SignInActivity extends AppCompatActivity {
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount account) {
         //Authenticate Firebase user based on result returned from Google Sign In Intent
-        AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
+        AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(),
+                null);
         mFirebaseAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -99,34 +101,49 @@ public class SignInActivity extends AppCompatActivity {
                         //On successful user authentication
                         if (task.isSuccessful()) {
                             FirebaseUser user = mFirebaseAuth.getCurrentUser();
-                            CollectionReference collectionReference = FirebaseFirestore.getInstance().collection("User");
+                            CollectionReference collectionReference = FirebaseFirestore
+                                    .getInstance().collection("User");
 
                             //If user already exists, launch Home Activity
-                            collectionReference.document(user.getEmail()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                                @Override
-                                public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                    mProgressBar.setVisibility(View.GONE);
-                                    Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-                                    startActivity(intent);
-                                    Toast.makeText(getApplicationContext(),"Welcome back to LimKnow, " + user.getDisplayName(),Toast.LENGTH_SHORT).show();
-                                }
-                            });
+                            collectionReference.document(
+                                    user.getEmail())
+                                    .get().addOnSuccessListener(
+                                    new OnSuccessListener<DocumentSnapshot>() {
+                                        @Override
+                                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                            mProgressBar.setVisibility(View.GONE);
+                                            Intent intent = new Intent(getApplicationContext(),
+                                                    HomeActivity.class);
+                                            startActivity(intent);
+                                            Toast.makeText(getApplicationContext(),
+                                                    "Welcome back to LimKnow, "
+                                                            + user.getDisplayName(),
+                                                    Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
 
                             //If user signs in for the first time, launch User Profile Activity to collect user details
-                            collectionReference.document(user.getEmail()).get().addOnFailureListener(new OnFailureListener() {
+                            collectionReference.document(user.getEmail())
+                                    .get().addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
-                                    Intent intent = new Intent(getApplicationContext(), UserProfileActivity.class);
-                                    intent.putExtra("KEY",1);
+                                    Intent intent = new Intent(
+                                            getApplicationContext(), UserProfileActivity.class);
+                                    intent.putExtra("KEY", 1);
                                     startActivity(intent);
-                                    Toast.makeText(getApplicationContext(),"Welcome to LimKnow, " + user.getDisplayName(),Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(),
+                                            "Welcome to LimKnow, " +
+                                                    user.getDisplayName(),
+                                            Toast.LENGTH_SHORT).show();
                                 }
                             });
 
                         } else {
                             //On failed user authentication
                             mProgressBar.setVisibility(View.GONE);
-                            Toast.makeText(SignInActivity.this, "Sorry authentication failed.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SignInActivity.this,
+                                    "Sorry authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
                         }
 
                     }

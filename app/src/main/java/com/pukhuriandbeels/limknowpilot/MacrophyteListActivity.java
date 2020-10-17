@@ -36,16 +36,24 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 public class MacrophyteListActivity extends AppCompatActivity {
+    //View declaration
+    private DrawerLayout mDrawerLayout;
+    private NavigationView mNavigationView;
+    private ListView mMacrophyteListView;
+    private ProgressBar mProgressBar;
 
-    private DrawerLayout drawerLayout;
-    private NavigationView navigationView;
-    private List<Macrophyte> macrophytes = new ArrayList<>();
-    private MacrophyteAdapter macrophyteAdapter;
-    private ListView listView;
-    private ProgressBar progressBar;
+    //Macrophyte Adapter declaration
+    private MacrophyteAdapter mMacrophyteAdapter;
+
+    //User field declaration
     private String userEmail, userName;
-    private FirebaseAuth firebaseAuth;
     private Uri uriProfilePicture;
+
+    //Firebase Auth declaration
+    private FirebaseAuth firebaseAuth;
+
+    //Macrophyte collection declaration
+    private List<Macrophyte> macrophytes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,11 +61,12 @@ public class MacrophyteListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_macrophyte_list);
         userName = "";
         userEmail = "";
+        macrophytes = new ArrayList<>();
         setFirebaseAuthorizedUser();
 
-        drawerLayout = findViewById(R.id.drawer_layout);
-        navigationView = findViewById(R.id.navigation_view);
-        View header = navigationView.getHeaderView(0);
+        mDrawerLayout = findViewById(R.id.drawer_layout);
+        mNavigationView = findViewById(R.id.navigation_view);
+        View header = mNavigationView.getHeaderView(0);
         TextView userNameTextView = header.findViewById(R.id.user_name);
         TextView userEmailTextView = header.findViewById(R.id.user_email);
         ImageView userImageView = header.findViewById(R.id.user_image);
@@ -70,12 +79,12 @@ public class MacrophyteListActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        mDrawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
 
-        navigationView.bringToFront();
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+        mNavigationView.bringToFront();
+        mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
@@ -132,21 +141,21 @@ public class MacrophyteListActivity extends AppCompatActivity {
                         break;
 
                 }
-                drawerLayout.closeDrawer(GravityCompat.START);
+                mDrawerLayout.closeDrawer(GravityCompat.START);
                 return true;
             }
         });
 
-        navigationView.setCheckedItem(R.id.macrophytes);
-        macrophyteAdapter = new MacrophyteAdapter(this, macrophytes);
-        listView = findViewById(R.id.macrophyte_list);
-        progressBar = findViewById(R.id.macrophyte_list_connection_status);
-        progressBar.setVisibility(View.VISIBLE);
-        listView.setVisibility(View.GONE);
+        mNavigationView.setCheckedItem(R.id.macrophytes);
+        mMacrophyteAdapter = new MacrophyteAdapter(this, macrophytes);
+        mMacrophyteListView = findViewById(R.id.macrophyte_list);
+        mProgressBar = findViewById(R.id.macrophyte_list_connection_status);
+        mProgressBar.setVisibility(View.VISIBLE);
+        mMacrophyteListView.setVisibility(View.GONE);
 
         setFirebaseFirestoreTransaction();
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mMacrophyteListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Macrophyte macrophyte = macrophytes.get(position);
@@ -159,8 +168,8 @@ public class MacrophyteListActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START);
+        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+            mDrawerLayout.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
             finish();
@@ -199,10 +208,10 @@ public class MacrophyteListActivity extends AppCompatActivity {
                     macrophytes.add(macrophyte);
                 }
 
-                macrophyteAdapter = new MacrophyteAdapter(getApplicationContext(), macrophytes);
-                listView.setAdapter(macrophyteAdapter);
-                listView.setVisibility(View.VISIBLE);
-                progressBar.setVisibility(View.GONE);
+                mMacrophyteAdapter = new MacrophyteAdapter(getApplicationContext(), macrophytes);
+                mMacrophyteListView.setAdapter(mMacrophyteAdapter);
+                mMacrophyteListView.setVisibility(View.VISIBLE);
+                mProgressBar.setVisibility(View.GONE);
             }
         });
         collectionReference.get().addOnFailureListener(new OnFailureListener() {
@@ -215,7 +224,7 @@ public class MacrophyteListActivity extends AppCompatActivity {
 
     @Override
     protected void onStop() {
-        navigationView.setCheckedItem(R.id.macrophytes);
+        mNavigationView.setCheckedItem(R.id.macrophytes);
         super.onStop();
     }
 }
