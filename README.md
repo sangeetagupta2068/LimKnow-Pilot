@@ -34,5 +34,5 @@ The name LimKnow is derived from two words, 'Lim' is from Limnology and 'Know' s
     <a href="https://github.com/shriaas2898">
       Aastha Shrivastava
     </a>
-  <li>
+  </li>
 </ul>
