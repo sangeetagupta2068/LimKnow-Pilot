@@ -1,8 +1,8 @@
 # LimKnow
 <p align='center'>
-  <i>"Learn about Guwahati wetlands through Interactive learning and Citizen Science"</i>  
+  <i>"Learn about Guwahati wetlands through Interactive learning and Citizen Science"</i>
+  <br/>
   <img src="https://github.com/sangeetagupta2068/LimKnow-Pilot/blob/master/cover/feature.jpg" alt="LimKnow-Cover"/>
-  
   <a href="https://play.google.com/store/apps/details?id=com.pukhuriandbeels.limknowpilot">
     <img src="https://github.com/sangeetagupta2068/LimKnow-Pilot/blob/master/cover/google-play-badge.png" alt="Get-LimKnow-On-Playstore" width="25%" height="20%"/>
   </a>
