@@ -4,7 +4,7 @@
   <br/>
   <img src="https://github.com/sangeetagupta2068/LimKnow-Pilot/blob/master/cover/feature.jpg" alt="LimKnow-Cover"/>
   <a href="https://play.google.com/store/apps/details?id=com.pukhuriandbeels.limknowpilot">
-    <img src="https://github.com/sangeetagupta2068/LimKnow-Pilot/blob/master/cover/google-play-badge.png" alt="Get-LimKnow-On-Playstore" width="40%" height="30%"/>
+    <img src="https://github.com/sangeetagupta2068/LimKnow-Pilot/blob/master/cover/google-play-badge.png" alt="Get-LimKnow-On-Playstore" width="30%" height="30%"/>
   </a>
 </p>
 
