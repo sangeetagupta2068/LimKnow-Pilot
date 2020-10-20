@@ -7,7 +7,6 @@
     <img src="https://github.com/sangeetagupta2068/LimKnow-Pilot/blob/master/cover/google-play-badge.png" alt="Get-LimKnow-On-Playstore" width="25%" height="20%"/>
   </a>
 </p>
-<br/>
 
 ## About us
 <p align="justify">
