@@ -2,7 +2,7 @@
 Thanks for deciding to contribute to our initiative, here are few ways to contribute to **Limknow**:
 * [Reporting a bug or Suggesting a new Feature](#report-a-problem-or-suggestion)
 * [Contributing to codebase](#contributing-to-codebase)
-* [Contributing AR Model](#ar-model-contribution)
+* [Contributing AR Model](#contributing-ar-model)
 
 ## Report a problem or suggestion
 You can report a bug or suggest a new feature by opening an issue on our repository.
@@ -76,3 +76,5 @@ To update the branch you are coding in:
 $ git checkout improve-contacts-99
 $ git rebase master
 ```
+## Contributing AR Model
+We have a seperate repository for the AR models used in **LimKnow**, please refer to its [contributing guidelines](https://github.com/shriaas2898/Limknow-AR-Models/blob/main/CONTRIBUTING.md).
