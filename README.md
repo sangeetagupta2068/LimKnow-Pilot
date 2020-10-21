@@ -6,6 +6,11 @@
   <a href="https://play.google.com/store/apps/details?id=com.pukhuriandbeels.limknowpilot">
     <img src="https://github.com/sangeetagupta2068/LimKnow-Pilot/blob/master/cover/google-play-badge.png" alt="Get-LimKnow-On-Playstore" width="30%" height="30%"/>
   </a>
+  <br/>
+  <a href="https://youtu.be/o93onhwrs8o">
+    <img src="https://github.com/sangeetagupta2068/LimKnow-Pilot/blob/master/cover/youtube.png" alt="Get-LimKnow-Learn-More-On-Youtube" width="26%" height="25%"/>
+  </a>
+  <br/>
 </p>
 
 ## About us
