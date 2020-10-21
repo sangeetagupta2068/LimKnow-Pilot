@@ -67,7 +67,7 @@ public class SignInActivity extends AppCompatActivity {
         //Configure Google Sign In client
         GoogleSignInOptions googleSignInOptions = new
                 GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .***REMOVED***
+                .requestIdToken("376214147539-43mekerd0d50kumvmpp1te4irqe8fv1o.apps.googleusercontent.com")
                 .requestEmail()
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions);
