@@ -33,6 +33,7 @@ If you are interested to contribute to our initiative, refer to [CONTRIBUTING.md
 ## License : 
 LimKnow is distributed under the [*GPLv3* license](https://www.gnu.org/licenses/gpl-3.0.en.html). Consequently, you’re required to credit us in derivative products.
 
+**Have a species in mind which you want to see in LimKnow?** You can request to add more models [here](https://github.com/shriaas2898/Limknow-AR-Models/issues/new?assignees=&labels=&template=request-a-model.md&title=). For now we are focusing on species found in Assam's wetlands but if you want to see species from a different region, you can still go ahead and request it and it can be incorporated in future versions.
 ## Creators
 <ul>
   <li>
